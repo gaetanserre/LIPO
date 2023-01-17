@@ -7,6 +7,7 @@ import torchvision
 import argparse
 
 from random_search import random_search
+from LIPO import LIPO
 from mlp import MLP
 
 def cli():
@@ -19,7 +20,7 @@ def cli():
 
 def LipCrossEntropyObj(input, target):
   def lip_log(x):
-    return torch.log(torch.clamp(x, min=1e-3))
+    return torch.log(torch.clamp(x, min=1e-1))
 
   return torch.mean(target * lip_log(input) + (1-target) * lip_log(1-input))
   
@@ -72,7 +73,20 @@ if __name__ == "__main__":
     return objective
 
   # Run random search
-  best = random_search(evaluate, model.get_shapes(), device, n_iter=10)
+  #best = random_search(evaluate, model.get_shapes(), device, n_iter=10)
+  #print("Best objective:", best[0])
+
+  # Run LIPO
+  import numpy as np
+
+  k = np.sqrt(128**2*3) * np.sqrt(128)**2 * 0.5**3 * 10
+
+  [((128**2*3, 128), -1, 1), (128, 128), (128, 1)]
+
+  X = [(shape, -1, 1) for shape in model.get_shapes()]
+  print(X)
+  
+  best = LIPO(n=10, k=k, X=X, f=evaluate, M=1, device=device)
   print("Best objective:", best[0])
 
   # Evaluate best model on test set
