@@ -4,7 +4,7 @@ import random as rd
 def Uniform(X, M):
     '''
     This function generates a random point in the feasible region X. We assume that X is a subset of R^n 
-    described by the inequalities X = {x in R^n | a_i <= x <= b_i, i = 0, ..., m-1} where a_i, b_i are given
+    described by the inequalities X = {x in R^n | a_i <= x_i <= b_i, i = 0, ..., m-1} where a_i, b_i are given
     such that X[i,j] = [a_i, b_i] for i = 0, ..., m-1 and j = 0, 1.
     For simplicity, we assume that X C Rectangle given by an infinite norm (i.e. X = {x in R^n | -M <= x_i <= M, i = 1, ..., n}).
     X : feasible region (numpy array)
@@ -75,9 +75,9 @@ def LIPO(n, k, X, f, M):
 def main():
     # Example
     n = 100
-    k = 1
+    k = 3
     X = np.array([[-1, 1], [-1, 1], [-1, 1]]) # X = {x in R^3 | -1<= x_1 <=1, -1 <= x_2 <= 1, -1 <= x_3 <= 1}
-    f = lambda x: x[0] + x[1] + x[2] # f(x) = x_1 + x_2 + x_3
+    f = lambda x: x[0] - x[1]**2 + x[2]**3 # f(x) = x_1 - x_2^2 + x_3^3
     M = 1
     print(LIPO(n, k, X, f, M))
     
