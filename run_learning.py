@@ -2,6 +2,7 @@
 # Created in 2023 by Gaëtan Serré
 #
 
+import numpy as np
 import torch
 import torchvision
 import argparse
@@ -9,21 +10,26 @@ import argparse
 from random_search import random_search
 from LIPO import LIPO
 from mlp import MLP
+from cnn import CNN
 
 def cli():
   args = argparse.ArgumentParser()
-  args.add_argument("--image-size", type=int, default=128)
-  args.add_argument("--hidden-dim", type=int, nargs="+", default=[128, 128])
+  args.add_argument("--image-size", type=int, default=64)
+  args.add_argument("--hidden-dim", type=int, nargs="+", default=[1024, 512, 256, 128])
   args.add_argument("--batch-size", type=int, default=32)
   args.add_argument("--data", type=str, default="data")
   return args.parse_args()
 
 def LipCrossEntropyObj(input, target):
   def lip_log(x):
-    return torch.log(torch.clamp(x, min=1e-1))
+    return torch.log(torch.clamp(x, min=1e-2))
 
   return torch.mean(target * lip_log(input) + (1-target) * lip_log(1-input))
-  
+
+def hinge_obj(input, target):
+  input = input * 2 - 1
+  target = target * 2 - 1
+  return -torch.mean(torch.clamp(1 - input * target, min=0))
 
 if __name__ == "__main__":
   args = cli()
@@ -35,6 +41,7 @@ if __name__ == "__main__":
   transform = torchvision.transforms.Compose([
       torchvision.transforms.ToTensor(),
       torchvision.transforms.Resize((args.image_size, args.image_size)),
+      #torchvision.transforms.Grayscale(num_output_channels=1),
   ])
 
   dataset = torchvision.datasets.ImageFolder(root=args.data, transform=transform)
@@ -42,19 +49,19 @@ if __name__ == "__main__":
 
   # Split dataset into train and test
   train_dataset, test_dataset = torch.utils.data.random_split(
-    dataset, [int(len(dataset)*0.05),
-    len(dataset)-int(len(dataset)*0.05)]
+    dataset, [int(len(dataset) * 0.8),
+    len(dataset) - int(len(dataset) * 0.8)]
   )
 
   # Create dataloader
-  train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=False)
+  train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
   test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
 
   # Create model
-  model = MLP(3*args.image_size**2, args.hidden_dim).to(device)
+  model = CNN(3, None).to(device) #MLP(3*args.image_size**2, args.hidden_dim).to(device)
 
   # Black-box function to optimize
-  def evaluate(theta, loader=train_loader):
+  def evaluate(theta, obj_f, loader=train_loader):
     """
     Function that computes the objective on the data given a set of parameters.
     We want to optimize this function.
@@ -65,29 +72,88 @@ if __name__ == "__main__":
     for data, label in loader:
       data       = data.view(data.shape[0], -1).to(device)
       label      = label.to(device)
-      output     = model.evaluate(data, theta)
-      objective += LipCrossEntropyObj(output, label).item()
+      output     = model.evaluate(data, theta.to(device))
+      objective += obj_f(output, label).item()
     
     # Average objective over batches
     objective /= len(train_loader)    
     return objective
+  
+  def accuracy(loader, theta=None):
+    """
+    Function that computes the accuracy on the data given a set of parameters.
+    `theta`: the set of parameters
+    """
+    correct = 0
+    total = 0
+    ones = 0
+    zeros = 0
+    # Evaluate objective on each batch
+    for data, label in loader:
+      data       = data.view(data.shape[0], -1).to(device)
+      label      = label.to(device)
+      output     = model.evaluate(data, theta) if theta is not None else model(data)
+      predicted  = torch.round(output).view(-1)
+
+      for pred in predicted:
+        if pred == 1: ones+=1
+        else: zeros+=1
+
+      total += label.size(0)
+      correct += (predicted == label).sum().item()
+    
+    print("dogs: ", ones)
+    print("cats: ", zeros)
+    
+    # Average objective over batches
+    return correct / total
 
   # Run random search
-  #best = random_search(evaluate, model.get_shapes(), device, n_iter=10)
-  #print("Best objective:", best[0])
+  """ f = lambda theta: evaluate(theta, obj_f=LipCrossEntropyObj)
+  best = random_search(f, model.get_shapes(), device, n_iter=100)
+  print("Best objective random:", -best[0])
+  print("Accuracy on train set:", accuracy(train_loader, best[1])) """
 
   # Run LIPO
-  import numpy as np
+  """ k = 1 * np.sqrt(128) * np.sqrt(128) * 0.5**3 * 100
+  X = torch.ones((model.get_shapes(), 2))
+  X[:, 0] = -1
+  print(f"1/k = {1/k}")
 
-  k = np.sqrt(128**2*3) * np.sqrt(128)**2 * 0.5**3 * 10
+  f = lambda theta: evaluate(theta, obj_f=LipCrossEntropyObj)
+  best = LIPO(n=100, k=k, X=X, f=f)
+  print("Best objective LIPO (cross):", -best[0].item())
+  print("Accuracy on train set:", accuracy(train_loader, best[1].to(device)))
 
-  [((128**2*3, 128), -1, 1), (128, 128), (128, 1)]
+  k = 1 * np.sqrt(128) * np.sqrt(128) * 0.5**3 * 1
+  print(f"1/k = {1/k}")
+  f = lambda theta: evaluate(theta, obj_f=hinge_obj)
+  best = LIPO(n=100, k=k, X=X, f=f)
+  print("Best objective LIPO (hinge):", -best[0].item())
+  print("Accuracy on train set:", accuracy(train_loader, best[1].to(device))) """
 
-  X = [(shape, -1, 1) for shape in model.get_shapes()]
-  print(X)
-  
-  best = LIPO(n=10, k=k, X=X, f=evaluate, M=1, device=device)
-  print("Best objective:", best[0])
+
+  def CrossEntropyLoss(input, target):
+    return -torch.mean(target * torch.log(input) + (1-target) * torch.log(1-input))
+
+  # Gradient descent
+  optimizer = torch.optim.Adam(model.parameters(), lr=1e-2)
+  for i in range(50):
+    l = 0
+    for data, label in train_loader:
+      data  = data.to(device) #data.view(data.shape[0], -1).to(device)
+      label = label.to(device)
+      output = model(data)
+      print(label)
+      loss = torch.nn.BCELoss()(output, label.view(-1, 1).float())
+      l += loss.item()
+      optimizer.zero_grad()
+      loss.backward()
+      optimizer.step()
+    print("Epoch:", i, "Loss:", l / len(train_loader))
+  print("Accuracy on train set:", accuracy(train_loader))
+
+
 
   # Evaluate best model on test set
   #test_obj = evaluate(best[1], loader=test_loader)

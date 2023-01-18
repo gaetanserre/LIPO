@@ -3,6 +3,8 @@
 #
 
 import torch.nn as nn
+import torch
+import numpy as np
 
 class MLP(nn.Module):
   def __init__(self, input_dim, hidden_dim):
@@ -19,21 +21,27 @@ class MLP(nn.Module):
 
     self.layers = nn.Sequential(*layers)
 
-    for param in self.parameters():
-      param.requires_grad = False
+    """ for param in self.parameters():
+      param.requires_grad = False """
 
   def forward(self, x):
+    x /= np.sqrt(x.shape[0])
+
     x = self.layers(x)
     return nn.Sigmoid()(x)
   
   def get_shapes(self):
-    shapes = []
+    shapes = 0
     for param in self.parameters():
-      shapes.append(param.shape)
+      shapes += torch.numel(param)
     return shapes
   
   def evaluate(self, x, theta):
-    for param, t in zip(self.parameters(), theta):
-      param.data = t
+    offset = 0
+    for param in self.parameters():
+      nb_params = torch.numel(param)
+      param.data = theta[offset:offset+nb_params].view(param.shape)
+      offset += nb_params
+
     return self.forward(x)
 
