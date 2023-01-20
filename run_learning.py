@@ -1,7 +1,3 @@
-#
-# Created in 2023 by Gaëtan Serré
-#
-
 import numpy as np
 import torch
 import torchvision
@@ -10,14 +6,13 @@ import argparse
 from random_search import random_search
 from LIPO import LIPO
 from mlp import MLP
-from cnn import CNN
 
 def cli():
   args = argparse.ArgumentParser()
-  args.add_argument("--image-size", type=int, default=64)
-  args.add_argument("--hidden-dim", type=int, nargs="+", default=[1024, 512, 256, 128])
+  args.add_argument("--image-size", type=int, default=16)
+  args.add_argument("--hidden-dim", type=int, nargs="+", default=[16, 8])
   args.add_argument("--batch-size", type=int, default=32)
-  args.add_argument("--data", type=str, default="data")
+  args.add_argument("--data", type=str, default="data_geometric")
   return args.parse_args()
 
 def LipCrossEntropyObj(input, target):
@@ -41,7 +36,7 @@ if __name__ == "__main__":
   transform = torchvision.transforms.Compose([
       torchvision.transforms.ToTensor(),
       torchvision.transforms.Resize((args.image_size, args.image_size)),
-      #torchvision.transforms.Grayscale(num_output_channels=1),
+      torchvision.transforms.Grayscale(num_output_channels=1),
   ])
 
   dataset = torchvision.datasets.ImageFolder(root=args.data, transform=transform)
@@ -58,7 +53,7 @@ if __name__ == "__main__":
   test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
 
   # Create model
-  model = CNN(3, None).to(device) #MLP(3*args.image_size**2, args.hidden_dim).to(device)
+  model = MLP(args.image_size**2, args.hidden_dim).to(device)
 
   # Black-box function to optimize
   def evaluate(theta, obj_f, loader=train_loader):
@@ -102,33 +97,34 @@ if __name__ == "__main__":
       total += label.size(0)
       correct += (predicted == label).sum().item()
     
-    print("dogs: ", ones)
-    print("cats: ", zeros)
+    print("circles: ", ones)
+    print("rectangles: ", zeros)
     
     # Average objective over batches
     return correct / total
 
   # Run random search
   """ f = lambda theta: evaluate(theta, obj_f=LipCrossEntropyObj)
-  best = random_search(f, model.get_shapes(), device, n_iter=100)
+  best = random_search(f, model.get_num_params(), device, n_iter=100)
   print("Best objective random:", -best[0])
   print("Accuracy on train set:", accuracy(train_loader, best[1])) """
 
   # Run LIPO
-  """ k = 1 * np.sqrt(128) * np.sqrt(128) * 0.5**3 * 100
-  X = torch.ones((model.get_shapes(), 2))
+  k = 1 #1 * np.sqrt(128) * np.sqrt(128) * 0.5**3 * 100
+  X = torch.ones((model.get_num_params(), 2))
   X[:, 0] = -1
+  transformation = lambda w: w / np.sqrt(w.shape[0])
   print(f"1/k = {1/k}")
 
   f = lambda theta: evaluate(theta, obj_f=LipCrossEntropyObj)
-  best = LIPO(n=100, k=k, X=X, f=f)
+  best = LIPO(f=f, n=1000, k=k, X=X, transform=transformation)
   print("Best objective LIPO (cross):", -best[0].item())
   print("Accuracy on train set:", accuracy(train_loader, best[1].to(device)))
 
-  k = 1 * np.sqrt(128) * np.sqrt(128) * 0.5**3 * 1
+  """ k = 1 #1 * np.sqrt(128) * np.sqrt(128) * 0.5**3 * 1
   print(f"1/k = {1/k}")
   f = lambda theta: evaluate(theta, obj_f=hinge_obj)
-  best = LIPO(n=100, k=k, X=X, f=f)
+  best = LIPO(f=f, n=100, k=k, X=X, transform=transformation)
   print("Best objective LIPO (hinge):", -best[0].item())
   print("Accuracy on train set:", accuracy(train_loader, best[1].to(device))) """
 
@@ -137,15 +133,14 @@ if __name__ == "__main__":
     return -torch.mean(target * torch.log(input) + (1-target) * torch.log(1-input))
 
   # Gradient descent
-  optimizer = torch.optim.Adam(model.parameters(), lr=1e-2)
-  for i in range(50):
+  optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+  for i in range(100):
     l = 0
     for data, label in train_loader:
-      data  = data.to(device) #data.view(data.shape[0], -1).to(device)
+      data  = data.view(data.shape[0], -1).to(device)
       label = label.to(device)
       output = model(data)
-      print(label)
-      loss = torch.nn.BCELoss()(output, label.view(-1, 1).float())
+      loss = CrossEntropyLoss(output, label.view(-1, 1).float())
       l += loss.item()
       optimizer.zero_grad()
       loss.backward()

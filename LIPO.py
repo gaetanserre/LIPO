@@ -1,34 +1,34 @@
 import numpy as np
 import torch
 
-def Uniform(X):
+def Uniform(X, transform=None):
     '''
     This function generates a random point in the feasible region X. We assume that X is a subset of R^n 
     described by the inequalities X = {x in R^n | a_i <= x_i <= b_i, i = 0, ..., m-1} where a_i, b_i are given
     such that X[i,j] = [a_i, b_i] for i = 0, ..., m-1 and j = 0, 1.
     For simplicity, we assume that X C Rectangle given by an infinite norm (i.e. X = {x in R^n | -M <= x_i <= M, i = 1, ..., n}).
-    X : feasible region (numpy array)
+    X: feasible region (numpy array)
+    transform: transformation to apply to the point (function). Default is None.
     '''
 
     theta = torch.rand(X.shape[0]) * (X[:,1] - X[:,0]) + X[:,0]
-    theta /= np.sqrt(X.shape[0])
-
-    return theta
+    return transform(theta) if transform is not None else theta
         
     
 
-def LIPO(n, k, X, f, max_fails=10):
+def LIPO(f, k, X, n, transform=None, max_fails=10):
     '''
-    n: number of iterations (int)
+    f: objective function (function)
     k: Lipschitz constant (float)
     X: feasible region (numpy array)
-    f: objective function (function)
-    device: device on which we run the code (torch.device)
+    n: number of iterations (int)
+    transform: transformation to apply to the point (function). Default is None.
+    max_fails: maximum number of fails in a row before stopping the algorithm (int). Default is 10.
     '''
     
     # Initialization
     t = 1
-    X_1 = Uniform(X)
+    X_1 = Uniform(X, transform=transform)
     points = X_1.unsqueeze(0)
     value = f(X_1)
     print(f"{t}: {-value}")
@@ -39,7 +39,7 @@ def LIPO(n, k, X, f, max_fails=10):
         values: set of values of the function we explored (numpy array)
         x: point to check (numpy array)
         k: Lipschitz constant (float)
-        points: set of points we explored (numpy array)
+        points: set of points we have explored (numpy array)
         '''
         max_val = torch.max(values)
 

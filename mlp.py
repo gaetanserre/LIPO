@@ -16,7 +16,7 @@ class MLP(nn.Module):
         layers.append(nn.Linear(input_dim, hidden_dim[i]))
       else:
         layers.append(nn.Linear(hidden_dim[i-1], hidden_dim[i]))
-      layers.append(nn.Sigmoid())
+      layers.append(nn.Tanh())
     layers.append(nn.Linear(hidden_dim[-1], 1))
 
     self.layers = nn.Sequential(*layers)
@@ -30,7 +30,7 @@ class MLP(nn.Module):
     x = self.layers(x)
     return nn.Sigmoid()(x)
   
-  def get_shapes(self):
+  def get_num_params(self):
     shapes = 0
     for param in self.parameters():
       shapes += torch.numel(param)
