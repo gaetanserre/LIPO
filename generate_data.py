@@ -12,9 +12,6 @@ def generate_data(n_rec, n_cir, im_size, root):
   `root`: root directory to save the images (str)
   """
 
-  # Create a black image
-  img = np.zeros((im_size, im_size, 3), dtype = "uint8")
-
   # Create directory to save images
   if not os.path.exists(root):
     os.makedirs(root)
@@ -25,6 +22,9 @@ def generate_data(n_rec, n_cir, im_size, root):
 
   # Draw rectangles
   for i in range(n_rec):
+    # Create a black image
+    img = np.zeros((im_size, im_size, 3), dtype = "uint8")
+
     # Draw a random rectangle
     x, y = np.random.randint(0, im_size-1, 2)
     wx = np.random.randint(1, im_size-x)
@@ -38,6 +38,9 @@ def generate_data(n_rec, n_cir, im_size, root):
   
   # Draw circles
   for i in range(n_cir):
+    # Create a black image
+    img = np.zeros((im_size, im_size, 3), dtype = "uint8")
+    
     # Draw a random circle
     x, y = np.random.randint(1, im_size-1, 2)
     r = np.random.randint(1, min([x, (im_size-1-x), y, (im_size-1-y)])+1)
