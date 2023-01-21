@@ -45,7 +45,6 @@ class FigGenerator:
     plt.plot(eval_points, eval_values, linewidth=0.5, color="black")
     plt.xlabel("$X$")
     plt.ylabel("$f(x)$")
-    plt.title(method)
   
   def gen_2D(self, eval_points, eval_values, method):
     """
@@ -57,8 +56,8 @@ class FigGenerator:
     x, y = np.meshgrid(x, y)
     z = self.f([x, y])
 
-    fig = plt.figure()
-    ax = plt.axes(projection="3d")
+    fig = plt.figure(figsize=(15, 15))
+    ax  = plt.axes(projection="3d")
 
     cb = ax.plot_surface(x, y, z, cmap="coolwarm", linewidth=0, antialiased=True, zorder=1)
 
@@ -74,8 +73,5 @@ class FigGenerator:
 
     plt.colorbar(cb)
 
-    ax.set_xlabel('$X$')
-    ax.set_ylabel('$Y$')
-    ax.set_zlabel('$f(X, Y)$')
-
-    plt.title(method)
+    ax.set_xlabel("$X$", fontsize=15)
+    ax.set_ylabel("$Y$", fontsize=15)
