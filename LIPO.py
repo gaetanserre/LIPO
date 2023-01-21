@@ -54,4 +54,4 @@ def LIPO(f, n: int):
       t += 1
           
   # Output
-  return values, points
+  return points, values
