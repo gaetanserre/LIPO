@@ -11,11 +11,12 @@ class MLP(nn.Module):
     super(MLP, self).__init__()
     
     layers = []
-    for i in range(len(hidden_dim)):
+    hidden_dim.insert(0, input_dim)
+    for i in range(len(hidden_dim)-1):
       if i == 0:
-        layers.append(nn.Linear(input_dim, hidden_dim[i]))
+        layers.append(nn.Linear(hidden_dim[i], hidden_dim[i+1]))
       else:
-        layers.append(nn.Linear(hidden_dim[i-1], hidden_dim[i]))
+        layers.append(nn.Linear(hidden_dim[i], hidden_dim[i+1]))
       layers.append(nn.Tanh())
     layers.append(nn.Linear(hidden_dim[-1], 1))
 
