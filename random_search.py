@@ -1,25 +1,35 @@
-#
-# Created in 2023 by Gaëtan Serré
-#
+import numpy as np
 
-import torch
+def Uniform(X: np.array):
+    '''
+    This function generates a random point in the feasible region X. We assume that X is a subset of R^n 
+    described by the inequalities X = {x in R^n | a_i <= x_i <= b_i, i = 0, ..., m-1} where a_i, b_i are given
+    such that X[i,j] = [a_i, b_i] for i = 0, ..., m-1 and j = 0, 1.
+    For simplicity, we assume that X C Rectangle given by an infinite norm (i.e. X = {x in R^n | -M <= x_i <= M, i = 1, ..., n}).
+    X: feasible region (numpy array)
+    '''
 
-def random_search(f, shape, device, n_iter=100):
-  """
-  Random search algorithm.
-  `f`: black-box function to optimize
-  `bounds`: bounds of the search space
-  `n_iter`: number of iterations
-  """
-  best = None
-  for i in range(n_iter):
-    # Generate random point
-    theta = torch.rand(shape, device=device) * 2 - 1
+    theta = np.zeros(X.shape[0])
+    for i in range(X.shape[0]):
+      theta[i] = np.random.uniform(X[i,0], X[i,1])
+    return theta
+        
+    
 
-    # Evaluate objective
-    obj = f(theta)
-    print(obj)
-    # Update best
-    if best is None or obj > best[0]:
-      best = (obj, theta)
-  return best
+def random_search(f, n: int):
+    '''
+    f: class of the function to maximize (class)
+    n: number of function evaluations (int)
+    '''
+    
+    values = np.zeros(n)
+    points = np.zeros((n, f.bounds.shape[0]))
+
+    for i in range(n):
+      x = Uniform(f.bounds)
+      val = f(x)
+      values[i] = val
+      points[i] = x
+
+
+    return values, points
