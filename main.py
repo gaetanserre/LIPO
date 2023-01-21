@@ -2,9 +2,9 @@ import argparse
 import importlib
 
 import numpy as np
+from fig_generator import FigGenerator
 from LIPO import LIPO
 from random_search import random_search
-from fig_generator import FigGenerator
 
 def cli():
   args = argparse.ArgumentParser()
@@ -24,7 +24,7 @@ def runs(n_run: int, n_eval: int, f, optimizer, method):
   """
   vs = []
   for k in range(n_run):
-    values, points = optimizer(f, n=n_eval)
+    points, values = optimizer(f, n=n_eval)
     max_value = np.max(values)
     vs.append(max_value)
   print(f"Method: {method}")
@@ -35,7 +35,7 @@ if __name__ == '__main__':
   args = cli()
 
   # remove the .py extension
-  args.function = args.function.split(".")[0]
+  args.function = args.function.split('.')[0]
 
   # Dynamically import the function class
   f = importlib.import_module(args.function).Function()
@@ -51,7 +51,7 @@ if __name__ == '__main__':
   # Generate the figure using the last run
   fig_gen.gen_figure(points, values, "random_search", path="figures/random_search.pdf")
 
-  # Several runs of random search
+  # Several runs of LIPO
   points, values = runs(args.n_run, args.n_eval, f, LIPO, "LIPO")
   # Generate the figure using the last run
   fig_gen.gen_figure(points, values, "LIPO", path="figures/LIPO.pdf")
