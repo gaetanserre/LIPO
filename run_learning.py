@@ -10,7 +10,7 @@ from mlp import MLP
 def cli():
   args = argparse.ArgumentParser()
   args.add_argument("--image-size", type=int, default=16)
-  args.add_argument("--hidden-dim", type=int, nargs="+", default=[16, 8])
+  args.add_argument("--hidden-dim", type=int, nargs="+", default=[])
   args.add_argument("--batch-size", type=int, default=32)
   args.add_argument("--data", type=str, default="data_geometric")
   return args.parse_args()
@@ -25,6 +25,9 @@ def hinge_obj(input, target):
   input = input * 2 - 1
   target = target * 2 - 1
   return -torch.mean(torch.clamp(1 - input * target, min=0))
+
+def zero_one_obj(input, target):
+  return -torch.mean(torch.abs(input - target))
 
 if __name__ == "__main__":
   args = cli()
@@ -113,26 +116,27 @@ if __name__ == "__main__":
   k = 1 #1 * np.sqrt(128) * np.sqrt(128) * 0.5**3 * 100
   X = torch.ones((model.get_num_params(), 2))
   X[:, 0] = -1
-  transformation = lambda w: w / np.sqrt(w.shape[0])
-  print(f"1/k = {1/k}")
+  transformation = None #lambda w: w / np.sqrt(w.shape[0])
+  """ print(f"1/k = {1/k}")
 
   f = lambda theta: evaluate(theta, obj_f=LipCrossEntropyObj)
   best = LIPO(f=f, n=1000, k=k, X=X, transform=transformation)
   print("Best objective LIPO (cross):", -best[0].item())
-  print("Accuracy on train set:", accuracy(train_loader, best[1].to(device)))
+  print("Accuracy on train set:", accuracy(train_loader, best[1].to(device))) """
 
-  """ k = 1 #1 * np.sqrt(128) * np.sqrt(128) * 0.5**3 * 1
+  k = 0.07 #1 * np.sqrt(128) * np.sqrt(128) * 0.5**3 * 1
   print(f"1/k = {1/k}")
   f = lambda theta: evaluate(theta, obj_f=hinge_obj)
-  best = LIPO(f=f, n=100, k=k, X=X, transform=transformation)
+  best = LIPO(f=f, n=10000, k=k, X=X, transform=transformation)
   print("Best objective LIPO (hinge):", -best[0].item())
-  print("Accuracy on train set:", accuracy(train_loader, best[1].to(device))) """
+  print("Accuracy on train set:", accuracy(train_loader, best[1].to(device)))
 
 
   def CrossEntropyLoss(input, target):
     return -torch.mean(target * torch.log(input) + (1-target) * torch.log(1-input))
 
   # Gradient descent
+  """ model = MLP(args.image_size**2, args.hidden_dim).to(device)
   optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
   for i in range(100):
     l = 0
@@ -146,7 +150,7 @@ if __name__ == "__main__":
       loss.backward()
       optimizer.step()
     print("Epoch:", i, "Loss:", l / len(train_loader))
-  print("Accuracy on train set:", accuracy(train_loader))
+  print("Accuracy on train set:", accuracy(train_loader)) """
 
 
 
