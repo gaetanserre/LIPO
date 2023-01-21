@@ -1,17 +1,18 @@
 ## LIPO implementation and demo
 
 ### Usage
-You need to create a class for your function to maximize. This class must follows the following interface:
+You need to create a class for your function to maximize. This class must be named `Function` and follow the following interface:
 ```python
 import numpy as np
 
 class Function:
-  def __init__(self, bounds, k) -> None:
+  def __init__(self) -> None:
     self.bounds = bounds # (min, max) tuple for each dimension (numpy array)
     self.k = k # Lipschitz constant (float)
     pass
 
   def __call__(self, x: np.ndarray) -> float:
+    # Closed form of the function to maximize
     pass
 ```
 
