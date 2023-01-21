@@ -40,11 +40,12 @@ class FigGenerator:
     y = self.f(x)
 
     plt.plot(x, y)
-    plt.scatter(eval_points, eval_values, c=eval_values, cmap="viridis", zorder=2)
+    plt.scatter(eval_points, eval_values, c=eval_values, label="evaluations", cmap="viridis", zorder=2)
     plt.colorbar()
     plt.plot(eval_points, eval_values, linewidth=0.5, color="black")
     plt.xlabel("$X$")
     plt.ylabel("$f(x)$")
+    plt.legend()
   
   def gen_2D(self, eval_points, eval_values, method):
     """
@@ -66,8 +67,9 @@ class FigGenerator:
       eval_points[:, 1],
       eval_values,
       '.',
+      label="evaluations",
       c="black",
-      markersize=3,
+      markersize=10,
       zorder=4
     )
 
@@ -75,3 +77,4 @@ class FigGenerator:
 
     ax.set_xlabel("$X$", fontsize=15)
     ax.set_ylabel("$Y$", fontsize=15)
+    ax.legend(fontsize=15)
