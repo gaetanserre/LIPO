@@ -6,4 +6,4 @@ class Function:
     self.k = 2 * 10
 
   def __call__(self, x: np.ndarray) -> float:
-    return -(np.square(x))
+    return -(x**2)
