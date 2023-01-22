@@ -41,7 +41,7 @@ class FigGenerator:
 
     plt.plot(x, y)
     plt.scatter(eval_points, eval_values, c=eval_values, label="evaluations", cmap="viridis", zorder=2)
-    plt.colorbar()
+    plt.colorbar(fraction=0.046, pad=0.04)
     plt.plot(eval_points, eval_values, linewidth=0.5, color="black")
     plt.xlabel("$X$")
     plt.ylabel("$f(x)$")
@@ -72,7 +72,7 @@ class FigGenerator:
       zorder=4.5
     )
 
-    plt.colorbar(cb)
+    plt.colorbar(cb, fraction=0.046, pad=0.04)
 
     ax.set_xlabel("$X$", fontsize=15)
     ax.set_ylabel("$Y$", fontsize=15)
