@@ -36,13 +36,13 @@ class FigGenerator:
     Generates a figure for 1D functions
     """
 
-    x = np.linspace(self.f.bounds[0][0], self.f.bounds[0][1], 100)
+    x = np.linspace(self.f.bounds[0][0], self.f.bounds[0][1], 1000)
     y = self.f(x)
 
     plt.plot(x, y)
     plt.scatter(eval_points, eval_values, c=eval_values, label="evaluations", cmap="viridis", zorder=2)
     plt.colorbar(fraction=0.046, pad=0.04)
-    plt.plot(eval_points, eval_values, linewidth=0.5, color="black")
+    #plt.plot(eval_points, eval_values, linewidth=0.5, color="black")
     plt.xlabel("$X$")
     plt.ylabel("$f(x)$")
     plt.legend()
