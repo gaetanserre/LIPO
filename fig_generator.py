@@ -58,19 +58,18 @@ class FigGenerator:
     z = self.f([x, y])
 
     fig = plt.figure(figsize=(15, 15))
-    ax  = plt.axes(projection="3d")
+    ax  = plt.axes(projection="3d", computed_zorder=False)
 
-    cb = ax.plot_surface(x, y, z, cmap="coolwarm", linewidth=0, antialiased=True, zorder=1)
+    ax.plot_surface(x, y, z, cmap="coolwarm", linewidth=0, antialiased=True, zorder=4.4)
 
-    ax.plot(
+    cb = ax.scatter(
       eval_points[:, 0],
       eval_points[:, 1],
       eval_values,
-      '.',
+      c=eval_values,
       label="evaluations",
-      c="black",
-      markersize=10,
-      zorder=4
+      cmap="viridis",
+      zorder=4.5
     )
 
     plt.colorbar(cb)
