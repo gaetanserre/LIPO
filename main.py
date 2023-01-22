@@ -1,5 +1,6 @@
 import argparse
 import importlib
+import os
 import sys
 # Add the example functions folder to the path
 sys.path.append("./functions")
@@ -52,6 +53,8 @@ if __name__ == '__main__':
 
   # Instantiate the figure generator
   fig_gen = FigGenerator(f)
+  if not os.path.exists(f"figures/"):
+    os.mkdir(f"figures/")
 
   # Several runs of random search
   points, values = runs(args.n_run, args.n_eval, f, random_search, "random_search")
