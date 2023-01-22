@@ -16,7 +16,7 @@ class Function:
     pass
 ```
 
-Several examples are available (see `square.py` and `rosenbrock.py`)
+Several examples are available in the `functions` folder.
 
 Then, you can run the algorithm with the following command:
 ```bash
