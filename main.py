@@ -1,5 +1,8 @@
 import argparse
 import importlib
+import sys
+# Add the example functions folder to the path
+sys.path.append("./functions")
 
 import numpy as np
 from fig_generator import FigGenerator
@@ -28,12 +31,16 @@ def runs(n_run: int, n_eval: int, f, optimizer, method):
     max_value = np.max(values)
     vs.append(max_value)
   print(f"Method: {method}")
-  print(f"Mean value: {np.mean(vs):.4f}, std: {np.std(vs):.4f}\n")
+  print(f"Mean value: {np.mean(vs):.4f}, std: {np.std(vs):.4f}")
+  print(f"Best maximizer: {points[np.argmax(values)]}\n")
   return points, values
 
 if __name__ == '__main__':
   args = cli()
 
+  # Remove the folder name
+  if len(args.function.split('/')) > 1:
+    args.function = args.function.split('/')[1]
   # remove the .py extension
   args.function = args.function.split('.')[0]
 
@@ -49,12 +56,14 @@ if __name__ == '__main__':
   # Several runs of random search
   points, values = runs(args.n_run, args.n_eval, f, random_search, "random_search")
   # Generate the figure using the last run
-  fig_gen.gen_figure(points, values, "random_search", path="figures/random_search.pdf")
+  path = f"figures/{args.function}_random_search.pdf"
+  fig_gen.gen_figure(points, values, "random_search", path=path)
 
   # Several runs of LIPO
   points, values = runs(args.n_run, args.n_eval, f, LIPO, "LIPO")
   # Generate the figure using the last run
-  fig_gen.gen_figure(points, values, "LIPO", path="figures/LIPO.pdf")
+  path = f"figures/{args.function}_LIPO.pdf"
+  fig_gen.gen_figure(points, values, "LIPO", path=path)
 
 
   """ from lipo import GlobalOptimizer
