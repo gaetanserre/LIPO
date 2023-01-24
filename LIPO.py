@@ -23,7 +23,9 @@ def LIPO(f, n: int):
   
   # Initialization
   t = 1
+  nb_samples = 0
   X_1 = Uniform(f.bounds)
+  nb_samples += 1
   points = X_1.reshape(1, -1)
   value = f(X_1)
   values = np.array([value])
@@ -42,10 +44,10 @@ def LIPO(f, n: int):
 
     return left_min >= max_val
           
-  
   # Main loop
   while t < n:
     X_tp1 = Uniform(f.bounds)
+    nb_samples += 1
     if condition(X_tp1, values, f.k, points):
       points = np.concatenate((points, X_tp1.reshape(1, -1)))
 
@@ -54,4 +56,4 @@ def LIPO(f, n: int):
       t += 1
           
   # Output
-  return points, values
+  return points, values, nb_samples

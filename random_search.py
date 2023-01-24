@@ -32,4 +32,4 @@ def random_search(f, n: int):
       points[i] = x
 
 
-    return points, values
+    return points, values, len(values)

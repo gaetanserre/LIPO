@@ -27,11 +27,14 @@ def runs(n_run: int, n_eval: int, f, optimizer, method):
   optimizer: optimizer function (function)
   """
   vs = []
+  nb_evals = []
   for k in range(n_run):
-    points, values = optimizer(f, n=n_eval)
-    max_value = np.max(values)
-    vs.append(max_value)
+    points, values, nb_eval = optimizer(f, n=n_eval)
+    vs.append(np.max(values))
+    nb_evals.append(nb_eval)
+
   print(f"Method: {method}")
+  print(f"Number of samples: {np.mean(nb_evals):.2f} +- {np.std(nb_evals):.2f}")
   print(f"Mean value: {np.mean(vs):.4f}, std: {np.std(vs):.4f}")
   print(f"Best maximizer: {points[np.argmax(values)]}\n")
   return points, values
