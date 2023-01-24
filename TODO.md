@@ -1,1 +1,15 @@
-- [ ] arrows 2D figure
+- [ ] Parser + Démo IPOL (Gaëtan)
+- [ ] Intro + context global optimization (Sophia)
+- [ ] Section notations (Gaëtan)
+- [ ] Related work (Gaëtan)
+- [ ] Methods lien implementation & theory (Sophia)
+- [ ] Experiments & Results
+  - [ ] Plot upper/lower bounds of max - max LIPO
+  - [ ] Plot nb of evaluations vs nb of iterations
+  - [ ] Plot convergence k_hat
+  - [ ] Comparison LIPO - AdaLIPO (convergence time & Lipschitz estimation)
+  - [ ] Comparison LIPO - other algo (convergence time)
+- [ ] Limitations (curse of dimensionality & highlight convergence speed Corollary 13)
+  - [ ] Plot evaluations vs nb of iterations with big d
+- [ ] Discussion & Conclusion
+  - [ ] Suggest way of using LIPO (plot evaluations vs nb of iterations for some d)
