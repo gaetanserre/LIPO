@@ -9,16 +9,25 @@ import numpy as np
 from fig_generator import FigGenerator
 from LIPO import LIPO
 from random_search import random_search
+from AdaLIPO import AdaLIPO
 
 def cli():
+  L = np.array([1*10**(-3), 2*10**(-3), 3*10**(-3), 4*10**(-3), 5*10**(-3), 6*10**(-3), 7*10**(-3), 8*10**(-3), 9*10**(-3)])
+  L = np.concatenate((L, np.array([1*10**(-2), 2*10**(-2), 3*10**(-2), 4*10**(-2), 5*10**(-2), 6*10**(-2), 7*10**(-2), 8*10**(-2), 9*10**(-2)])))
+  L = np.concatenate((L, np.array([1*10**(-1), 2*10**(-1), 3*10**(-1), 4*10**(-1), 5*10**(-1), 6*10**(-1), 7*10**(-1), 8*10**(-1), 9*10**(-1)])))
+  L = np.concatenate((L, np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])))
+  L = np.concatenate((L, np.array([20, 30, 40, 50, 60, 70, 80, 90, 100])))
+  L = np.concatenate((L, np.array([200, 300, 400, 500, 600, 700, 800, 900, 1000])))
   args = argparse.ArgumentParser()
   args.add_argument("--function", "-f", type=str, help="Function class to maximize", required=True)
   args.add_argument("--n_eval", "-n", type=int, help="Number of function evaluations", required=True)
   args.add_argument("--n_run", "-r", type=int, help="Number of runs", default=100)
+  args.add_argument("--k", "-k", type=int, help="Sequence of Lipchitz constants", default=L)
+  args.add_argument("--p", "-p", type=float, help="Probability of success", default=0.5)
   return args.parse_args()
 
 
-def runs(n_run: int, n_eval: int, f, optimizer, method):
+def runs(n_run: int, n_eval: int, f, optimizer, method, k=None, p=None):
   """
   Run the optimizer several times and return the points and values of the last run.
   n_run: number of runs (int)
@@ -28,8 +37,11 @@ def runs(n_run: int, n_eval: int, f, optimizer, method):
   """
   vs = []
   nb_evals = []
-  for k in range(n_run):
-    points, values, nb_eval = optimizer(f, n=n_eval)
+  for i in range(n_run):
+    if optimizer == AdaLIPO:
+      points, values, nb_eval = optimizer(f, n=n_eval, k=k, p=p)
+    else:   
+      points, values, nb_eval = optimizer(f, n=n_eval)
     vs.append(np.max(values))
     nb_evals.append(nb_eval)
 
@@ -70,6 +82,12 @@ if __name__ == '__main__':
   # Generate the figure using the last run
   path = f"figures/{args.function}_LIPO.pdf"
   fig_gen.gen_figure(points, values, "LIPO", path=path)
+  
+  # Several runs of AdaLIPO
+  points, values = runs(args.n_run, args.n_eval, f, AdaLIPO, "AdaLIPO", k=args.k, p=args.p)
+  # Generate the figure using the last run
+  path = f"figures/{args.function}_AdaLIPO.pdf"
+  fig_gen.gen_figure(points, values, "AdaLIPO", path=path)
 
 
   """ from lipo import GlobalOptimizer
