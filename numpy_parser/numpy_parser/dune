@@ -1,0 +1,11 @@
+(env
+  (dev
+    (flags (:standard -w -66 -w -27 -w -26))))
+
+(menhir
+  (modules parser))
+  
+(ocamllex lexer)
+
+(executable
+  (name numpy_parser))
