@@ -78,13 +78,13 @@ if __name__ == '__main__':
   # Several runs of random search
   points, values = runs(n_runs, args.n_eval, f, X, random_search, "random_search")
   # Generate the figure using the last run
-  path = f"figures/{args.name}_random_search.pdf"
+  path = f"figures/{args.name}_random_search.png"
   fig_gen.gen_figure(points, values, "random_search", path=path)
 
   # Several runs of LIPO
   points, values = runs(n_runs, args.n_eval, f, X, LIPO, "LIPO", k=args.k)
   # Generate the figure using the last run
-  path = f"figures/{args.name}_LIPO.pdf"
+  path = f"figures/{args.name}_LIPO.png"
   fig_gen.gen_figure(points, values, "LIPO", path=path)
   
   """ # Several runs of AdaLIPO
