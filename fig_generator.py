@@ -37,7 +37,8 @@ class FigGenerator:
     """
     Generates a figure for 1D functions
     """
-
+    _ = plt.figure(figsize=(8, 8))
+    
     x = np.linspace(self.X[0][0], self.X[0][1], 1000)
     y = self.f(x)
 
@@ -59,7 +60,7 @@ class FigGenerator:
     x, y = np.meshgrid(x, y)
     z = self.f([x, y])
 
-    fig = plt.figure(figsize=(15, 15))
+    _ = plt.figure(figsize=(8, 8))
     ax  = plt.axes(projection="3d", computed_zorder=False)
 
     ax.plot_surface(x, y, z, cmap="coolwarm", linewidth=0, antialiased=True, zorder=4.4)
