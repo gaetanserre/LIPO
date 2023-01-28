@@ -7,12 +7,7 @@ RUN apt-get update && apt-get install -y $(cat packages.txt) && rm -rf /var/lib/
 
 RUN eval $(opam env)
 
-ENV bin /workdir/bin/
-RUN mkdir -p $bin
-WORKDIR $bin
-COPY . .
-
-WORKDIR $bin/numpy_parser
+WORKDIR numpy_parser
 RUN make
 
 COPY requirements-py3.9.txt requirements.txt
