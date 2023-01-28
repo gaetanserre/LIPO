@@ -94,4 +94,5 @@ def AdaLIPO(f, X, n: int, p=0.5):
     k_hat = k[0]
 
   # Output
+  print(f"Estimated Lipschitz constant: {k_hat}")
   return points, values, nb_samples
