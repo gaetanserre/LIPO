@@ -2,13 +2,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class FigGenerator:
-  def __init__(self, f):
+  def __init__(self, f, X: np.ndarray):
     """
     Class to generate figures for visualizing the optimization process
     f: function optimized (Function)
+    X: bounds of the parameters (numpy array)
     """
     
     self.f = f
+    self.X = X
   
   def gen_figure(self, eval_points: np.array, eval_values: np.array, method: str, path: str = None):
     """
@@ -36,7 +38,7 @@ class FigGenerator:
     Generates a figure for 1D functions
     """
 
-    x = np.linspace(self.f.bounds[0][0], self.f.bounds[0][1], 1000)
+    x = np.linspace(self.X[0][0], self.X[0][1], 1000)
     y = self.f(x)
 
     plt.plot(x, y)
@@ -52,8 +54,8 @@ class FigGenerator:
     Generates a figure for 2D functions
     """
 
-    x = np.linspace(self.f.bounds[0][0], self.f.bounds[0][1], 1000)
-    y = np.linspace(self.f.bounds[1][0], self.f.bounds[1][1], 1000)
+    x = np.linspace(self.X[0][0], self.X[0][1], 1000)
+    y = np.linspace(self.X[1][0], self.X[1][1], 1000)
     x, y = np.meshgrid(x, y)
     z = self.f([x, y])
 

@@ -1,9 +1,6 @@
 import argparse
-import importlib
 import os
-import sys
-# Add the example functions folder to the path
-sys.path.append("./functions")
+import subprocess
 
 import numpy as np
 from fig_generator import FigGenerator
@@ -19,29 +16,33 @@ def cli():
   L = np.concatenate((L, np.array([20, 30, 40, 50, 60, 70, 80, 90, 100])))
   L = np.concatenate((L, np.array([200, 300, 400, 500, 600, 700, 800, 900, 1000])))
   args = argparse.ArgumentParser()
-  args.add_argument("--function", "-f", type=str, help="Function class to maximize", required=True)
+
+  args.add_argument("--function", "-f", type=str, help="Numpy function to maximize", required=True)
   args.add_argument("--n_eval", "-n", type=int, help="Number of function evaluations", required=True)
-  args.add_argument("--n_run", "-r", type=int, help="Number of runs", default=100)
-  args.add_argument("--k", "-k", type=int, help="Sequence of Lipchitz constants", default=L)
-  args.add_argument("--p", "-p", type=float, help="Probability of success", default=0.5)
+  args.add_argument("--bounds", "-b", type=float, nargs='+', help="Bounds of the parameters", required=True)
+  args.add_argument("--k", "-k", type=float, help="Lipchitz constants", default=None)
+  args.add_argument("--name", type=str, help="Name of the function", default="fun")
   return args.parse_args()
 
 
-def runs(n_run: int, n_eval: int, f, optimizer, method, k=None, p=None):
+def runs(n_run: int, n_eval: int, f, X, optimizer, method, k=None):
   """
   Run the optimizer several times and return the points and values of the last run.
   n_run: number of runs (int)
   n_eval: number of function evaluations (int)
   f: function class to maximize (class)
+  X: bounds of the parameters (np.ndarray)
   optimizer: optimizer function (function)
+  method: name of the optimizer (str)
+  k: Lipschitz constant (float)
   """
   vs = []
   nb_evals = []
   for i in range(n_run):
-    if optimizer == AdaLIPO:
-      points, values, nb_eval = optimizer(f, n=n_eval, k=k, p=p)
-    else:   
-      points, values, nb_eval = optimizer(f, n=n_eval)
+    if k is None:
+      points, values, nb_eval = optimizer(f, X, n=n_eval)
+    else:
+      points, values, nb_eval = optimizer(f, X, k, n=n_eval)
     vs.append(np.max(values))
     nb_evals.append(nb_eval)
 
@@ -54,40 +55,43 @@ def runs(n_run: int, n_eval: int, f, optimizer, method, k=None, p=None):
 if __name__ == '__main__':
   args = cli()
 
-  # Remove the folder name
-  if len(args.function.split('/')) > 1:
-    args.function = args.function.split('/')[1]
-  # remove the .py extension
-  args.function = args.function.split('.')[0]
+  n_runs = 2
 
-  # Dynamically import the function class
-  f = importlib.import_module(args.function).Function()
+  # Parse the function expression and create a lambda function from it
+  if subprocess.run(["./numpy_parser.exe", args.function]).returncode != 0:
+    raise Exception("Function expression is not valid.")
+  f = lambda x: eval(args.function)
 
-  # Check that the function is 1D or 2D
-  assert f.bounds.shape[0] <= 2, "Only 1D and 2D functions are supported for this demo."
+
+  # Parse the bounds and verify that they are in 1D or 2D
+  if len(args.bounds) == 2:
+    X = np.array([(args.bounds[0], args.bounds[1])])
+  elif len(args.bounds) == 4:
+    X = np.array([(args.bounds[0], args.bounds[1]), (args.bounds[2], args.bounds[3])])
+  else: raise ValueError("Only 1D and 2D functions are supported for this demo.")
 
   # Instantiate the figure generator
-  fig_gen = FigGenerator(f)
+  fig_gen = FigGenerator(f, X)
   if not os.path.exists(f"figures/"):
     os.mkdir(f"figures/")
 
   # Several runs of random search
-  points, values = runs(args.n_run, args.n_eval, f, random_search, "random_search")
+  points, values = runs(n_runs, args.n_eval, f, X, random_search, "random_search")
   # Generate the figure using the last run
-  path = f"figures/{args.function}_random_search.pdf"
+  path = f"figures/{args.name}_random_search.pdf"
   fig_gen.gen_figure(points, values, "random_search", path=path)
 
   # Several runs of LIPO
-  points, values = runs(args.n_run, args.n_eval, f, LIPO, "LIPO")
+  points, values = runs(n_runs, args.n_eval, f, X, LIPO, "LIPO", k=args.k)
   # Generate the figure using the last run
-  path = f"figures/{args.function}_LIPO.pdf"
+  path = f"figures/{args.name}_LIPO.pdf"
   fig_gen.gen_figure(points, values, "LIPO", path=path)
   
-  # Several runs of AdaLIPO
+  """ # Several runs of AdaLIPO
   points, values = runs(args.n_run, args.n_eval, f, AdaLIPO, "AdaLIPO", k=args.k, p=args.p)
   # Generate the figure using the last run
   path = f"figures/{args.function}_AdaLIPO.pdf"
-  fig_gen.gen_figure(points, values, "AdaLIPO", path=path)
+  fig_gen.gen_figure(points, values, "AdaLIPO", path=path) """
 
 
   """ from lipo import GlobalOptimizer
