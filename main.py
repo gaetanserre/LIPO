@@ -9,7 +9,6 @@ from random_search import random_search
 from AdaLIPO import AdaLIPO
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
-print(current_dir)
 
 def cli():
   args = argparse.ArgumentParser()
