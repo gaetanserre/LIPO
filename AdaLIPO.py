@@ -1,5 +1,13 @@
 import numpy as np
 
+# TODO remove this
+L = np.array([1*10**(-3), 2*10**(-3), 3*10**(-3), 4*10**(-3), 5*10**(-3), 6*10**(-3), 7*10**(-3), 8*10**(-3), 9*10**(-3)])
+L = np.concatenate((L, np.array([1*10**(-2), 2*10**(-2), 3*10**(-2), 4*10**(-2), 5*10**(-2), 6*10**(-2), 7*10**(-2), 8*10**(-2), 9*10**(-2)])))
+L = np.concatenate((L, np.array([1*10**(-1), 2*10**(-1), 3*10**(-1), 4*10**(-1), 5*10**(-1), 6*10**(-1), 7*10**(-1), 8*10**(-1), 9*10**(-1)])))
+L = np.concatenate((L, np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])))
+L = np.concatenate((L, np.array([20, 30, 40, 50, 60, 70, 80, 90, 100])))
+L = np.concatenate((L, np.array([200, 300, 400, 500, 600, 700, 800, 900, 1000])))
+
 def Uniform(X: np.ndarray):
   """
   This function generates a random point in the feasible region X. We assume that X is a subset of R^n 
@@ -26,18 +34,19 @@ def Bernoulli(p: float):
         return 0
         
 
-def AdaLIPO(f, n: int, k: np.ndarray, p: float):
+def AdaLIPO(f, X, n: int, p=0.5):
   """
   f: class of the function to maximize (class)
+  X: bounds of the parameters (np.ndarray)
   n: number of function evaluations (int)
-  k: sequence of Lipschitz constants (numpy array)
   p: probability of success for exploration/exploitation (float)
   """
   
   # Initialization
+  k = L.copy()
   t = 1
   nb_samples = 0
-  X_1 = Uniform(f.bounds)
+  X_1 = Uniform(X)
   k_hat = 0
   nb_samples += 1
   points = X_1.reshape(1, -1)
@@ -63,13 +72,13 @@ def AdaLIPO(f, n: int, k: np.ndarray, p: float):
   while t < n:
     B_tp1 = Bernoulli(p)
     if B_tp1 == 1:
-        X_tp1 = Uniform(f.bounds)
+        X_tp1 = Uniform(X)
         nb_samples += 1
         points = np.concatenate((points, X_tp1.reshape(1, -1)))
         value = f(X_tp1)
     else:
         while True:
-            X_tp1 = Uniform(f.bounds)
+            X_tp1 = Uniform(X)
             nb_samples += 1  
             if condition(X_tp1, values, k_hat, points):
                 points = np.concatenate((points, X_tp1.reshape(1, -1)))
@@ -83,8 +92,6 @@ def AdaLIPO(f, n: int, k: np.ndarray, p: float):
     indexes = np.where(k > max(ratios))
     k = k[indexes]
     k_hat = k[0]
-    if t % 100 == 0:
-        print("Iteration: ", t, " Lipschitz constant: ", k_hat, " Number of samples: ", nb_samples)
 
   # Output
   return points, values, nb_samples
