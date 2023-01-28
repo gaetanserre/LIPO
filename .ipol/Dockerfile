@@ -4,6 +4,7 @@ RUN pip install --no-cache-dir pip==22.0.4
 
 COPY .ipol/packages.txt packages.txt
 RUN apt-get update && apt-get install -y $(cat packages.txt) && rm -rf /var/lib/apt/lists/*
+RUN opam init -y
 
 ENV bin /workdir/bin/
 RUN mkdir -p $bin
