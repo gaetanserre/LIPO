@@ -2,8 +2,10 @@ import numpy as np
 
 class Function:
   def __init__(self) -> None:
-    self.bounds = np.array([(-10, 10)])
-    self.k = 2 * 10
+    self.bounds = np.array([(-10, 10), (-10, 10)])
+    self.k = 2 * np.sqrt(2) * 10
+    self.kappa = 2
+    self.c_kappa = 1
 
   def __call__(self, x: np.ndarray) -> float:
-    return -(x**2)
+    return -(x[0]**2 + x[1]**2)
