@@ -66,8 +66,8 @@ def LIPO(f, n: int, delta=0.05, radius=1, diameter=2, d=2):
       naive_lb, naive_ub = theoritical_bounds(max_val, delta, f.k, radius, diameter, t, d)
       if hasattr(f, 'kappa'):
         LIPO_lb, LIPO_ub = fast_rates(max_val, delta, f.k, radius, diameter, t, d, f.kappa, f.c_kappa)
+        LIPO_bounds[t, :] = np.array([[LIPO_lb, LIPO_ub]])
       naive_bounds[t, :] = np.array([[naive_lb, naive_ub]])
-      LIPO_bounds[t, :] = np.array([[LIPO_lb, LIPO_ub]])
       nb_samples_vs_t[t] = nb_samples
     if nb_samples >= 500*n:
       ValueError('LIPO has likely explored every possible region in which the maximum can be, but did not finish the main loop. Please reduce the number of function evaluations.')
@@ -75,8 +75,9 @@ def LIPO(f, n: int, delta=0.05, radius=1, diameter=2, d=2):
   fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
   ax1.plot(naive_bounds[:,0], label='Naive lower bound')
   ax1.plot(naive_bounds[:,1], label='Naive upper bound')
-  ax1.plot(LIPO_bounds[:,0], label='LIPO lower bound')
-  ax1.plot(LIPO_bounds[:,1], label='LIPO upper bound')
+  if hasattr(f, 'kappa'):
+    ax1.plot(LIPO_bounds[:,0], label='LIPO lower bound')
+    ax1.plot(LIPO_bounds[:,1], label='LIPO upper bound')
   ax1.plot(max_vals, label='Max value')
   ax1.legend()
   ax2.plot(nb_samples_vs_t, label = 'Number of samples')
