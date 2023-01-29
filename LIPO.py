@@ -17,7 +17,7 @@ def Uniform(X: np.array):
   return theta
         
 
-def LIPO(f, n: int, delta=0.05, radius=1, diameter=2, d=2):
+def LIPO(f, n: int, delta=0.05, radius=1, diameter=2):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
@@ -47,10 +47,11 @@ def LIPO(f, n: int, delta=0.05, radius=1, diameter=2, d=2):
     return left_min >= max_val
           
   # Main loop
-  naive_bounds = np.zeros((n+1, 2))
-  LIPO_bounds = np.zeros((n+1, 2))
-  max_vals = np.zeros(n+1)
-  nb_samples_vs_t = np.zeros(n+1)
+  naive_bounds = np.zeros((n, 2))
+  LIPO_bounds = np.zeros((n, 2))
+  max_vals = np.zeros(n)
+  nb_samples_vs_t = np.zeros(n)
+  nb_samples_vs_t[0] = 1
   while t < n:
     X_tp1 = Uniform(f.bounds)
     nb_samples += 1
@@ -59,16 +60,17 @@ def LIPO(f, n: int, delta=0.05, radius=1, diameter=2, d=2):
 
       value = f(X_tp1)
       values = np.concatenate((values, np.array([value])))
-      t += 1
       # Statistical analysis
       max_val = np.max(values)
-      max_vals[t] = max_val
-      naive_lb, naive_ub = theoritical_bounds(max_val, delta, f.k, radius, diameter, t, d)
+      max_vals[t-1] = max_val
+      naive_lb, naive_ub = theoritical_bounds(max_val, delta, f.k, radius, diameter, t, f.bounds.shape[0])
       if hasattr(f, 'kappa'):
-        LIPO_lb, LIPO_ub = fast_rates(max_val, delta, f.k, radius, diameter, t, d, f.kappa, f.c_kappa)
-        LIPO_bounds[t, :] = np.array([[LIPO_lb, LIPO_ub]])
-      naive_bounds[t, :] = np.array([[naive_lb, naive_ub]])
+        LIPO_lb, LIPO_ub = fast_rates(max_val, delta, f.k, radius, diameter, t, f.bounds.shape[0], f.kappa, f.c_kappa)
+        LIPO_bounds[t-1, :] = np.array([[LIPO_lb, LIPO_ub]])
+      naive_bounds[t-1, :] = np.array([[naive_lb, naive_ub]])
       nb_samples_vs_t[t] = nb_samples
+
+      t += 1
     if nb_samples >= 500*n:
       ValueError('LIPO has likely explored every possible region in which the maximum can be, but did not finish the main loop. Please reduce the number of function evaluations.')
   

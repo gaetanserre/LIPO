@@ -28,7 +28,7 @@ def Bernoulli(p: float):
         return 0
         
 
-def AdaLIPO(f, n: int, k: np.ndarray, p: float, delta=0.05, radius=1, diameter=2, d=2):
+def AdaLIPO(f, n: int, k: np.ndarray, p: float, delta=0.05, radius=1, diameter=2):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
@@ -62,10 +62,11 @@ def AdaLIPO(f, n: int, k: np.ndarray, p: float, delta=0.05, radius=1, diameter=2
           
   # Main loop
   ratios = []
-  max_vals = np.zeros(n+1)
-  naive_bounds = np.zeros((n+1, 2))
-  nb_samples_vs_t = np.zeros(n+1)
-  k_hats = np.zeros(n+1)
+  max_vals = np.zeros(n)
+  naive_bounds = np.zeros((n, 2))
+  nb_samples_vs_t = np.zeros(n)
+  nb_samples_vs_t[0] = 1
+  k_hats = np.zeros(n)
   while t < n:
     B_tp1 = Bernoulli(p)
     if B_tp1 == 1:
@@ -83,7 +84,6 @@ def AdaLIPO(f, n: int, k: np.ndarray, p: float, delta=0.05, radius=1, diameter=2
                 value = f(X_tp1)
                 break
     values = np.concatenate((values, np.array([value])))
-    t += 1
     for i in range(points.shape[0]-1):
         ratios.append(np.abs(value - values[i])/np.linalg.norm(X_tp1 - points[i], ord=2))
     indexes = np.where(k > max(ratios))
@@ -92,10 +92,13 @@ def AdaLIPO(f, n: int, k: np.ndarray, p: float, delta=0.05, radius=1, diameter=2
     k_hats[t] = k_hat
     # Statistical analysis
     max_val = np.max(values)
-    max_vals[t] = max_val
-    naive_lb, naive_ub = theoritical_bounds(max_val, delta, f.k, radius, diameter, t, d)
-    naive_bounds[t, :] = np.array([[naive_lb, naive_ub]])
+    max_vals[t-1] = max_val
+    naive_lb, naive_ub = theoritical_bounds(max_val, delta, f.k, radius, diameter, t, f.bounds.shape[0])
+    naive_bounds[t-1, :] = np.array([[naive_lb, naive_ub]])
     nb_samples_vs_t[t] = nb_samples
+
+    t += 1
+
     if nb_samples >= 500*n:
       ValueError('LIPO has likely explored every possible region in which the maximum can be, but did not finish the main loop. Please reduce the number of function evaluations.')
   

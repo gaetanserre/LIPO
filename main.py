@@ -25,13 +25,12 @@ def cli():
   args.add_argument("--k", "-k", type=int, help="Sequence of Lipchitz constants", default=L)
   args.add_argument("--p", "-p", type=float, help="Probability of success", default=0.5)
   args.add_argument("--delta", "-delta", type=float, help="With proba 1-delta, the bounds are made", default=0.05)
-  args.add_argument("--radius", "-rad", type=float, help="Radius of the set", default=1)
-  args.add_argument("--diameter", "-D", type=float, help="Diameter of the set", default=2)
-  args.add_argument("--d", "-d", type=int, help="Dimension of the set", default=2)
+  args.add_argument("--radius", "-rad", type=float, help="Radius of the set", default=np.sqrt((5.12)**2 + (5.12)**2))
+  args.add_argument("--diameter", "-D", type=float, help="Diameter of the set", default=2*np.sqrt((5.12)**2 + (5.12)**2))
   return args.parse_args()
 
 
-def runs(n_run: int, n_eval: int, f, optimizer, method, delta=0.05, radius=1, diameter=2, d=2, k=None, p=None):
+def runs(n_run: int, n_eval: int, f, optimizer, method, delta=0.05, radius=1, diameter=2, k=None, p=None):
   """
   Run the optimizer several times and return the points and values of the last run.
   n_run: number of runs (int)
@@ -47,7 +46,13 @@ def runs(n_run: int, n_eval: int, f, optimizer, method, delta=0.05, radius=1, di
     elif optimizer == AdaLIPO:
       points, values, nb_eval = optimizer(f, n=n_eval, k=k, p=p)
     elif optimizer == LIPO:   
-      points, values, nb_eval = optimizer(f, n=n_eval, delta=0.05, radius=1, diameter=2, d=2)
+      points, values, nb_eval = optimizer(
+        f,
+        n=n_eval,
+        delta=delta,
+        radius=radius,
+        diameter=diameter
+      )
     vs.append(np.max(values))
     nb_evals.append(nb_eval)
 
@@ -85,7 +90,16 @@ if __name__ == '__main__':
   fig_gen.gen_figure(points, values, "random_search", path=path)
 
   # Several runs of LIPO
-  points, values = runs(args.n_run, args.n_eval, f, LIPO, "LIPO", delta=args.delta, radius=args.radius, diameter=args.diameter, d=args.d)
+  points, values = runs(
+    args.n_run,
+    args.n_eval,
+    f,
+    LIPO,
+    "LIPO",
+    delta=args.delta,
+    radius=args.radius,
+    diameter=args.diameter
+  )
   # Generate the figure using the last run
   path = f"figures/{args.function}_LIPO.pdf"
   fig_gen.gen_figure(points, values, "LIPO", path=path)
