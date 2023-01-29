@@ -4,9 +4,9 @@
 - [ ] Related work (Gaëtan)
 - [ ] Methods lien implementation & theory (Sophia)
 - [ ] Experiments & Results
-  - [ ] Plot upper/lower bounds of max - max LIPO
-  - [ ] Plot nb of evaluations vs nb of iterations
-  - [ ] Plot convergence k_hat
+  - [ ] Plot upper/lower bounds of max - max LIPO (Done mais pas foufou)
+  - [ ] Plot nb of evaluations vs nb of iterations (Done)
+  - [ ] Plot convergence k_hat (Done)
   - [ ] Comparison LIPO - AdaLIPO (convergence time & Lipschitz estimation)
   - [ ] Comparison LIPO - other algo (convergence time)
 - [ ] Limitations (curse of dimensionality & highlight convergence speed Corollary 13)

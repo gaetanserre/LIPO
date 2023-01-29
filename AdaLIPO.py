@@ -1,4 +1,6 @@
 import numpy as np
+from statistical_analysis import theoritical_bounds, fast_rates
+import matplotlib.pyplot as plt
 
 def Uniform(X: np.array):
   """
@@ -26,7 +28,7 @@ def Bernoulli(p: float):
         return 0
         
 
-def AdaLIPO(f, n: int, k: np.ndarray, p: float):
+def AdaLIPO(f, n: int, k: np.ndarray, p: float, delta=0.05, radius=1, diameter=2, d=2):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
@@ -60,6 +62,10 @@ def AdaLIPO(f, n: int, k: np.ndarray, p: float):
           
   # Main loop
   ratios = []
+  max_vals = np.zeros(n+1)
+  naive_bounds = np.zeros((n+1, 2))
+  nb_samples_vs_t = np.zeros(n+1)
+  k_hats = np.zeros(n+1)
   while t < n:
     B_tp1 = Bernoulli(p)
     if B_tp1 == 1:
@@ -83,8 +89,31 @@ def AdaLIPO(f, n: int, k: np.ndarray, p: float):
     indexes = np.where(k > max(ratios))
     k = k[indexes]
     k_hat = k[0]
+    k_hats[t] = k_hat
+    # Statistical analysis
+    max_val = np.max(values)
+    max_vals[t] = max_val
+    naive_lb, naive_ub = theoritical_bounds(max_val, delta, f.k, radius, diameter, t, d)
+    naive_bounds[t, :] = np.array([[naive_lb, naive_ub]])
+    nb_samples_vs_t[t] = nb_samples
+    if nb_samples >= 500*n:
+      ValueError('LIPO has likely explored every possible region in which the maximum can be, but did not finish the main loop. Please reduce the number of function evaluations.')
+  
     if t % 100 == 0:
         print("Iteration: ", t, " Lipschitz constant: ", k_hat, " Number of samples: ", nb_samples)
+
+  fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(20, 5))
+  ax1.plot(naive_bounds[:,0], label='Naive lower bound')
+  ax1.plot(naive_bounds[:,1], label='Naive upper bound')
+  ax1.plot(max_vals, label='Max value')
+  ax1.legend()
+  ax2.plot(nb_samples_vs_t, label = 'Number of samples')
+  ax2.legend()
+  ax3.plot(k_hats, label = 'Estimated Lipschitz constant')
+  if hasattr(f, 'k'):
+    ax3.plot(np.ones(n+1)*f.k, label = 'True Lipschitz constant')
+  ax3.legend()
+  plt.show()
 
   # Output
   return points, values, nb_samples
