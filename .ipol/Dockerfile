@@ -1,3 +1,5 @@
+# Credits https://github.com/centreborelli/ipol-docker-images/
+
 FROM python:3.9
 
 RUN pip install --no-cache-dir pip==22.0.4
