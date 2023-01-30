@@ -5,8 +5,8 @@ class Function:
     self.bounds = np.array([(-10, 10), (-10, 10)])
     self.k = 30
     
-    self.radius = 1 # Dummy value
-    self.diam = 2 * self.radius
+    self.radius = 10
+    self.diam = 20 * np.sqrt(2)
 
   def __call__(self, x: np.ndarray) -> float:
     return np.abs( 

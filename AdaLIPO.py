@@ -85,7 +85,7 @@ def AdaLIPO(f, n: int, k: np.ndarray, p: float, fig_path: str, delta=0.05):
     values = np.concatenate((values, np.array([value])))
     for i in range(points.shape[0]-1):
         ratios.append(np.abs(value - values[i])/np.linalg.norm(X_tp1 - points[i], ord=2))
-    indexes = np.where(k > max(ratios))
+    indexes = np.where(k >= max(ratios))
     k = k[indexes]
     k_hat = k[0]
     k_hats[t] = k_hat

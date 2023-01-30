@@ -110,8 +110,8 @@ class LIPO_Statistics:
     if len(self.k_hats) > 0:
       plt.plot(self.k_hats, label="$\hat{k}$")
       if hasattr(self.f, 'k'):
-        plt.hlines(self.f.k, 0, len(self.k_hats), label="$k$", linestyles='dashed')
-      plt.title("k_hat")
+        plt.hlines(self.f.k, 0, len(self.k_hats), label="$k$", color='r', linestyles="dashed")
+      plt.legend()
       plt.savefig(f"{self.fig_path}_Lipschitz_estimation.pdf")
       plt.clf()
   
