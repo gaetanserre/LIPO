@@ -3,5 +3,4 @@ DS_Store
 *.pyc
 data/
 data_geometric/
-figures/*.pdf
-figures/*.png
+figures/*

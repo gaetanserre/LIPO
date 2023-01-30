@@ -5,6 +5,9 @@ class Function:
     self.bounds = np.array([(-10, 10), (-10, 10)])
     self.k = 30
     
+    self.radius = 1 # Dummy value
+    self.diam = 2 * self.radius
+
   def __call__(self, x: np.ndarray) -> float:
     return np.abs( 
       np.sin(x[0])

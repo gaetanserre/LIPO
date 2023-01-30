@@ -1,6 +1,5 @@
 import numpy as np
-from statistical_analysis import theoritical_bounds, fast_rates
-import matplotlib.pyplot as plt
+from statistical_analysis import LIPO_Statistics
 
 def Uniform(X: np.array):
   """
@@ -17,10 +16,11 @@ def Uniform(X: np.array):
   return theta
         
 
-def LIPO(f, n: int, delta=0.05, radius=1, diameter=2):
+def LIPO(f, n: int, fig_path: str, delta=0.05):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
+  fig_path: path to save the statistics figures (str)
   """
   
   # Initialization
@@ -31,6 +31,9 @@ def LIPO(f, n: int, delta=0.05, radius=1, diameter=2):
   points = X_1.reshape(1, -1)
   value = f(X_1)
   values = np.array([value])
+
+  # Statistics
+  stats = LIPO_Statistics(f, fig_path, delta=delta)
 
   def condition(x, values, k, points):
     """
@@ -47,11 +50,6 @@ def LIPO(f, n: int, delta=0.05, radius=1, diameter=2):
     return left_min >= max_val
           
   # Main loop
-  naive_bounds = np.zeros((n, 2))
-  LIPO_bounds = np.zeros((n, 2))
-  max_vals = np.zeros(n)
-  nb_samples_vs_t = np.zeros(n)
-  nb_samples_vs_t[0] = 1
   while t < n:
     X_tp1 = Uniform(f.bounds)
     nb_samples += 1
@@ -61,30 +59,17 @@ def LIPO(f, n: int, delta=0.05, radius=1, diameter=2):
       value = f(X_tp1)
       values = np.concatenate((values, np.array([value])))
       # Statistical analysis
-      max_val = np.max(values)
-      max_vals[t-1] = max_val
-      naive_lb, naive_ub = theoritical_bounds(max_val, delta, f.k, radius, diameter, t, f.bounds.shape[0])
-      if hasattr(f, 'kappa'):
-        LIPO_lb, LIPO_ub = fast_rates(max_val, delta, f.k, radius, diameter, t, f.bounds.shape[0], f.kappa, f.c_kappa)
-        LIPO_bounds[t-1, :] = np.array([[LIPO_lb, LIPO_ub]])
-      naive_bounds[t-1, :] = np.array([[naive_lb, naive_ub]])
-      nb_samples_vs_t[t] = nb_samples
+      stats.update(np.max(values), nb_samples)
 
       t += 1
     if nb_samples >= 500*n:
-      ValueError('LIPO has likely explored every possible region in which the maximum can be, but did not finish the main loop. Please reduce the number of function evaluations.')
-  
-  fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
-  ax1.plot(naive_bounds[:,0], label='Naive lower bound')
-  ax1.plot(naive_bounds[:,1], label='Naive upper bound')
-  if hasattr(f, 'kappa'):
-    ax1.plot(LIPO_bounds[:,0], label='LIPO lower bound')
-    ax1.plot(LIPO_bounds[:,1], label='LIPO upper bound')
-  ax1.plot(max_vals, label='Max value')
-  ax1.legend()
-  ax2.plot(nb_samples_vs_t, label = 'Number of samples')
-  ax2.legend()
-  plt.show()
+      ValueError("LIPO has likely explored every possible \
+        region in which the maximum can be, but did not \
+        finish the main loop. Please reduce the number \
+        of function evaluations.")
+
+
+  stats.plot()
           
   # Output
   return points, values, nb_samples

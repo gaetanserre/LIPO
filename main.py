@@ -25,18 +25,31 @@ def cli():
   args.add_argument("--k", "-k", type=int, help="Sequence of Lipchitz constants", default=L)
   args.add_argument("--p", "-p", type=float, help="Probability of success", default=0.5)
   args.add_argument("--delta", "-delta", type=float, help="With proba 1-delta, the bounds are made", default=0.05)
-  args.add_argument("--radius", "-rad", type=float, help="Radius of the set", default=np.sqrt((5.12)**2 + (5.12)**2))
-  args.add_argument("--diameter", "-D", type=float, help="Diameter of the set", default=2*np.sqrt((5.12)**2 + (5.12)**2))
   return args.parse_args()
 
 
-def runs(n_run: int, n_eval: int, f, optimizer, method, delta=0.05, radius=1, diameter=2, k=None, p=None):
+def runs(
+  n_run: int,
+  n_eval: int,
+  f,
+  optimizer,
+  method: str,
+  delta=0.05,
+  k=None,
+  p=None,
+  fig_path=None,
+):
   """
   Run the optimizer several times and return the points and values of the last run.
   n_run: number of runs (int)
   n_eval: number of function evaluations (int)
   f: function class to maximize (class)
   optimizer: optimizer function (function)
+  method: name of the optimizer (str)
+  delta: with proba 1-delta, the bounds holds (float)
+  k: sequence of Lipchitz constants (np.ndarray)
+  p: probability of success (float)
+  fig_path: path to save the statistics figures (str)
   """
   vs = []
   nb_evals = []
@@ -44,14 +57,20 @@ def runs(n_run: int, n_eval: int, f, optimizer, method, delta=0.05, radius=1, di
     if optimizer == random_search:
       points, values, nb_eval = optimizer(f, n=n_eval)
     elif optimizer == AdaLIPO:
-      points, values, nb_eval = optimizer(f, n=n_eval, k=k, p=p)
+      points, values, nb_eval = optimizer(
+        f,
+        n=n_eval,
+        k=k,
+        p=p,
+        delta=delta,
+        fig_path=fig_path
+      )
     elif optimizer == LIPO:   
       points, values, nb_eval = optimizer(
         f,
         n=n_eval,
         delta=delta,
-        radius=radius,
-        diameter=diameter
+        fig_path=fig_path
       )
     vs.append(np.max(values))
     nb_evals.append(nb_eval)
@@ -80,16 +99,20 @@ if __name__ == '__main__':
 
   # Instantiate the figure generator
   fig_gen = FigGenerator(f)
-  if not os.path.exists(f"figures/"):
+  if not os.path.exists("figures/"):
     os.mkdir(f"figures/")
+  
+  if not os.path.exists(f"figures/{args.function}"):
+    os.mkdir(f"figures/{args.function}")
 
   # Several runs of random search
   points, values = runs(args.n_run, args.n_eval, f, random_search, "random_search")
   # Generate the figure using the last run
-  path = f"figures/{args.function}_random_search.pdf"
-  fig_gen.gen_figure(points, values, "random_search", path=path)
+  path = f"figures/{args.function}/random_search.pdf"
+  fig_gen.gen_figure(points, values, path=path)
 
   # Several runs of LIPO
+  fig_path = f"figures/{args.function}/LIPO"
   points, values = runs(
     args.n_run,
     args.n_eval,
@@ -97,38 +120,24 @@ if __name__ == '__main__':
     LIPO,
     "LIPO",
     delta=args.delta,
-    radius=args.radius,
-    diameter=args.diameter
-  )
+    fig_path=fig_path)
   # Generate the figure using the last run
-  path = f"figures/{args.function}_LIPO.pdf"
-  fig_gen.gen_figure(points, values, "LIPO", path=path)
+  path = f"{fig_path}.pdf"
+  fig_gen.gen_figure(points, values, path=path)
   
   
   # Several runs of AdaLIPO
-  points, values = runs(args.n_run, args.n_eval, f, AdaLIPO, "AdaLIPO", k=args.k, p=args.p)
+  fig_path = f"figures/{args.function}/AdaLIPO"
+  points, values = runs(
+    args.n_run,
+    args.n_eval,
+    f,
+    AdaLIPO,
+    "AdaLIPO",
+    delta=args.delta,
+    k=args.k,
+    p=args.p,
+    fig_path=fig_path)
   # Generate the figure using the last run
-  path = f"figures/{args.function}_AdaLIPO.pdf"
-  fig_gen.gen_figure(points, values, "AdaLIPO", path=path)
-
-
-  """ from lipo import GlobalOptimizer
-
-  def function(x, y):
-    return -(100 * (y - x ** 2) ** 2 + (1 - x) ** 2)
-
-  pre_eval_x = dict(x=9.3, y=-9.4)
-  evaluations = [(pre_eval_x, function(**pre_eval_x))]
-
-  search = GlobalOptimizer(
-      function,
-      lower_bounds={"x": -10.0, "y": -10.0},
-      upper_bounds={"x": 10.0, "y": 10.0},
-      evaluations=evaluations,
-      maximize=True,
-  )
-
-  num_function_calls = 1000
-  search.run(num_function_calls)
-
-  print(f"Max value: {search.optimum}") """
+  path = f"{fig_path}.pdf"
+  fig_gen.gen_figure(points, values, path=path)
