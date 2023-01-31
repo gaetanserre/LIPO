@@ -1,13 +1,5 @@
 import numpy as np
 
-# TODO remove this
-L = np.array([1*10**(-3), 2*10**(-3), 3*10**(-3), 4*10**(-3), 5*10**(-3), 6*10**(-3), 7*10**(-3), 8*10**(-3), 9*10**(-3)])
-L = np.concatenate((L, np.array([1*10**(-2), 2*10**(-2), 3*10**(-2), 4*10**(-2), 5*10**(-2), 6*10**(-2), 7*10**(-2), 8*10**(-2), 9*10**(-2)])))
-L = np.concatenate((L, np.array([1*10**(-1), 2*10**(-1), 3*10**(-1), 4*10**(-1), 5*10**(-1), 6*10**(-1), 7*10**(-1), 8*10**(-1), 9*10**(-1)])))
-L = np.concatenate((L, np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])))
-L = np.concatenate((L, np.array([20, 30, 40, 50, 60, 70, 80, 90, 100])))
-L = np.concatenate((L, np.array([200, 300, 400, 500, 600, 700, 800, 900, 1000])))
-
 def Uniform(X: np.ndarray):
   """
   This function generates a random point in the feasible region X. We assume that X is a subset of R^n 
@@ -34,24 +26,48 @@ def Bernoulli(p: float):
         return 0
         
 
-def AdaLIPO(f, X, n: int, p=0.5):
+def AdaLIPO(f, X, n: int, max_slope=1000.0):
   """
   f: class of the function to maximize (class)
   X: bounds of the parameters (np.ndarray)
   n: number of function evaluations (int)
-  p: probability of success for exploration/exploitation (float)
+  max_slope: maximum slope for the nb_samples vs nb_evaluations curve (float)
   """
   
   # Initialization
-  k = L.copy()
   t = 1
-  nb_samples = 0
-  X_1 = Uniform(X)
+  alpha = 10e-2
   k_hat = 0
-  nb_samples += 1
+
+  X_1 = Uniform(X)
+  nb_samples = 1
+  last_nb_samples = [0] * n
+  last_nb_samples[t-1] = nb_samples
+
   points = X_1.reshape(1, -1)
   value = f(X_1)
   values = np.array([value])
+
+  def k(i):
+    """
+    Series of potential Lipschitz constants.
+    """
+    return (1 + alpha)**i
+  
+  def p(t):
+    """
+    Probability of success for exploration/exploitation.
+    """
+    if t == 1 : return 1
+    else: return 1 / np.log(t)
+
+  def slope_stop_condition():
+    if last_nb_samples[2] > 0: # Compute the slope of the last 3 points
+      slope = (last_nb_samples[t-1] - last_nb_samples[t-3]) / 2
+      
+      return slope > max_slope
+    else:
+      return False
 
   def condition(x, values, k, points):
     """
@@ -70,29 +86,33 @@ def AdaLIPO(f, X, n: int, p=0.5):
   # Main loop
   ratios = []
   while t < n:
-    B_tp1 = Bernoulli(p)
+    B_tp1 = Bernoulli(p(t))
     if B_tp1 == 1:
-        X_tp1 = Uniform(X)
-        nb_samples += 1
-        points = np.concatenate((points, X_tp1.reshape(1, -1)))
-        value = f(X_tp1)
+      X_tp1 = Uniform(X)
+      nb_samples += 1
+      points = np.concatenate((points, X_tp1.reshape(1, -1)))
+      value = f(X_tp1)
     else:
-        while True:
-            X_tp1 = Uniform(X)
-            nb_samples += 1  
-            if condition(X_tp1, values, k_hat, points):
-                points = np.concatenate((points, X_tp1.reshape(1, -1)))
+      while True:
+        X_tp1 = Uniform(X)
+        nb_samples += 1  
+        if condition(X_tp1, values, k_hat, points):
+          points = np.concatenate((points, X_tp1.reshape(1, -1)))
 
-                value = f(X_tp1)
-                break
+          value = f(X_tp1)
+          break
+        elif slope_stop_condition():
+          print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
+          return points, values, nb_samples
+
     values = np.concatenate((values, np.array([value])))
     t += 1
     for i in range(points.shape[0]-1):
-        ratios.append(np.abs(value - values[i])/np.linalg.norm(X_tp1 - points[i], ord=2))
-    indexes = np.where(k > max(ratios))
-    k = k[indexes]
-    k_hat = k[0]
+      ratios.append(np.abs(value - values[i])/np.linalg.norm(X_tp1 - points[i], ord=2))
+    
+    i_hat = int(np.ceil(np.log(max(ratios)) / np.log(1 + alpha)))
+    k_hat = k(i_hat)
 
   # Output
-  print(f"Estimated Lipschitz constant: {k_hat}")
+  print(f"Estimated Lipschitz constant: {k_hat:.4f}")
   return points, values, nb_samples
