@@ -55,7 +55,8 @@ if __name__ == '__main__':
 
   # Parse the function expression and create a lambda function from it
   if subprocess.run([f"{current_dir}/numpy_parser.exe", args.function]).returncode != 0:
-    raise Exception("Function expression is not valid.")
+    print("Function expression is not valid.")
+    exit(0)
   f = lambda x: eval(args.function)
 
 
@@ -65,7 +66,9 @@ if __name__ == '__main__':
     X = np.array([(args.bounds[0], args.bounds[1])])
   elif len(args.bounds) == 4:
     X = np.array([(args.bounds[0], args.bounds[1]), (args.bounds[2], args.bounds[3])])
-  else: raise ValueError("Only 1D and 2D functions are supported for this demo.")
+  else:
+    print("Only 1D and 2D functions are supported for this demo.")
+    exit(0)
 
   # Instantiate the figure generator
   fig_gen = FigGenerator(f, X)
@@ -89,25 +92,3 @@ if __name__ == '__main__':
   # Generate the figure using the last run
   path = f"figures/{args.name}_AdaLIPO.png"
   fig_gen.gen_figure(points, values, "AdaLIPO", path=path)
-
-
-  """ from lipo import GlobalOptimizer
-
-  def function(x, y):
-    return -(100 * (y - x ** 2) ** 2 + (1 - x) ** 2)
-
-  pre_eval_x = dict(x=9.3, y=-9.4)
-  evaluations = [(pre_eval_x, function(**pre_eval_x))]
-
-  search = GlobalOptimizer(
-      function,
-      lower_bounds={"x": -10.0, "y": -10.0},
-      upper_bounds={"x": 10.0, "y": 10.0},
-      evaluations=evaluations,
-      maximize=True,
-  )
-
-  num_function_calls = 1000
-  search.run(num_function_calls)
-
-  print(f"Max value: {search.optimum}") """
