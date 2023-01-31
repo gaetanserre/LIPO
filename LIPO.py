@@ -1,4 +1,5 @@
 import numpy as np
+from collections import deque
 
 def Uniform(X: np.ndarray):
   """
@@ -29,17 +30,21 @@ def LIPO(f, X: np.ndarray, k: float, n: int, max_slope=1000.0):
 
   X_1 = Uniform(X)
   nb_samples = 1
-  last_nb_samples = [0] * n
-  last_nb_samples[t-1] = nb_samples
+  
+  # We keep track of the last 3 values of nb_samples to compute the slope
+  last_nb_samples = deque([1], maxlen=3)
 
   points = X_1.reshape(1, -1)
   value = f(X_1)
   values = np.array([value])
 
   def slope_stop_condition():
-    if last_nb_samples[2] > 0: # Compute the slope of the last 3 points
-      slope = (last_nb_samples[t-1] - last_nb_samples[t-3]) / 2
-
+    """
+    Check if the slope of the last 3 points of the the nb_samples vs nb_evaluations curve 
+    is greater than max_slope.
+    """
+    if len(last_nb_samples) == 3: # Compute the slope of the last 3 points
+      slope = (last_nb_samples[2] - last_nb_samples[0]) / 2
       return slope > max_slope
     else:
       return False
@@ -62,13 +67,15 @@ def LIPO(f, X: np.ndarray, k: float, n: int, max_slope=1000.0):
   while t < n:
     X_tp1 = Uniform(X)
     nb_samples += 1
-    last_nb_samples[t-1] = nb_samples
+    last_nb_samples[-1] = nb_samples
     if condition(X_tp1, values, k, points):
       points = np.concatenate((points, X_tp1.reshape(1, -1)))
 
       value = f(X_tp1)
       values = np.concatenate((values, np.array([value])))
+      
       t += 1
+      last_nb_samples.append(0)
     
     elif slope_stop_condition():
       print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")

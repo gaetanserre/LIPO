@@ -1,4 +1,5 @@
 import numpy as np
+from collections import deque
 
 def Uniform(X: np.ndarray):
   """
@@ -41,8 +42,9 @@ def AdaLIPO(f, X, n: int, max_slope=1000.0):
 
   X_1 = Uniform(X)
   nb_samples = 1
-  last_nb_samples = [0] * n
-  last_nb_samples[t-1] = nb_samples
+  
+  # We keep track of the last 3 values of nb_samples to compute the slope
+  last_nb_samples = deque([1], maxlen=3)
 
   points = X_1.reshape(1, -1)
   value = f(X_1)
@@ -62,9 +64,12 @@ def AdaLIPO(f, X, n: int, max_slope=1000.0):
     else: return 1 / np.log(t)
 
   def slope_stop_condition():
-    if last_nb_samples[2] > 0: # Compute the slope of the last 3 points
-      slope = (last_nb_samples[t-1] - last_nb_samples[t-3]) / 2
-      
+    """
+    Check if the slope of the last 3 points of the the nb_samples vs nb_evaluations curve 
+    is greater than max_slope.
+    """
+    if len(last_nb_samples) == 3:
+      slope = (last_nb_samples[2] - last_nb_samples[0]) / 2
       return slope > max_slope
     else:
       return False
@@ -88,14 +93,18 @@ def AdaLIPO(f, X, n: int, max_slope=1000.0):
   while t < n:
     B_tp1 = Bernoulli(p(t))
     if B_tp1 == 1:
+      # Exploration
       X_tp1 = Uniform(X)
       nb_samples += 1
+      last_nb_samples[-1] = nb_samples
       points = np.concatenate((points, X_tp1.reshape(1, -1)))
       value = f(X_tp1)
     else:
+      # Exploitation
       while True:
         X_tp1 = Uniform(X)
-        nb_samples += 1  
+        nb_samples += 1
+        last_nb_samples[-1] = nb_samples
         if condition(X_tp1, values, k_hat, points):
           points = np.concatenate((points, X_tp1.reshape(1, -1)))
 
@@ -105,13 +114,16 @@ def AdaLIPO(f, X, n: int, max_slope=1000.0):
           print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
           return points, values, nb_samples
 
+    # Compute the estimated Lipschitz constant
     values = np.concatenate((values, np.array([value])))
-    t += 1
     for i in range(points.shape[0]-1):
       ratios.append(np.abs(value - values[i])/np.linalg.norm(X_tp1 - points[i], ord=2))
     
     i_hat = int(np.ceil(np.log(max(ratios)) / np.log(1 + alpha)))
     k_hat = k(i_hat)
+
+    t += 1
+    last_nb_samples.append(0)
 
   # Output
   print(f"Estimated Lipschitz constant: {k_hat:.4f}")
