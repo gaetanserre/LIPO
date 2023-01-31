@@ -41,7 +41,11 @@ def LIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
   stats = LIPO_Statistics(f, fig_path, delta=delta)
 
   def slope_stop_condition():
-    if len(last_nb_samples) == 3: # Compute the slope of the last 3 points
+    """
+    Check if the slope of the last 3 points of the the nb_samples vs nb_evaluations curve 
+    is greater than max_slope.
+    """
+    if len(last_nb_samples) == 3:
       slope = (last_nb_samples[2] - last_nb_samples[0]) / 2
       return slope > max_slope
     else:
