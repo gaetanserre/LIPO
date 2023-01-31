@@ -35,8 +35,7 @@ def LIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
   last_nb_samples = deque([1], maxlen=3)
 
   points = X_1.reshape(1, -1)
-  value = f(X_1)
-  values = np.array([value])
+  values = np.array([f(X_1)])
 
   # Statistics
   stats = LIPO_Statistics(f, fig_path, delta=delta)
@@ -70,8 +69,7 @@ def LIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
     if condition(X_tp1, values, f.k, points):
       points = np.concatenate((points, X_tp1.reshape(1, -1)))
 
-      value = f(X_tp1)
-      values = np.concatenate((values, np.array([value])))
+      values = np.concatenate((values, np.array([f(X_tp1)])))
       
       # Statistical analysis
       stats.update(np.max(values), nb_samples)

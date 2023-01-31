@@ -50,8 +50,7 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
   last_nb_samples = deque([1], maxlen=3)
 
   points = X_1.reshape(1, -1)
-  value = f(X_1)
-  values = np.array([value])
+  values = np.array([f(X_1)])
 
   # Statistics
   stats = LIPO_Statistics(f, fig_path, delta=delta)
@@ -107,14 +106,13 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
         last_nb_samples[-1] = nb_samples
         if condition(X_tp1, values, k_hat, points):
           points = np.concatenate((points, X_tp1.reshape(1, -1)))
-          value = f(X_tp1)
           break
         elif slope_stop_condition():
           print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
           stats.plot()
           return points, values, nb_samples
 
-    values = np.concatenate((values, np.array([value])))
+    values = np.concatenate((values, np.array([f(X_tp1)])))
     for i in range(points.shape[0]-1):
       ratios.append(np.abs(value - values[i]) / np.linalg.norm(X_tp1 - points[i], ord=2))
 
