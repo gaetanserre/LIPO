@@ -16,24 +16,36 @@ def Uniform(X: np.array):
   return theta
         
 
-def LIPO(f, n: int, fig_path: str, delta=0.05):
+def LIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
   fig_path: path to save the statistics figures (str)
+  max_slope: maximum slope for the nb_samples vs nb_evaluations curve (float)
   """
   
   # Initialization
   t = 1
-  nb_samples = 0
+
   X_1 = Uniform(f.bounds)
-  nb_samples += 1
+  nb_samples = 1
+  last_nb_samples = [0] * n
+  last_nb_samples[t-1] = nb_samples
+
   points = X_1.reshape(1, -1)
   value = f(X_1)
   values = np.array([value])
 
   # Statistics
   stats = LIPO_Statistics(f, fig_path, delta=delta)
+
+  def slope_stop_condition():
+    if last_nb_samples[2] > 0: # Compute the slope of the last 3 points
+      slope = (last_nb_samples[t-1] - last_nb_samples[t-3]) / 2
+
+      return slope > max_slope
+    else:
+      return False
 
   def condition(x, values, k, points):
     """
@@ -53,6 +65,7 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
   while t < n:
     X_tp1 = Uniform(f.bounds)
     nb_samples += 1
+    last_nb_samples[t-1] = nb_samples
     if condition(X_tp1, values, f.k, points):
       points = np.concatenate((points, X_tp1.reshape(1, -1)))
 
@@ -63,6 +76,12 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
       stats.update(np.max(values), nb_samples)
 
       t += 1
+    
+    elif slope_stop_condition():
+      print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
+      stats.plot()
+      return points, values, nb_samples
+
     if nb_samples >= 500*n:
       ValueError("LIPO has likely explored every possible \
         region in which the maximum can be, but did not \

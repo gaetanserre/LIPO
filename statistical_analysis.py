@@ -78,7 +78,7 @@ class LIPO_Statistics:
         self.f.c_kappa
       ))
 
-    self.nb_samples_vs_t.append(nb_samples)    
+    self.nb_samples_vs_t.append(nb_samples)
 
     self.t += 1
 

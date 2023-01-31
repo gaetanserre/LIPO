@@ -13,3 +13,5 @@
   - [ ] Plot evaluations vs nb of iterations with big d
 - [ ] Discussion & Conclusion
   - [ ] Suggest way of using LIPO (plot evaluations vs nb of iterations for some d)
+
+- [ ] Stop condition exp slope
