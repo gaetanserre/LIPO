@@ -58,6 +58,7 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
 
       value = f(X_tp1)
       values = np.concatenate((values, np.array([value])))
+      
       # Statistical analysis
       stats.update(np.max(values), nb_samples)
 

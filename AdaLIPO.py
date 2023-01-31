@@ -89,6 +89,7 @@ def AdaLIPO(f, n: int, k: np.ndarray, p: float, fig_path: str, delta=0.05):
     k = k[indexes]
     k_hat = k[0]
     k_hats[t] = k_hat
+    
     # Statistical analysis
     stats.update(np.max(values), nb_samples, k_hat=k_hat)
 
