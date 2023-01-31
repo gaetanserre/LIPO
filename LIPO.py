@@ -35,8 +35,7 @@ def LIPO(f, X: np.ndarray, k: float, n: int, max_slope=1000.0):
   last_nb_samples = deque([1], maxlen=3)
 
   points = X_1.reshape(1, -1)
-  value = f(X_1)
-  values = np.array([value])
+  values = np.array([f(X_1)])
 
   def slope_stop_condition():
     """
@@ -71,8 +70,7 @@ def LIPO(f, X: np.ndarray, k: float, n: int, max_slope=1000.0):
     if condition(X_tp1, values, k, points):
       points = np.concatenate((points, X_tp1.reshape(1, -1)))
 
-      value = f(X_tp1)
-      values = np.concatenate((values, np.array([value])))
+      values = np.concatenate((values, np.array([f(X_tp1)])))
       
       t += 1
       last_nb_samples.append(0)
