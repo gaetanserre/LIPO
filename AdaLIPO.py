@@ -70,7 +70,11 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
     else: return 1 / np.log(t)
   
   def slope_stop_condition():
-    if len(last_nb_samples) == 3: # Compute the slope of the last 3 points
+    """
+    Check if the slope of the last 3 points of the the nb_samples vs nb_evaluations curve 
+    is greater than max_slope.
+    """
+    if len(last_nb_samples) == 3:
       slope = (last_nb_samples[2] - last_nb_samples[0]) / 2
       return slope > max_slope
     else:
@@ -95,12 +99,14 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
   while t < n:
     B_tp1 = Bernoulli(p(t))
     if B_tp1 == 1:
+      # Exploration
       X_tp1 = Uniform(f.bounds)
       nb_samples += 1
       last_nb_samples[-1] = nb_samples
       points = np.concatenate((points, X_tp1.reshape(1, -1)))
       value = f(X_tp1)
     else:
+      # Exploitation
       while True:
         X_tp1 = Uniform(f.bounds)
         nb_samples += 1
@@ -113,7 +119,8 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
           print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
           stats.plot()
           return points, values, nb_samples
-
+    
+    # Compute the estimated Lipschitz constant
     values = np.concatenate((values, np.array([value])))
     for i in range(points.shape[0]-1):
       ratios.append(np.abs(value - values[i]) / np.linalg.norm(X_tp1 - points[i], ord=2))
