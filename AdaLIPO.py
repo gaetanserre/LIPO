@@ -1,5 +1,6 @@
 import numpy as np
 from statistical_analysis import LIPO_Statistics
+from collections import deque
 
 def Uniform(X: np.array):
   """
@@ -44,8 +45,9 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
 
   X_1 = Uniform(f.bounds)
   nb_samples = 1
-  last_nb_samples = [0] * n
-  last_nb_samples[t-1] = nb_samples
+
+  # We keep track of the last 3 values of nb_samples to compute the slope
+  last_nb_samples = deque([1], maxlen=3)
 
   points = X_1.reshape(1, -1)
   value = f(X_1)
@@ -68,9 +70,8 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
     else: return 1 / np.log(t)
   
   def slope_stop_condition():
-    if last_nb_samples[2] > 0: # Compute the slope of the last 3 points
-      slope = (last_nb_samples[t-1] - last_nb_samples[t-3]) / 2
-      
+    if len(last_nb_samples) == 3: # Compute the slope of the last 3 points
+      slope = (last_nb_samples[2] - last_nb_samples[0]) / 2
       return slope > max_slope
     else:
       return False
@@ -96,14 +97,14 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
     if B_tp1 == 1:
       X_tp1 = Uniform(f.bounds)
       nb_samples += 1
-      last_nb_samples[t-1] = nb_samples
+      last_nb_samples[-1] = nb_samples
       points = np.concatenate((points, X_tp1.reshape(1, -1)))
       value = f(X_tp1)
     else:
       while True:
         X_tp1 = Uniform(f.bounds)
         nb_samples += 1
-        last_nb_samples[t-1] = nb_samples
+        last_nb_samples[-1] = nb_samples
         if condition(X_tp1, values, k_hat, points):
           points = np.concatenate((points, X_tp1.reshape(1, -1)))
           value = f(X_tp1)
@@ -124,6 +125,7 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
     stats.update(np.max(values), nb_samples, k_hat=k_hat)
 
     t += 1
+    last_nb_samples.append(0)
 
     if nb_samples >= 500*n:
       ValueError("AdaLIPO has likely explored every possible \
