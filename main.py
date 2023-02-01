@@ -7,9 +7,11 @@ sys.path.append("./functions")
 
 import numpy as np
 from fig_generator import FigGenerator
-from LIPO import LIPO
 from random_search import random_search
+from LIPO import LIPO
+from LIPOv2 import LIPOv2
 from AdaLIPO import AdaLIPO
+from AdaLIPOv2 import AdaLIPOv2
 
 def cli():
   args = argparse.ArgumentParser()
@@ -40,19 +42,21 @@ def runs(
   p: probability of success (float)
   fig_path: path to save the statistics figures (str)
   """
+  print(f"Method: {method}")
+
   vs = []
   nb_evals = []
   for i in range(n_run):
     if optimizer == random_search:
       points, values, nb_eval = optimizer(f, n=n_eval)
-    elif optimizer == AdaLIPO:
+    elif optimizer == AdaLIPO or optimizer == AdaLIPOv2:
       points, values, nb_eval = optimizer(
         f,
         n=n_eval,
         delta=delta,
         fig_path=fig_path
       )
-    elif optimizer == LIPO:   
+    elif optimizer == LIPO or optimizer == LIPOv2:   
       points, values, nb_eval = optimizer(
         f,
         n=n_eval,
@@ -62,7 +66,6 @@ def runs(
     vs.append(np.max(values))
     nb_evals.append(nb_eval)
 
-  print(f"Method: {method}")
   print(f"Number of samples: {np.mean(nb_evals):.2f} +- {np.std(nb_evals):.2f}")
   print(f"Mean value: {np.mean(vs):.4f}, std: {np.std(vs):.4f}")
   print(f"Best maximizer: {points[np.argmax(values)]}")
@@ -82,7 +85,7 @@ if __name__ == '__main__':
   f = importlib.import_module(args.function).Function()
 
   # Check that the function is 1D or 2D
-  assert f.bounds.shape[0] <= 2, "Only 1D and 2D functions are supported for this demo."
+  gen_fig = f.bounds.shape[0] <= 2
 
   # Instantiate the figure generator
   fig_gen = FigGenerator(f)
@@ -91,12 +94,17 @@ if __name__ == '__main__':
   
   if not os.path.exists(f"figures/{args.function}"):
     os.mkdir(f"figures/{args.function}")
+    os.mkdir(f"figures/{args.function}/LIPO")
+    os.mkdir(f"figures/{args.function}/LIPOv2")
+    os.mkdir(f"figures/{args.function}/AdaLIPO")
+    os.mkdir(f"figures/{args.function}/AdaLIPOv2")
 
   # Several runs of random search
   points, values = runs(args.n_run, args.n_eval, f, random_search, "random_search")
   # Generate the figure using the last run
   path = f"figures/{args.function}/random_search.pdf"
-  fig_gen.gen_figure(points, values, path=path)
+  if gen_fig:
+    fig_gen.gen_figure(points, values, path=path)
 
   # Several runs of LIPO
   fig_path = f"figures/{args.function}/LIPO"
@@ -109,8 +117,24 @@ if __name__ == '__main__':
     delta=args.delta,
     fig_path=fig_path)
   # Generate the figure using the last run
-  path = f"{fig_path}.pdf"
-  fig_gen.gen_figure(points, values, path=path)
+  path = f"{fig_path}/plot.pdf"
+  if gen_fig:
+    fig_gen.gen_figure(points, values, path=path)
+
+  # Several runs of LIPO
+  fig_path = f"figures/{args.function}/LIPOv2"
+  points, values = runs(
+    args.n_run,
+    args.n_eval,
+    f,
+    LIPOv2,
+    "LIPOv2",
+    delta=args.delta,
+    fig_path=fig_path)
+  # Generate the figure using the last run
+  path = f"{fig_path}/plot.pdf"
+  if gen_fig:
+    fig_gen.gen_figure(points, values, path=path)
   
   
   # Several runs of AdaLIPO
@@ -124,5 +148,21 @@ if __name__ == '__main__':
     delta=args.delta,
     fig_path=fig_path)
   # Generate the figure using the last run
-  path = f"{fig_path}.pdf"
-  fig_gen.gen_figure(points, values, path=path)
+  path = f"{fig_path}/plot.pdf"
+  if gen_fig:
+    fig_gen.gen_figure(points, values, path=path)
+
+  # Several runs of AdaLIPO
+  fig_path = f"figures/{args.function}/AdaLIPOv2"
+  points, values = runs(
+    args.n_run,
+    args.n_eval,
+    f,
+    AdaLIPOv2,
+    "AdaLIPOv2",
+    delta=args.delta,
+    fig_path=fig_path)
+  # Generate the figure using the last run
+  path = f"{fig_path}/plot.pdf"
+  if gen_fig:
+    fig_gen.gen_figure(points, values, path=path)

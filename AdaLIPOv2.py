@@ -28,7 +28,7 @@ def Bernoulli(p: float):
         return 0
         
 
-def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
+def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
@@ -46,8 +46,8 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
   X_1 = Uniform(f.bounds)
   nb_samples = 1
 
-  # We keep track of the last 3 values of nb_samples to compute the slope
-  last_nb_samples = deque([1], maxlen=3)
+  # We keep track of the last 5 values of nb_samples to compute the slope
+  last_nb_samples = deque([1], maxlen=5)
 
   points = X_1.reshape(1, -1)
   values = np.array([f(X_1)])
@@ -60,6 +60,24 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
     Series of potential Lipschitz constants.
     """
     return (1 + alpha)**i
+  
+  def p(t):
+    """
+    Probability of success for exploration/exploitation.
+    """
+    if t == 1 : return 1
+    else: return 1 / np.log(t)
+  
+  def slope_stop_condition():
+    """
+    Check if the slope of the last 5 points of the the nb_samples vs nb_evaluations curve 
+    is greater than max_slope.
+    """
+    if len(last_nb_samples) == 5:
+      slope = (last_nb_samples[-1] - last_nb_samples[0]) / (len(last_nb_samples) - 1)
+      return slope > max_slope
+    else:
+      return False
 
   def condition(x, values, k, points):
     """
@@ -78,7 +96,7 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
   # Main loop
   ratios = []
   while t < n:
-    B_tp1 = Bernoulli(p)
+    B_tp1 = Bernoulli(p(t))
     if B_tp1 == 1:
       # Exploration
       X_tp1 = Uniform(f.bounds)
@@ -95,7 +113,10 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
         if condition(X_tp1, values, k_hat, points):
           points = np.concatenate((points, X_tp1.reshape(1, -1)))
           break
-
+        elif slope_stop_condition():
+          print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
+          stats.plot()
+          return points, values, nb_samples
     value = f(X_tp1)
     values = np.concatenate((values, np.array([value])))
     for i in range(points.shape[0]-1):

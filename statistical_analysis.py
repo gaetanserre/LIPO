@@ -98,13 +98,13 @@ class LIPO_Statistics:
       plt.plot(self.LIPO_bounds[:, 0], label="LIPO lower bound")
       plt.plot(self.LIPO_bounds[:, 1], label="LIPO upper bound")
     plt.legend()
-    plt.savefig(f"{self.fig_path}_convergence.pdf")
+    plt.savefig(f"{self.fig_path}/convergence.pdf")
     plt.clf()
     
     plt.plot(self.nb_samples_vs_t)
     plt.xlabel("Number of evaluations")
     plt.ylabel("Number of samples")
-    plt.savefig(f"{self.fig_path}_samples_vs_evaluations.pdf")
+    plt.savefig(f"{self.fig_path}/samples_vs_evaluations.pdf")
     plt.clf()
 
     if len(self.k_hats) > 0:
@@ -112,7 +112,7 @@ class LIPO_Statistics:
       if hasattr(self.f, 'k'):
         plt.hlines(self.f.k, 0, len(self.k_hats), label="$k$", color='r', linestyles="dashed")
       plt.legend()
-      plt.savefig(f"{self.fig_path}_Lipschitz_estimation.pdf")
+      plt.savefig(f"{self.fig_path}/Lipschitz_estimation.pdf")
       plt.clf()
     plt.style.use("default")
   

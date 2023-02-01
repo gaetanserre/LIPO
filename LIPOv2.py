@@ -17,7 +17,7 @@ def Uniform(X: np.array):
   return theta
         
 
-def LIPO(f, n: int, fig_path: str, delta=0.05):
+def LIPOv2(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
@@ -39,6 +39,17 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
 
   # Statistics
   stats = LIPO_Statistics(f, fig_path, delta=delta)
+
+  def slope_stop_condition():
+    """
+    Check if the slope of the last 5 points of the the nb_samples vs nb_evaluations curve 
+    is greater than max_slope.
+    """
+    if len(last_nb_samples) == 5:
+      slope = (last_nb_samples[-1] - last_nb_samples[0]) / (len(last_nb_samples) - 1)
+      return slope > max_slope
+    else:
+      return False
 
   def condition(x, values, k, points):
     """
@@ -69,6 +80,11 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
 
       t += 1
       last_nb_samples.append(0)
+    
+    elif slope_stop_condition():
+      print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
+      stats.plot()
+      return points, values, nb_samples
 
     if nb_samples >= 500*n:
       ValueError("LIPO has likely explored every possible \
