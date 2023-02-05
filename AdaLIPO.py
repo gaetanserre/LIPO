@@ -27,11 +27,12 @@ def Bernoulli(p: float):
         return 0
         
 
-def AdaLIPO(f, X, n: int, max_slope=1000.0):
+def AdaLIPO(f, X, n: int, size_slope=5, max_slope=1000.0):
   """
   f: class of the function to maximize (class)
   X: bounds of the parameters (np.ndarray)
   n: number of function evaluations (int)
+  size_slope: size of the window to compute the slope of the nb_samples vs nb_evaluations curve (int)
   max_slope: maximum slope for the nb_samples vs nb_evaluations curve (float)
   """
   
@@ -43,8 +44,8 @@ def AdaLIPO(f, X, n: int, max_slope=1000.0):
   X_1 = Uniform(X)
   nb_samples = 1
   
-  # We keep track of the last 3 values of nb_samples to compute the slope
-  last_nb_samples = deque([1], maxlen=3)
+  # We keep track of the last `size_slope` values of nb_samples to compute the slope
+  last_nb_samples = deque([1], maxlen=size_slope)
 
   points = X_1.reshape(1, -1)
   values = np.array([f(X_1)])
@@ -64,11 +65,11 @@ def AdaLIPO(f, X, n: int, max_slope=1000.0):
 
   def slope_stop_condition():
     """
-    Check if the slope of the last 3 points of the the nb_samples vs nb_evaluations curve 
+    Check if the slope of the last `size_slope` points of the the nb_samples vs nb_evaluations curve 
     is greater than max_slope.
     """
-    if len(last_nb_samples) == 3:
-      slope = (last_nb_samples[2] - last_nb_samples[0]) / 2
+    if len(last_nb_samples) == size_slope:
+      slope = (last_nb_samples[-1] - last_nb_samples[0]) / (len(last_nb_samples) - 1)
       return slope > max_slope
     else:
       return False
@@ -113,7 +114,8 @@ def AdaLIPO(f, X, n: int, max_slope=1000.0):
           return points, values, nb_samples
 
     # Compute the estimated Lipschitz constant
-    values = np.concatenate((values, np.array([f(X_tp1)])))
+    value = f(X_tp1)
+    values = np.concatenate((values, np.array([value])))
     for i in range(points.shape[0]-1):
       ratios.append(np.abs(value - values[i])/np.linalg.norm(X_tp1 - points[i], ord=2))
     

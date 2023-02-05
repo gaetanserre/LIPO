@@ -16,12 +16,13 @@ def Uniform(X: np.ndarray):
   return theta
         
 
-def LIPO(f, X: np.ndarray, k: float, n: int, max_slope=1000.0):
+def LIPO(f, X: np.ndarray, k: float, n: int, size_slope=5, max_slope=1000.0):
   """
   f: function to maximize (lambda function)
   X: bounds of the parameters (np.ndarray)
   k: Lipschitz constant (float)
   n: number of function evaluations (int)
+  size_slope: size of the window to compute the slope of the nb_samples vs nb_evaluations curve (int)
   max_slope: maximum slope for the nb_samples vs nb_evaluations curve (float)
   """
   
@@ -31,19 +32,19 @@ def LIPO(f, X: np.ndarray, k: float, n: int, max_slope=1000.0):
   X_1 = Uniform(X)
   nb_samples = 1
   
-  # We keep track of the last 3 values of nb_samples to compute the slope
-  last_nb_samples = deque([1], maxlen=3)
+  # We keep track of the last `size_slope` values of nb_samples to compute the slope
+  last_nb_samples = deque([1], maxlen=size_slope)
 
   points = X_1.reshape(1, -1)
   values = np.array([f(X_1)])
 
   def slope_stop_condition():
     """
-    Check if the slope of the last 3 points of the the nb_samples vs nb_evaluations curve 
+    Check if the slope of the last `size_slope` points of the the nb_samples vs nb_evaluations curve 
     is greater than max_slope.
     """
-    if len(last_nb_samples) == 3: # Compute the slope of the last 3 points
-      slope = (last_nb_samples[2] - last_nb_samples[0]) / 2
+    if len(last_nb_samples) == size_slope:
+      slope = (last_nb_samples[-1] - last_nb_samples[0]) / (len(last_nb_samples) - 1)
       return slope > max_slope
     else:
       return False
