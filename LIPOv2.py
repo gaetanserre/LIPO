@@ -17,11 +17,12 @@ def Uniform(X: np.array):
   return theta
         
 
-def LIPOv2(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
+def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
   fig_path: path to save the statistics figures (str)
+  size_slope: size of the window to compute the slope of the nb_samples vs nb_evaluations curve (int)
   max_slope: maximum slope for the nb_samples vs nb_evaluations curve (float)
   """
   
@@ -31,8 +32,8 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
   X_1 = Uniform(f.bounds)
   nb_samples = 1
 
-  # We keep track of the last 5 values of nb_samples to compute the slope
-  last_nb_samples = deque([1], maxlen=5)
+  # We keep track of the last `size_slope` values of nb_samples to compute the slope
+  last_nb_samples = deque([1], maxlen=size_slope)
 
   points = X_1.reshape(1, -1)
   values = np.array([f(X_1)])
@@ -42,10 +43,10 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, max_slope=1000.0):
 
   def slope_stop_condition():
     """
-    Check if the slope of the last 5 points of the the nb_samples vs nb_evaluations curve 
+    Check if the slope of the last `size_slope` points of the the nb_samples vs nb_evaluations curve 
     is greater than max_slope.
     """
-    if len(last_nb_samples) == 5:
+    if len(last_nb_samples) == size_slope:
       slope = (last_nb_samples[-1] - last_nb_samples[0]) / (len(last_nb_samples) - 1)
       return slope > max_slope
     else:
