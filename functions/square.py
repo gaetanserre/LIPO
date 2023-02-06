@@ -10,5 +10,8 @@ class Function:
     self.radius = 10
     self.diam = 2 * 10 * np.sqrt(2)
 
+    self.max = 0
+    self.dist_max = 1e-1
+
   def __call__(self, x: np.ndarray) -> float:
     return -(x[0]**2 + x[1]**2)

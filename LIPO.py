@@ -1,6 +1,7 @@
 import numpy as np
 from statistical_analysis import LIPO_Statistics
 from collections import deque
+from utils import *
 
 def Uniform(X: np.array):
   """
@@ -55,7 +56,7 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
     return left_min >= max_val
           
   # Main loop
-  while t < n:
+  while percentage_difference(np.max(values), f.max) > f.dist_max and t < n:
     X_tp1 = Uniform(f.bounds)
     nb_samples += 1
     last_nb_samples[-1] = nb_samples
@@ -80,4 +81,4 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
   stats.plot()
           
   # Output
-  return points, values, nb_samples
+  return points, values, t

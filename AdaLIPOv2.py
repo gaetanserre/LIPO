@@ -1,6 +1,7 @@
 import numpy as np
 from statistical_analysis import LIPO_Statistics
 from collections import deque
+from utils import *
 
 def Uniform(X: np.array):
   """
@@ -68,17 +69,6 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
     """
     if t == 1 : return 1
     else: return 1 / np.log(t)
-  
-  def slope_stop_condition():
-    """
-    Check if the slope of the last `size_slope` points of the the nb_samples vs nb_evaluations curve 
-    is greater than max_slope.
-    """
-    if len(last_nb_samples) == size_slope:
-      slope = (last_nb_samples[-1] - last_nb_samples[0]) / (len(last_nb_samples) - 1)
-      return slope > max_slope
-    else:
-      return False
 
   def condition(x, values, k, points):
     """
@@ -96,7 +86,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
           
   # Main loop
   ratios = []
-  while t < n:
+  while percentage_difference(np.max(values), f.max) > f.dist_max and t < n:
     B_tp1 = Bernoulli(p(t))
     if B_tp1 == 1:
       # Exploration
@@ -114,7 +104,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
         if condition(X_tp1, values, k_hat, points):
           points = np.concatenate((points, X_tp1.reshape(1, -1)))
           break
-        elif slope_stop_condition():
+        elif slope_stop_condition(last_nb_samples, size_slope, max_slope):
           print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
           stats.plot()
           return points, values, nb_samples
@@ -144,4 +134,4 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
   stats.plot()
 
   # Output
-  return points, values, nb_samples
+  return points, values, t

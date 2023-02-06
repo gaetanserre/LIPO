@@ -115,4 +115,5 @@ class LIPO_Statistics:
       plt.savefig(f"{self.fig_path}/Lipschitz_estimation.pdf")
       plt.clf()
     plt.style.use("default")
+    plt.close()
   

@@ -1,6 +1,7 @@
 import numpy as np
 from statistical_analysis import LIPO_Statistics
 from collections import deque
+from utils import *
 
 def Uniform(X: np.array):
   """
@@ -41,17 +42,6 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0)
   # Statistics
   stats = LIPO_Statistics(f, fig_path, delta=delta)
 
-  def slope_stop_condition():
-    """
-    Check if the slope of the last `size_slope` points of the the nb_samples vs nb_evaluations curve 
-    is greater than max_slope.
-    """
-    if len(last_nb_samples) == size_slope:
-      slope = (last_nb_samples[-1] - last_nb_samples[0]) / (len(last_nb_samples) - 1)
-      return slope > max_slope
-    else:
-      return False
-
   def condition(x, values, k, points):
     """
     Subfunction to check the condition in the loop, depending on the set of values we already have.
@@ -67,7 +57,7 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0)
     return left_min >= max_val
           
   # Main loop
-  while t < n:
+  while percentage_difference(np.max(values), f.max) > f.dist_max and t < n:
     X_tp1 = Uniform(f.bounds)
     nb_samples += 1
     last_nb_samples[-1] = nb_samples
@@ -82,7 +72,7 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0)
       t += 1
       last_nb_samples.append(0)
     
-    elif slope_stop_condition():
+    elif slope_stop_condition(last_nb_samples, size_slope, max_slope):
       print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
       stats.plot()
       return points, values, nb_samples
@@ -97,4 +87,4 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0)
   stats.plot()
           
   # Output
-  return points, values, nb_samples
+  return points, values, t

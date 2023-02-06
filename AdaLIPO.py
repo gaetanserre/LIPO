@@ -1,6 +1,7 @@
 import numpy as np
 from statistical_analysis import LIPO_Statistics
 from collections import deque
+from utils import *
 
 def Uniform(X: np.array):
   """
@@ -77,7 +78,7 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
           
   # Main loop
   ratios = []
-  while t < n:
+  while percentage_difference(np.max(values), f.max) > f.dist_max and t < n:
     B_tp1 = Bernoulli(p)
     if B_tp1 == 1:
       # Exploration
@@ -122,4 +123,4 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
   stats.plot()
 
   # Output
-  return points, values, nb_samples
+  return points, values, t

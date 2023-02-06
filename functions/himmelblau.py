@@ -7,6 +7,9 @@ class Function:
 
     self.radius = 4
     self.diam = 8 * np.sqrt(2)
+
+    self.max = 0
+    self.dist_max = 1e-1
     
   def __call__(self, x: np.ndarray) -> float:
     return -((x[0]**2 + x[1] - 11)**2 + (x[0] + x[1]**2 - 7)**2)

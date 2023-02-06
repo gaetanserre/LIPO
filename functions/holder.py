@@ -8,6 +8,9 @@ class Function:
     self.radius = 10
     self.diam = 20 * np.sqrt(2)
 
+    self.max = 19.2085
+    self.dist_max = 1e-1
+
   def __call__(self, x: np.ndarray) -> float:
     return np.abs( 
       np.sin(x[0])
