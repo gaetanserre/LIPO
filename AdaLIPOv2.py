@@ -117,7 +117,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
         elif slope_stop_condition():
           print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
           stats.plot()
-          return points, values, nb_samples
+          return points, values, t
     value = f(X_tp1)
     values = np.concatenate((values, np.array([value])))
     for i in range(points.shape[0]-1):
@@ -144,4 +144,4 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
   stats.plot()
 
   # Output
-  return points, values, nb_samples
+  return points, values, t

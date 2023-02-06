@@ -80,4 +80,4 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
   stats.plot()
           
   # Output
-  return points, values, nb_samples
+  return points, values, t

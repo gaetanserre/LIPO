@@ -122,4 +122,4 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
   stats.plot()
 
   # Output
-  return points, values, nb_samples
+  return points, values, t
