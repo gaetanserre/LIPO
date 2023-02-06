@@ -43,7 +43,7 @@ def runs(n_run: int, n_eval: int, f, X, optimizer, method, k=None):
     vs.append(np.max(values))
     nb_evals.append(nb_eval)
 
-  print(f"Number of samples: {np.mean(nb_evals):.2f} +- {np.std(nb_evals):.2f}")
+  print(f"Number of evaluations: {np.mean(nb_evals):.2f} +- {np.std(nb_evals):.2f}")
   print(f"Mean value: {np.mean(vs):.4f}, std: {np.std(vs):.4f}")
   print(f"Best maximizer: {points[np.argmax(values)]}\n")
   return points, values

@@ -111,7 +111,7 @@ def AdaLIPO(f, X, n: int, size_slope=5, max_slope=1000.0):
           break
         elif slope_stop_condition():
           print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
-          return points, values, nb_samples
+          return points, values, t
 
     # Compute the estimated Lipschitz constant
     value = f(X_tp1)
@@ -127,4 +127,4 @@ def AdaLIPO(f, X, n: int, size_slope=5, max_slope=1000.0):
 
   # Output
   print(f"Estimated Lipschitz constant: {k_hat:.4f}")
-  return points, values, nb_samples
+  return points, values, t

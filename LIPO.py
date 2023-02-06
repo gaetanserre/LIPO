@@ -81,4 +81,4 @@ def LIPO(f, X: np.ndarray, k: float, n: int, size_slope=5, max_slope=1000.0):
       break
           
   # Output
-  return points, values, nb_samples
+  return points, values, t
