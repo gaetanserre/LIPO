@@ -9,7 +9,7 @@ class Function:
     self.diam = 2 * 3 * np.sqrt(2)
 
     self.max = 0
-    self.dist_max = 1e-1
+    self.mean = -1923.6211740370738
     
   def __call__(self, x: np.ndarray) -> float:
     return -(100 * (x[1] - x[0]**2)**2 + (1 - x[0])**2)

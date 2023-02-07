@@ -3,20 +3,6 @@ from statistical_analysis import LIPO_Statistics
 from collections import deque
 from utils import *
 
-def Uniform(X: np.array):
-  """
-  This function generates a random point in the feasible region X. We assume that X is a subset of R^n 
-  described by the inequalities X = {x in R^n | a_i <= x_i <= b_i, i = 0, ..., m-1} where a_i, b_i are given
-  such that X[i,j] = [a_i, b_i] for i = 0, ..., m-1 and j = 0, 1.
-  For simplicity, we assume that X C Rectangle given by an infinite norm (i.e. X = {x in R^n | -M <= x_i <= M, i = 1, ..., n}).
-  X: feasible region (numpy array)
-  """
-
-  theta = np.zeros(X.shape[0])
-  for i in range(X.shape[0]):
-    theta[i] = np.random.uniform(X[i,0], X[i,1])
-  return theta
-
 def Bernoulli(p: float):
     '''
     This function generates a random variable following a Bernoulli distribution.
@@ -86,7 +72,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
           
   # Main loop
   ratios = []
-  while percentage_difference(np.max(values), f.max) > f.dist_max and t < n:
+  while np.max(values) < target_t(f, 0.99) and t < n:
     B_tp1 = Bernoulli(p(t))
     if B_tp1 == 1:
       # Exploration
@@ -106,7 +92,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
           break
         elif slope_stop_condition(last_nb_samples, size_slope, max_slope):
           print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
-          stats.plot()
+          #stats.plot()
           return points, values, nb_samples
     value = f(X_tp1)
     values = np.concatenate((values, np.array([value])))
@@ -131,7 +117,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
       print(f"Iteration: {t} Lipschitz constant: {k_hat:.4f} Number of samples: {nb_samples}")
 
 
-  stats.plot()
+  #stats.plot()
 
   # Output
   return points, values, t
