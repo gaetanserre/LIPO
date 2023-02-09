@@ -39,7 +39,7 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0)
   values = np.array([f(X_1)])
 
   # Statistics
-  stats = LIPO_Statistics(f, fig_path, delta=delta)
+  stats = LIPO_Statistics(f, fig_path, delta=delta, optimizer="LIPO")
 
   def slope_stop_condition():
     """

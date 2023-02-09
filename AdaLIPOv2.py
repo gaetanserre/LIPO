@@ -53,14 +53,14 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
   points = X_1.reshape(1, -1)
   values = np.array([f(X_1)])
 
-  # Statistics
-  stats = LIPO_Statistics(f, fig_path, delta=delta)
-
   def k(i):
     """
     Series of potential Lipschitz constants.
     """
     return (1 + alpha)**i
+  
+  # Statistics
+  stats = LIPO_Statistics(f, fig_path, delta=delta, optimizer="AdaLIPO", k_seq=[k(i) for i in range(1000)])
   
   def p(t):
     """
@@ -127,7 +127,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
     k_hat = k(i_hat)
     
     # Statistical analysis
-    stats.update(np.max(values), nb_samples, k_hat=k_hat)
+    stats.update(np.max(values), nb_samples, k_hat=k_hat, p=p(t))
 
     t += 1
     last_nb_samples.append(0)
