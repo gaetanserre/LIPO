@@ -64,7 +64,7 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
           
   # Main loop
   ratios = []
-  while np.max(values) < target_t(f, 0.99) and t < n:
+  while np.max(values) < target_t(f, 1) and t < n:
     B_tp1 = Bernoulli(p)
     if B_tp1 == 1:
       # Exploration

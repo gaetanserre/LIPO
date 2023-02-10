@@ -42,7 +42,7 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
     return left_min >= max_val
           
   # Main loop
-  while np.max(values) < target_t(f, 0.99) and t < n:
+  while np.max(values) < target_t(f, 1) and t < n:
     X_tp1 = Uniform(f.bounds)
     nb_samples += 1
     last_nb_samples[-1] = nb_samples

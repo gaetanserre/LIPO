@@ -125,7 +125,7 @@ if __name__ == '__main__':
     fig_gen.gen_figure(points, values, path=path)
 
   # Several runs of LIPOv2
-  """ fig_path = f"figures/{args.function}/LIPOv2"
+  fig_path = f"figures/{args.function}/LIPOv2"
   points, values = runs(
     args.n_run,
     args.n_eval,
@@ -137,7 +137,7 @@ if __name__ == '__main__':
   # Generate the figure using the last run
   path = f"{fig_path}/plot.pdf"
   if gen_fig:
-    fig_gen.gen_figure(points, values, path=path) """
+    fig_gen.gen_figure(points, values, path=path)
   
   
   # Several runs of AdaLIPO
@@ -156,7 +156,7 @@ if __name__ == '__main__':
     fig_gen.gen_figure(points, values, path=path)
 
   # Several runs of AdaLIPOv2
-  """ fig_path = f"figures/{args.function}/AdaLIPOv2"
+  fig_path = f"figures/{args.function}/AdaLIPOv2"
   points, values = runs(
     args.n_run,
     args.n_eval,
@@ -168,4 +168,4 @@ if __name__ == '__main__':
   # Generate the figure using the last run
   path = f"{fig_path}/plot.pdf"
   if gen_fig:
-    fig_gen.gen_figure(points, values, path=path) """
+    fig_gen.gen_figure(points, values, path=path)

@@ -33,7 +33,7 @@ def random_search(f, n: int):
     points.append(x)
 
     t = 1
-    while np.max(values) < target_t(f, 0.99) and t < n:
+    while np.max(values) < target_t(f, 1) and t < n:
       x = Uniform(f.bounds)
       val = f(x)
       values.append(val)

@@ -1,650 +1,186 @@
 Method: random_search
-Number of evaluations: 183.19 +- 184.46
-Mean value: -0.4229, std: 0.2605
-Best maximizer: [3.09294472 2.08400596]
-Best value: -0.6130
-Mean time: 0.00 +- 0.01
+Number of evaluations: 2000.00 +- 0.00
+Mean value: -0.1060, std: 0.0876
+Best maximizer: [-2.85103706  3.07263996]
+Best value: -0.2085
+Mean time: 0.12 +- 0.00
 
 Method: LIPO
-Number of evaluations: 99.43 +- 85.27
-Mean value: -0.4485, std: 0.2563
-Best maximizer: [-3.86013783 -3.28844354]
-Best value: -0.3770
-Mean time: 0.01 +- 0.01
+Number of evaluations: 2000.00 +- 0.00
+Mean value: -0.0095, std: 0.0080
+Best maximizer: [3.0126315 1.9555043]
+Best value: -0.0277
+Mean time: 1.37 +- 0.18
+
+Method: LIPOv2
+Number of evaluations: 2000.00 +- 0.00
+Mean value: -0.0078, std: 0.0069
+Best maximizer: [ 3.58120049 -1.84102183]
+Best value: -0.0011
+Mean time: 1.46 +- 0.13
 
 Method: AdaLIPO
-Iteration: 200 Lipschitz constant: 142.0429 Number of samples: 442
-Iteration: 200 Lipschitz constant: 189.0591 Number of samples: 333
-Iteration: 200 Lipschitz constant: 156.2472 Number of samples: 462
-Iteration: 200 Lipschitz constant: 142.0429 Number of samples: 519
-Iteration: 200 Lipschitz constant: 171.8719 Number of samples: 375
-Iteration: 200 Lipschitz constant: 171.8719 Number of samples: 443
-Iteration: 200 Lipschitz constant: 171.8719 Number of samples: 364
-Iteration: 200 Lipschitz constant: 142.0429 Number of samples: 500
-Iteration: 200 Lipschitz constant: 171.8719 Number of samples: 414
-Iteration: 200 Lipschitz constant: 189.0591 Number of samples: 431
-Number of evaluations: 96.48 +- 76.90
-Mean value: -0.4425, std: 0.2506
-Best maximizer: [3.14960683 1.90563662]
-Best value: -0.7296
-Mean time: 0.05 +- 0.08
+Iteration: 200 Lipschitz constant: 142.0429 Number of samples: 447
+Iteration: 400 Lipschitz constant: 171.8719 Number of samples: 1107
+Iteration: 600 Lipschitz constant: 171.8719 Number of samples: 2065
+Iteration: 800 Lipschitz constant: 171.8719 Number of samples: 3081
+Iteration: 1000 Lipschitz constant: 207.9651 Number of samples: 4288
+Iteration: 1200 Lipschitz constant: 207.9651 Number of samples: 5183
+Iteration: 1400 Lipschitz constant: 207.9651 Number of samples: 6332
+Iteration: 1600 Lipschitz constant: 228.7616 Number of samples: 7611
+Iteration: 1800 Lipschitz constant: 228.7616 Number of samples: 8816
+Iteration: 2000 Lipschitz constant: 228.7616 Number of samples: 10196
+Iteration: 200 Lipschitz constant: 142.0429 Number of samples: 636
+Iteration: 400 Lipschitz constant: 189.0591 Number of samples: 1324
+Iteration: 600 Lipschitz constant: 189.0591 Number of samples: 2043
+Iteration: 800 Lipschitz constant: 189.0591 Number of samples: 2915
+Iteration: 1000 Lipschitz constant: 189.0591 Number of samples: 3865
+Iteration: 1200 Lipschitz constant: 189.0591 Number of samples: 5224
+Iteration: 1400 Lipschitz constant: 189.0591 Number of samples: 6773
+Iteration: 1600 Lipschitz constant: 189.0591 Number of samples: 8283
+Iteration: 1800 Lipschitz constant: 189.0591 Number of samples: 10060
+Iteration: 2000 Lipschitz constant: 189.0591 Number of samples: 11677
+Iteration: 200 Lipschitz constant: 156.2472 Number of samples: 531
+Iteration: 400 Lipschitz constant: 171.8719 Number of samples: 1117
+Iteration: 600 Lipschitz constant: 171.8719 Number of samples: 2016
+Iteration: 800 Lipschitz constant: 171.8719 Number of samples: 3103
+Iteration: 1000 Lipschitz constant: 189.0591 Number of samples: 4466
+Iteration: 1200 Lipschitz constant: 189.0591 Number of samples: 5668
+Iteration: 1400 Lipschitz constant: 189.0591 Number of samples: 7086
+Iteration: 1600 Lipschitz constant: 189.0591 Number of samples: 8839
+Iteration: 1800 Lipschitz constant: 189.0591 Number of samples: 10575
+Iteration: 2000 Lipschitz constant: 189.0591 Number of samples: 12357
+Iteration: 200 Lipschitz constant: 142.0429 Number of samples: 563
+Iteration: 400 Lipschitz constant: 189.0591 Number of samples: 1231
+Iteration: 600 Lipschitz constant: 228.7616 Number of samples: 1846
+Iteration: 800 Lipschitz constant: 228.7616 Number of samples: 2443
+Iteration: 1000 Lipschitz constant: 228.7616 Number of samples: 3163
+Iteration: 1200 Lipschitz constant: 228.7616 Number of samples: 4265
+Iteration: 1400 Lipschitz constant: 228.7616 Number of samples: 5103
+Iteration: 1600 Lipschitz constant: 228.7616 Number of samples: 6394
+Iteration: 1800 Lipschitz constant: 251.6377 Number of samples: 7457
+Iteration: 2000 Lipschitz constant: 251.6377 Number of samples: 8413
+Iteration: 200 Lipschitz constant: 156.2472 Number of samples: 404
+Iteration: 400 Lipschitz constant: 251.6377 Number of samples: 887
+Iteration: 600 Lipschitz constant: 251.6377 Number of samples: 1470
+Iteration: 800 Lipschitz constant: 251.6377 Number of samples: 2015
+Iteration: 1000 Lipschitz constant: 251.6377 Number of samples: 2668
+Iteration: 1200 Lipschitz constant: 251.6377 Number of samples: 3650
+Iteration: 1400 Lipschitz constant: 251.6377 Number of samples: 4605
+Iteration: 1600 Lipschitz constant: 251.6377 Number of samples: 5695
+Iteration: 1800 Lipschitz constant: 251.6377 Number of samples: 6869
+Iteration: 2000 Lipschitz constant: 251.6377 Number of samples: 8106
+Iteration: 200 Lipschitz constant: 156.2472 Number of samples: 416
+Iteration: 400 Lipschitz constant: 171.8719 Number of samples: 1142
+Iteration: 600 Lipschitz constant: 189.0591 Number of samples: 1998
+Iteration: 800 Lipschitz constant: 189.0591 Number of samples: 2918
+Iteration: 1000 Lipschitz constant: 189.0591 Number of samples: 4181
+Iteration: 1200 Lipschitz constant: 189.0591 Number of samples: 5555
+Iteration: 1400 Lipschitz constant: 189.0591 Number of samples: 6840
+Iteration: 1600 Lipschitz constant: 189.0591 Number of samples: 8187
+Iteration: 1800 Lipschitz constant: 189.0591 Number of samples: 10345
+Iteration: 2000 Lipschitz constant: 207.9651 Number of samples: 12462
+Iteration: 200 Lipschitz constant: 207.9651 Number of samples: 422
+Iteration: 400 Lipschitz constant: 207.9651 Number of samples: 924
+Iteration: 600 Lipschitz constant: 228.7616 Number of samples: 1600
+Iteration: 800 Lipschitz constant: 228.7616 Number of samples: 2319
+Iteration: 1000 Lipschitz constant: 276.8015 Number of samples: 3057
+Iteration: 1200 Lipschitz constant: 276.8015 Number of samples: 3771
+Iteration: 1400 Lipschitz constant: 276.8015 Number of samples: 4640
+Iteration: 1600 Lipschitz constant: 276.8015 Number of samples: 5441
+Iteration: 1800 Lipschitz constant: 276.8015 Number of samples: 6489
+Iteration: 2000 Lipschitz constant: 276.8015 Number of samples: 7558
+Iteration: 200 Lipschitz constant: 156.2472 Number of samples: 603
+Iteration: 400 Lipschitz constant: 171.8719 Number of samples: 1288
+Iteration: 600 Lipschitz constant: 171.8719 Number of samples: 2076
+Iteration: 800 Lipschitz constant: 171.8719 Number of samples: 3245
+Iteration: 1000 Lipschitz constant: 171.8719 Number of samples: 4382
+Iteration: 1200 Lipschitz constant: 171.8719 Number of samples: 5805
+Iteration: 1400 Lipschitz constant: 189.0591 Number of samples: 7075
+Iteration: 1600 Lipschitz constant: 207.9651 Number of samples: 8304
+Iteration: 1800 Lipschitz constant: 207.9651 Number of samples: 9623
+Iteration: 2000 Lipschitz constant: 207.9651 Number of samples: 10992
+Iteration: 200 Lipschitz constant: 129.1299 Number of samples: 499
+Iteration: 400 Lipschitz constant: 171.8719 Number of samples: 1315
+Iteration: 600 Lipschitz constant: 171.8719 Number of samples: 2149
+Iteration: 800 Lipschitz constant: 171.8719 Number of samples: 3221
+Iteration: 1000 Lipschitz constant: 207.9651 Number of samples: 4265
+Iteration: 1200 Lipschitz constant: 207.9651 Number of samples: 5344
+Iteration: 1400 Lipschitz constant: 207.9651 Number of samples: 6528
+Iteration: 1600 Lipschitz constant: 207.9651 Number of samples: 7512
+Iteration: 1800 Lipschitz constant: 207.9651 Number of samples: 8954
+Iteration: 2000 Lipschitz constant: 207.9651 Number of samples: 10252
+Iteration: 200 Lipschitz constant: 156.2472 Number of samples: 457
+Iteration: 400 Lipschitz constant: 207.9651 Number of samples: 921
+Iteration: 600 Lipschitz constant: 228.7616 Number of samples: 1506
+Iteration: 800 Lipschitz constant: 228.7616 Number of samples: 2079
+Iteration: 1000 Lipschitz constant: 251.6377 Number of samples: 2734
+Iteration: 1200 Lipschitz constant: 251.6377 Number of samples: 3597
+Iteration: 1400 Lipschitz constant: 251.6377 Number of samples: 4543
+Iteration: 1600 Lipschitz constant: 251.6377 Number of samples: 5616
+Iteration: 1800 Lipschitz constant: 251.6377 Number of samples: 6546
+Iteration: 2000 Lipschitz constant: 251.6377 Number of samples: 7637
+Number of evaluations: 2000.00 +- 0.00
+Mean value: -0.0124, std: 0.0132
+Best maximizer: [3.00599986 2.00919754]
+Best value: -0.0039
+Mean time: 42.78 +- 3.37
 
-Method: random_search
-Number of evaluations: 1244.07 +- 685.74
-Mean value: 19.0612, std: 0.1305
-Best maximizer: [8.17004287 9.67360044]
-Best value: 19.0750
-Mean time: 0.07 +- 0.05
-
-Method: LIPO
-Number of evaluations: 507.81 +- 216.98
-Mean value: 19.1281, std: 0.0468
-Best maximizer: [-8.17813461  9.67702971]
-Best value: 19.0548
-Mean time: 0.10 +- 0.10
-
-Method: AdaLIPO
-Iteration: 200 Lipschitz constant: 11.9182 Number of samples: 1375
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 1128
-Iteration: 200 Lipschitz constant: 23.2252 Number of samples: 235
-Iteration: 400 Lipschitz constant: 25.5477 Number of samples: 577
-Iteration: 600 Lipschitz constant: 25.5477 Number of samples: 1426
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 3125
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 518
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 1000
-Iteration: 400 Lipschitz constant: 25.5477 Number of samples: 1397
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 651
-Iteration: 200 Lipschitz constant: 17.4494 Number of samples: 435
-Iteration: 200 Lipschitz constant: 19.1943 Number of samples: 646
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 613
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 960
-Iteration: 200 Lipschitz constant: 11.9182 Number of samples: 2718
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 716
-Iteration: 200 Lipschitz constant: 11.9182 Number of samples: 1529
-Iteration: 200 Lipschitz constant: 21.1138 Number of samples: 319
-Iteration: 400 Lipschitz constant: 21.1138 Number of samples: 846
-Iteration: 200 Lipschitz constant: 21.1138 Number of samples: 424
-Iteration: 400 Lipschitz constant: 21.1138 Number of samples: 1170
-Iteration: 200 Lipschitz constant: 19.1943 Number of samples: 541
-Iteration: 400 Lipschitz constant: 21.1138 Number of samples: 1236
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 828
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 732
-Iteration: 200 Lipschitz constant: 11.9182 Number of samples: 1242
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 748
-Iteration: 200 Lipschitz constant: 25.5477 Number of samples: 273
-Iteration: 400 Lipschitz constant: 28.1024 Number of samples: 604
-Iteration: 600 Lipschitz constant: 28.1024 Number of samples: 1094
-Iteration: 800 Lipschitz constant: 28.1024 Number of samples: 2312
-Iteration: 200 Lipschitz constant: 19.1943 Number of samples: 618
-Iteration: 400 Lipschitz constant: 28.1024 Number of samples: 1549
-Iteration: 600 Lipschitz constant: 28.1024 Number of samples: 2191
-Iteration: 800 Lipschitz constant: 28.1024 Number of samples: 3780
-Iteration: 200 Lipschitz constant: 19.1943 Number of samples: 317
-Iteration: 400 Lipschitz constant: 21.1138 Number of samples: 1462
-Iteration: 600 Lipschitz constant: 21.1138 Number of samples: 5801
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 683
-Iteration: 400 Lipschitz constant: 25.5477 Number of samples: 1240
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 496
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 819
-Iteration: 200 Lipschitz constant: 30.9127 Number of samples: 1356
-Iteration: 400 Lipschitz constant: 30.9127 Number of samples: 1659
-Iteration: 200 Lipschitz constant: 17.4494 Number of samples: 451
-Iteration: 400 Lipschitz constant: 30.9127 Number of samples: 757
-Iteration: 600 Lipschitz constant: 30.9127 Number of samples: 1250
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 1943
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 648
-Iteration: 400 Lipschitz constant: 21.1138 Number of samples: 2280
-Iteration: 200 Lipschitz constant: 15.8631 Number of samples: 377
-Iteration: 400 Lipschitz constant: 19.1943 Number of samples: 4165
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 651
-Iteration: 200 Lipschitz constant: 21.1138 Number of samples: 340
-Iteration: 400 Lipschitz constant: 21.1138 Number of samples: 1056
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 859
-Iteration: 200 Lipschitz constant: 15.8631 Number of samples: 863
-Iteration: 200 Lipschitz constant: 15.8631 Number of samples: 486
-Iteration: 400 Lipschitz constant: 25.5477 Number of samples: 2744
-Iteration: 600 Lipschitz constant: 28.1024 Number of samples: 3391
-Iteration: 200 Lipschitz constant: 19.1943 Number of samples: 731
-Iteration: 400 Lipschitz constant: 19.1943 Number of samples: 1878
-Iteration: 200 Lipschitz constant: 17.4494 Number of samples: 2313
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 1142
-Iteration: 200 Lipschitz constant: 11.9182 Number of samples: 2344
-Iteration: 200 Lipschitz constant: 17.4494 Number of samples: 776
-Iteration: 400 Lipschitz constant: 19.1943 Number of samples: 2289
-Iteration: 200 Lipschitz constant: 15.8631 Number of samples: 825
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 539
-Iteration: 200 Lipschitz constant: 19.1943 Number of samples: 1380
-Iteration: 400 Lipschitz constant: 23.2252 Number of samples: 1987
-Iteration: 600 Lipschitz constant: 23.2252 Number of samples: 3871
-Iteration: 200 Lipschitz constant: 28.1024 Number of samples: 423
-Iteration: 400 Lipschitz constant: 28.1024 Number of samples: 748
-Iteration: 600 Lipschitz constant: 28.1024 Number of samples: 1325
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 798
-Iteration: 200 Lipschitz constant: 17.4494 Number of samples: 1478
-Iteration: 200 Lipschitz constant: 25.5477 Number of samples: 324
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 489
-Iteration: 400 Lipschitz constant: 25.5477 Number of samples: 1544
-Iteration: 600 Lipschitz constant: 25.5477 Number of samples: 2532
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 698
-Iteration: 200 Lipschitz constant: 19.1943 Number of samples: 328
-Iteration: 400 Lipschitz constant: 19.1943 Number of samples: 935
-Iteration: 200 Lipschitz constant: 13.1100 Number of samples: 1229
-Iteration: 400 Lipschitz constant: 19.1943 Number of samples: 2942
-Iteration: 200 Lipschitz constant: 11.9182 Number of samples: 873
-Iteration: 200 Lipschitz constant: 17.4494 Number of samples: 420
-Iteration: 200 Lipschitz constant: 25.5477 Number of samples: 1014
-Iteration: 400 Lipschitz constant: 28.1024 Number of samples: 1396
-Iteration: 600 Lipschitz constant: 28.1024 Number of samples: 2077
-Iteration: 200 Lipschitz constant: 19.1943 Number of samples: 601
-Iteration: 200 Lipschitz constant: 28.1024 Number of samples: 645
-Iteration: 400 Lipschitz constant: 28.1024 Number of samples: 999
-Iteration: 200 Lipschitz constant: 21.1138 Number of samples: 407
-Iteration: 200 Lipschitz constant: 19.1943 Number of samples: 309
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 545
-Iteration: 200 Lipschitz constant: 15.8631 Number of samples: 725
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 948
-Iteration: 400 Lipschitz constant: 28.1024 Number of samples: 2000
-Iteration: 600 Lipschitz constant: 28.1024 Number of samples: 2650
-Iteration: 800 Lipschitz constant: 28.1024 Number of samples: 4130
-Iteration: 200 Lipschitz constant: 15.8631 Number of samples: 720
-Iteration: 200 Lipschitz constant: 15.8631 Number of samples: 420
-Iteration: 400 Lipschitz constant: 19.1943 Number of samples: 1463
-Iteration: 600 Lipschitz constant: 28.1024 Number of samples: 2205
-Iteration: 200 Lipschitz constant: 14.4210 Number of samples: 692
-Number of evaluations: 318.06 +- 200.53
-Mean value: 19.1321, std: 0.0471
-Best maximizer: [-8.09058765 -9.7070209 ]
-Best value: 19.1774
-Mean time: 0.60 +- 0.81
-
-Method: random_search
-Number of evaluations: 1949.28 +- 235.51
-Mean value: -1.3729, std: 0.6684
-Best maximizer: [0.08207585 0.01552325]
-Best value: -1.3550
-Mean time: 0.11 +- 0.02
-
-Method: LIPO
-Number of evaluations: 669.06 +- 182.02
-Mean value: -0.1972, std: 0.1000
-Best maximizer: [0.02279259 0.00286593]
-Best value: -0.1045
-Mean time: 0.91 +- 0.94
-
-Method: AdaLIPO
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 334
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 904
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2874
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 10854
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 301
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1056
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3742
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 12381
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 17530
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 337
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 1320
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2882
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 6939
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 14264
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 267
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 870
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2161
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 10575
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 288
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 955
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3302
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 10632
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 301
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 977
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2884
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 332
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1250
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3767
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 330
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 862
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 258
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 829
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2483
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 299
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 895
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2491
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 7667
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 378
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1069
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 4048
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 11968
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 304
-Iteration: 200 Lipschitz constant: 97.0172 Number of samples: 333
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 829
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1601
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 3892
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 9551
-Iteration: 200 Lipschitz constant: 97.0172 Number of samples: 237
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 733
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1821
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 5618
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 11037
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 281
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 784
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1889
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 5258
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 12219
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 317
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1094
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 398
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 1245
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2567
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 6150
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 294
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1097
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 3897
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 7960
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 14198
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 27284
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 321
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1114
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3507
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 12893
-Iteration: 1000 Lipschitz constant: 88.1975 Number of samples: 31241
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 272
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 897
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2847
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 261
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 720
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1555
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 4583
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 11211
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 25552
-Iteration: 1400 Lipschitz constant: 97.0172 Number of samples: 49417
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 340
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 930
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3550
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 12041
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 19943
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 268
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 743
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2795
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 7512
-Iteration: 200 Lipschitz constant: 97.0172 Number of samples: 272
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 673
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1665
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 354
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1442
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 4631
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 326
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1185
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2998
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 8762
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 282
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 904
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2672
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 5848
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 319
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1025
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2878
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 8823
-Iteration: 1000 Lipschitz constant: 88.1975 Number of samples: 19173
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 254
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 843
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2714
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 8259
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 362
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1182
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3901
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 11401
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 19554
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 30273
-Iteration: 1400 Lipschitz constant: 97.0172 Number of samples: 53813
-Iteration: 200 Lipschitz constant: 72.8905 Number of samples: 429
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 986
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1947
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 4335
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 10867
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 339
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 905
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2622
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 9067
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 19695
-Iteration: 200 Lipschitz constant: 72.8905 Number of samples: 341
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1313
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 4499
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 11557
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 383
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 878
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2735
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 5420
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 262
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 682
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 1950
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 7494
-Iteration: 1000 Lipschitz constant: 88.1975 Number of samples: 17817
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 295
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 990
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 304
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 817
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2027
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 330
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 901
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1954
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 4807
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 11167
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 23248
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 460
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1109
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3072
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 7056
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 348
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 1698
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 3167
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 7178
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 14381
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 297
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 954
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3244
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 7561
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 13192
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 338
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1049
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2567
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 7193
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 12516
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 20854
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 307
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1234
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 4138
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 273
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 280
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1126
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 300
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 920
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3793
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 11357
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 281
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 956
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2178
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 6149
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 288
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1028
-Iteration: 600 Lipschitz constant: 106.7190 Number of samples: 2106
-Iteration: 800 Lipschitz constant: 106.7190 Number of samples: 3911
-Iteration: 1000 Lipschitz constant: 106.7190 Number of samples: 6295
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 427
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1548
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 3645
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 8128
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 338
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1055
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2898
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 5979
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 12420
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 281
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 852
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2316
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 5614
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 13241
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 288
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 915
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2370
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 4990
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 10170
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 24648
-Iteration: 1400 Lipschitz constant: 97.0172 Number of samples: 45328
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 292
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1032
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2548
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 6751
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 15950
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 33417
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 247
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 654
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 319
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 917
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2147
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 4882
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 12778
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 26115
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 276
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1005
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2770
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 10017
-Iteration: 1000 Lipschitz constant: 88.1975 Number of samples: 24899
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 49249
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 270
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 981
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 4079
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 364
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 964
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1958
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 4834
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 291
-Iteration: 400 Lipschitz constant: 80.1795 Number of samples: 1870
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 4404
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 14351
-Iteration: 200 Lipschitz constant: 66.2641 Number of samples: 400
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1361
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3616
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 12456
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 274
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 790
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3036
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 9538
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 20577
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 282
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 805
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2663
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 10421
-Iteration: 1000 Lipschitz constant: 88.1975 Number of samples: 24862
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 307
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1692
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 4640
-Iteration: 200 Lipschitz constant: 72.8905 Number of samples: 342
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 765
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1864
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 3714
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 427
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1296
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 4261
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 12778
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 281
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 1025
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2163
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 5100
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 11571
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 256
-Iteration: 400 Lipschitz constant: 80.1795 Number of samples: 1247
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3561
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 9526
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 298
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 914
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3579
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 10810
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 370
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1413
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3780
-Iteration: 200 Lipschitz constant: 97.0172 Number of samples: 270
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 717
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1755
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 3922
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 308
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1047
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3590
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 10284
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 18589
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 33661
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 347
-Iteration: 400 Lipschitz constant: 80.1795 Number of samples: 1622
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 5583
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 9998
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 22273
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 250
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 787
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2633
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 276
-Iteration: 200 Lipschitz constant: 97.0172 Number of samples: 252
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 706
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1864
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 6138
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 12369
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 29395
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 277
-Iteration: 200 Lipschitz constant: 72.8905 Number of samples: 419
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 1241
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2765
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 6741
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 14649
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 33285
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 294
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 924
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2764
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 314
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 884
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2118
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 4535
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 9591
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 19925
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 322
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 888
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2095
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 4611
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 9756
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 327
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1164
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3876
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 9217
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 280
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 919
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2648
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 7152
-Iteration: 1000 Lipschitz constant: 88.1975 Number of samples: 22768
-Iteration: 200 Lipschitz constant: 72.8905 Number of samples: 341
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1370
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 350
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 879
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2833
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 7882
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 14878
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 331
-Iteration: 200 Lipschitz constant: 72.8905 Number of samples: 354
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 941
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 323
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1059
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2711
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 8859
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 16305
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 28099
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 259
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 752
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2108
-Iteration: 200 Lipschitz constant: 72.8905 Number of samples: 327
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1115
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 3093
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 6293
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 13693
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 30788
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 308
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1238
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 2796
-Iteration: 200 Lipschitz constant: 72.8905 Number of samples: 386
-Iteration: 400 Lipschitz constant: 80.1795 Number of samples: 1235
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3413
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 338
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1062
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3535
-Iteration: 800 Lipschitz constant: 88.1975 Number of samples: 10564
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 26352
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 347
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1117
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 4032
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 320
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1113
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 3625
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 291
-Iteration: 400 Lipschitz constant: 97.0172 Number of samples: 811
-Iteration: 600 Lipschitz constant: 97.0172 Number of samples: 1833
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 4517
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 9137
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 255
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 868
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 2482
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 5278
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 13299
-Iteration: 1200 Lipschitz constant: 97.0172 Number of samples: 27349
-Iteration: 1400 Lipschitz constant: 97.0172 Number of samples: 51821
-Iteration: 200 Lipschitz constant: 72.8905 Number of samples: 359
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 1181
-Iteration: 200 Lipschitz constant: 80.1795 Number of samples: 271
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 993
-Iteration: 200 Lipschitz constant: 88.1975 Number of samples: 279
-Iteration: 400 Lipschitz constant: 88.1975 Number of samples: 863
-Iteration: 600 Lipschitz constant: 88.1975 Number of samples: 3300
-Iteration: 800 Lipschitz constant: 97.0172 Number of samples: 9715
-Iteration: 1000 Lipschitz constant: 97.0172 Number of samples: 16778
-Number of evaluations: 912.22 +- 296.13
-Mean value: -0.1756, std: 0.1057
-Best maximizer: [-0.01780929 -0.03402803]
-Best value: -0.2917
-Mean time: 6.08 +- 4.29
-
-Method: random_search
-Number of evaluations: 11.02 +- 9.07
-Mean value: -6.8416, std: 5.0535
-Best maximizer: [-1.56014132  2.18496522]
-Best value: -12.7582
-Mean time: 0.00 +- 0.00
-
-Method: LIPO
-Number of evaluations: 12.56 +- 14.01
-Mean value: -7.8350, std: 5.4058
-Best maximizer: [-1.44570287  1.80206387]
-Best value: -14.2755
-Mean time: 0.00 +- 0.00
-
-Method: AdaLIPO
-Number of evaluations: 12.06 +- 11.87
-Mean value: -7.4500, std: 5.2608
-Best maximizer: [-0.10875961 -0.00312223]
-Best value: -1.2517
-Mean time: 0.00 +- 0.00
-
-Method: random_search
-Number of evaluations: 1810.64 +- 435.93
-Mean value: -0.0105, std: 0.0058
-Best maximizer: [0.20052745 0.19798163]
-Best value: -0.0045
-Mean time: 0.10 +- 0.03
-
-Method: LIPO
-Number of evaluations: 45.74 +- 9.53
-Mean value: -0.0033, std: 0.0014
-Best maximizer: [0.19921334 0.20070914]
-Best value: -0.0052
-Mean time: 0.36 +- 0.34
-
-Method: AdaLIPO
-Number of evaluations: 27.63 +- 7.63
-Mean value: -0.0035, std: 0.0013
-Best maximizer: [0.19579619 0.2012764 ]
-Best value: -0.0050
-Mean time: 0.29 +- 0.28
-
-Method: random_search
-Number of evaluations: 187.69 +- 151.88
-Mean value: -0.3317, std: 0.1934
-Best maximizer: [-0.51803895  0.47550807]
-Best value: -0.4945
-Mean time: 0.00 +- 0.00
-
-Method: LIPO
-Number of evaluations: 42.60 +- 21.45
-Mean value: -0.3294, std: 0.2015
-Best maximizer: [ 0.15536711 -0.29137509]
-Best value: -0.1090
-Mean time: 0.01 +- 0.01
-
-Method: AdaLIPO
-Number of evaluations: 61.34 +- 46.60
-Mean value: -0.3519, std: 0.1901
-Best maximizer: [-0.49063841  0.51147983]
-Best value: -0.5023
-Mean time: 0.02 +- 0.03
-
+Method: AdaLIPOv2
+Iteration: 200 Lipschitz constant: 117.3909 Number of samples: 894
+Iteration: 400 Lipschitz constant: 117.3909 Number of samples: 2683
+Iteration: 600 Lipschitz constant: 156.2472 Number of samples: 4936
+Iteration: 800 Lipschitz constant: 156.2472 Number of samples: 7015
+Iteration: 1000 Lipschitz constant: 156.2472 Number of samples: 9752
+Iteration: 1200 Lipschitz constant: 156.2472 Number of samples: 13264
+Iteration: 1400 Lipschitz constant: 156.2472 Number of samples: 17372
+Iteration: 1600 Lipschitz constant: 156.2472 Number of samples: 22271
+Iteration: 1800 Lipschitz constant: 156.2472 Number of samples: 28075
+Iteration: 2000 Lipschitz constant: 156.2472 Number of samples: 34890
+Iteration: 200 Lipschitz constant: 117.3909 Number of samples: 1147
+Iteration: 400 Lipschitz constant: 117.3909 Number of samples: 2887
+Iteration: 600 Lipschitz constant: 142.0429 Number of samples: 4928
+Iteration: 800 Lipschitz constant: 142.0429 Number of samples: 7403
+Iteration: 1000 Lipschitz constant: 142.0429 Number of samples: 10610
+Iteration: 1200 Lipschitz constant: 189.0591 Number of samples: 13990
+Iteration: 1400 Lipschitz constant: 189.0591 Number of samples: 16147
+Iteration: 1600 Lipschitz constant: 207.9651 Number of samples: 18645
+Iteration: 1800 Lipschitz constant: 207.9651 Number of samples: 21193
+Iteration: 2000 Lipschitz constant: 207.9651 Number of samples: 24394
+Iteration: 200 Lipschitz constant: 156.2472 Number of samples: 585
+Iteration: 400 Lipschitz constant: 156.2472 Number of samples: 1746
+Iteration: 600 Lipschitz constant: 156.2472 Number of samples: 3373
+Iteration: 800 Lipschitz constant: 156.2472 Number of samples: 5930
+Iteration: 1000 Lipschitz constant: 156.2472 Number of samples: 8683
+Iteration: 1200 Lipschitz constant: 156.2472 Number of samples: 12727
+Iteration: 1400 Lipschitz constant: 171.8719 Number of samples: 16285
+Iteration: 1600 Lipschitz constant: 171.8719 Number of samples: 20348
+Iteration: 1800 Lipschitz constant: 171.8719 Number of samples: 24698
+Iteration: 2000 Lipschitz constant: 171.8719 Number of samples: 30034
+Iteration: 200 Lipschitz constant: 142.0429 Number of samples: 893
+Iteration: 400 Lipschitz constant: 171.8719 Number of samples: 2246
+Iteration: 600 Lipschitz constant: 171.8719 Number of samples: 3698
+Iteration: 800 Lipschitz constant: 189.0591 Number of samples: 5344
+Iteration: 1000 Lipschitz constant: 189.0591 Number of samples: 7394
+Iteration: 1200 Lipschitz constant: 189.0591 Number of samples: 10019
+Iteration: 1400 Lipschitz constant: 189.0591 Number of samples: 12980
+Iteration: 1600 Lipschitz constant: 189.0591 Number of samples: 16398
+Iteration: 1800 Lipschitz constant: 189.0591 Number of samples: 19890
+Iteration: 2000 Lipschitz constant: 189.0591 Number of samples: 24064
+Iteration: 200 Lipschitz constant: 156.2472 Number of samples: 567
+Iteration: 400 Lipschitz constant: 156.2472 Number of samples: 1669
+Iteration: 600 Lipschitz constant: 156.2472 Number of samples: 3469
+Iteration: 800 Lipschitz constant: 156.2472 Number of samples: 5663
+Iteration: 1000 Lipschitz constant: 156.2472 Number of samples: 8354
+Iteration: 1200 Lipschitz constant: 171.8719 Number of samples: 10787
+Iteration: 1400 Lipschitz constant: 189.0591 Number of samples: 13427
+Iteration: 1600 Lipschitz constant: 189.0591 Number of samples: 16095
+Iteration: 1800 Lipschitz constant: 189.0591 Number of samples: 19912
+Iteration: 2000 Lipschitz constant: 189.0591 Number of samples: 23466
+Iteration: 200 Lipschitz constant: 156.2472 Number of samples: 583
+Iteration: 400 Lipschitz constant: 156.2472 Number of samples: 1702
+Iteration: 600 Lipschitz constant: 189.0591 Number of samples: 3190
+Iteration: 800 Lipschitz constant: 189.0591 Number of samples: 4919
+Iteration: 1000 Lipschitz constant: 189.0591 Number of samples: 7035
+Iteration: 1200 Lipschitz constant: 189.0591 Number of samples: 9744
+Iteration: 1400 Lipschitz constant: 189.0591 Number of samples: 12688
