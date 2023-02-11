@@ -106,7 +106,7 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
       print(f"Iteration: {t} Lipschitz constant: {k_hat:.4f} Number of samples: {nb_samples}")
 
 
-  #stats.plot()
+  stats.plot()
 
   # Output
   return points, values, t

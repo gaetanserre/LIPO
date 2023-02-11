@@ -15,7 +15,7 @@ def Bernoulli(p: float):
         return 0
         
 
-def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0):
+def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.0):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
@@ -93,7 +93,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
         elif slope_stop_condition(last_nb_samples, size_slope, max_slope):
           print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
           #stats.plot()
-          return points, values, nb_samples
+          return points, values, t
     value = f(X_tp1)
     values = np.concatenate((values, np.array([value])))
     for i in range(points.shape[0]-1):
@@ -117,7 +117,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000
       print(f"Iteration: {t} Lipschitz constant: {k_hat:.4f} Number of samples: {nb_samples}")
 
 
-  #stats.plot()
+  stats.plot()
 
   # Output
   return points, values, t

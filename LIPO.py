@@ -64,7 +64,7 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
         of function evaluations.")
 
 
-  #stats.plot()
+  stats.plot()
           
   # Output
   return points, values, t

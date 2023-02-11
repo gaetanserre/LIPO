@@ -4,7 +4,7 @@ from collections import deque
 from utils import *
         
 
-def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0):
+def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.0):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
@@ -60,8 +60,8 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0)
     
     elif slope_stop_condition(last_nb_samples, size_slope, max_slope):
       print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
-      #stats.plot()
-      return points, values, nb_samples
+      stats.plot()
+      return points, values, t
 
     if nb_samples >= 500*n:
       ValueError("LIPO has likely explored every possible \
@@ -70,7 +70,7 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0)
         of function evaluations.")
 
 
-  #stats.plot()
+  stats.plot()
           
   # Output
   return points, values, t
