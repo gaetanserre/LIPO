@@ -10,6 +10,10 @@ from AdaLIPO import AdaLIPO
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
+def return_error(error):
+  print(error)
+  exit(0)
+
 def cli():
   args = argparse.ArgumentParser()
 
@@ -55,20 +59,23 @@ if __name__ == '__main__':
 
   # Parse the function expression and create a lambda function from it
   if subprocess.run([f"{current_dir}/numpy_parser.exe", args.function]).returncode != 0:
-    print("Function expression is not valid.")
-    exit(0)
+    return_error("Function expression is not valid.")
   f = lambda x: eval(args.function)
 
 
   # Parse the bounds and verify that they are in 1D or 2D
-  args.bounds = [float(b) for b in args.bounds.split(' ')]
-  if len(args.bounds) == 2:
-    X = np.array([(args.bounds[0], args.bounds[1])])
-  elif len(args.bounds) == 4:
-    X = np.array([(args.bounds[0], args.bounds[1]), (args.bounds[2], args.bounds[3])])
+  bounds = []
+  for b in args.bounds.split(' '):
+    try:
+      bounds.append(float(b))
+    except:
+      return_error("Bounds must be float.")
+  if len(bounds) == 2:
+    X = np.array([(bounds[0], bounds[1])])
+  elif len(bounds) == 4:
+    X = np.array([(bounds[0], bounds[1]), (bounds[2], bounds[3])])
   else:
-    print("Only 1D and 2D functions are supported for this demo.")
-    exit(0)
+    return_error("Only 1D and 2D functions are supported for this demo.")
 
   # Instantiate the figure generator
   fig_gen = FigGenerator(f, X)
