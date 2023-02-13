@@ -72,7 +72,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.
           
   # Main loop
   ratios = []
-  while np.max(values) < target_t(f, 1) and t < n:
+  while np.max(values) < target_t(f, 0.99) and t < n:
     B_tp1 = Bernoulli(p(t))
     if B_tp1 == 1:
       # Exploration
@@ -92,7 +92,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.
           break
         elif slope_stop_condition(last_nb_samples, size_slope, max_slope):
           print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
-          #stats.plot()
+          stats.plot()
           return points, values, t
     value = f(X_tp1)
     values = np.concatenate((values, np.array([value])))
