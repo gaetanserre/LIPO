@@ -82,8 +82,8 @@ def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
         if condition(X_tp1, values, k_hat, points):
           points = np.concatenate((points, X_tp1.reshape(1, -1)))
           break
-
-    value = f(X_tp1)
+      value = f(X_tp1)
+      
     values = np.concatenate((values, np.array([value])))
     for i in range(points.shape[0]-1):
       ratios.append(np.abs(value - values[i]) / np.linalg.norm(X_tp1 - points[i], ord=2))
