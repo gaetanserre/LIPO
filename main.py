@@ -11,7 +11,8 @@ from AdaLIPO import AdaLIPO
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
 def return_error(error):
-  print(error)
+  with open("demo_failure.txt", "w") as f:
+    f.write(error)
   exit(0)
 
 def cli():
