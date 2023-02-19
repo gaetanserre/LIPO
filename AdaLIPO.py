@@ -112,10 +112,10 @@ def AdaLIPO(f, X, n: int, size_slope=5, max_slope=1000.0):
         elif slope_stop_condition():
           print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
           return points, values, t
+      value = f(X_tp1)
 
-    # Compute the estimated Lipschitz constant
-    value = f(X_tp1)
     values = np.concatenate((values, np.array([value])))
+    # Compute the estimated Lipschitz constant
     for i in range(points.shape[0]-1):
       ratios.append(np.abs(value - values[i])/np.linalg.norm(X_tp1 - points[i], ord=2))
     
