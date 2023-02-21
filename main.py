@@ -41,7 +41,7 @@ def runs(n_run: int, n_eval: int, f, X, optimizer, method, k=None):
   vs = []
   nb_evals = []
   for i in range(n_run):
-    if optimizer == LIPO:
+    if optimizer == LIPO_E:
       points, values, nb_eval = optimizer(f, X, k, n=n_eval)
     else:
       points, values, nb_eval = optimizer(f, X, n=n_eval)
@@ -90,13 +90,13 @@ if __name__ == '__main__':
   fig_gen.gen_figure(points, values, "random_search", path=path)
 
   # Several runs of LIPO
-  points, values = runs(n_runs, args.n_eval, f, X, LIPO, "LIPO-E", k=args.k)
+  points, values = runs(n_runs, args.n_eval, f, X, LIPO_E, "LIPO-E", k=args.k)
   # Generate the figure using the last run
   path = f"figures/{args.name}_LIPO-E.png"
   fig_gen.gen_figure(points, values, "LIPO-E", path=path)
   
   # Several runs of AdaLIPO
-  points, values = runs(n_runs, args.n_eval, f, X, AdaLIPO, "AdaLIPO-E", k=args.k)
+  points, values = runs(n_runs, args.n_eval, f, X, AdaLIPO_E, "AdaLIPO-E", k=args.k)
   # Generate the figure using the last run
   path = f"figures/{args.name}_AdaLIPO-E.png"
   fig_gen.gen_figure(points, values, "AdaLIPO-E", path=path)
