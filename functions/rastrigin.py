@@ -4,8 +4,6 @@ class Function:
   def __init__(self) -> None:
     self.bounds = np.array([(-5.12, 5.12), (-5.12, 5.12)])
     self.k = 96
-    self.kappa = 2
-    self.c_kappa = 1 + 20 * np.pi **2
 
     self.radius = 5.12
     self.diam = 2 * 5.12 * np.sqrt(2)

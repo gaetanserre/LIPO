@@ -44,20 +44,6 @@ def theoricital_bounds_adalipo(f, max_val, delta, k_seq, i_star, radius, diamete
     k_i_star = k_seq[i_star]
     k_i_star_minus_1 = k_seq[i_star - 1]
     return max_val + k_i_star*diameter*(5/p + (2*np.log(delta/3))/(p*np.log(1-gamma(f, k_i_star_minus_1))))**(1/d)*(np.log(3/delta)/n)**(1/d)
-
-def fast_rates_adalipo(f, max_val, delta, k_seq, i_star, radius, diameter, n, d, p, kappa, c_kappa):
-    # Compute the results from Theorem 25
-    k_i_star = k_seq[i_star]
-    k_i_star_minus_1 = k_seq[i_star - 1]
-    C_k_i_star_kappa = (c_kappa * (diameter**(kappa - 1)) / (8*k_i_star))**d # Replacing max ||x-x*|| by diameter so we still have the upper bound
-    grosse_constante = np.exp(2*np.log(delta/4)/(p*np.log(1-gamma(f, k_i_star_minus_1)))+7*np.log(4/delta)/(p*(1-p)**2))
-    if kappa == 1:
-        ub = max_val + grosse_constante*np.exp(-C_k_i_star_kappa*n*(1-p)*np.log(2)/(2*np.log(n/delta)+4*(2*np.sqrt(d))**d))
-    elif kappa > 1:
-        ub = max_val + 2**kappa*(1+C_k_i_star_kappa*n*(1-p)*(2**(d*(kappa-1))-1)/(2*np.log(n/delta)+4*(2*np.sqrt(d))**d))**(-kappa/(d*(kappa-1)))
-    else:
-        ValueError("kappa must be greater than 1")
-    return ub
     
 
 class LIPO_Statistics:
@@ -127,7 +113,6 @@ class LIPO_Statistics:
       self.max_vals.append(max_val)
       
       self.i_star = np.argwhere(np.array(self.k_seq) >= k_hat)[0][0]
-      # print(self.i_star)
     
       self.naive_bounds.append(theoricital_bounds_adalipo(
         self.f,
@@ -141,22 +126,6 @@ class LIPO_Statistics:
         self.f.bounds.shape[0],
         p
       ))
-
-      if hasattr(self.f, "kappa"):
-        self.LIPO_bounds.append(fast_rates_adalipo(
-          self.f,
-          max_val,
-          self.delta,
-          self.k_seq,
-          self.i_star,
-          self.f.radius,
-          self.f.diam,
-          self.t,
-          self.f.bounds.shape[0],
-          p,
-          self.f.kappa,
-          self.f.c_kappa
-        ))
 
       self.nb_samples_vs_t.append(nb_samples)
 
@@ -180,15 +149,14 @@ class LIPO_Statistics:
     elif len(self.LIPO_bounds) > 0 and self.optimizer == "AdaLIPO":
       plt.plot(self.LIPO_bounds, label="AdaLIPO upper bound")
     plt.legend()
-    # plt.ylim(-100, 1000)
     plt.savefig(f"{self.fig_path}/convergence.pdf")
-    plt.clf()
+    plt.clf() """
     
     plt.plot(self.nb_samples_vs_t)
     plt.xlabel("Number of evaluations")
     plt.ylabel("Number of samples")
     plt.savefig(f"{self.fig_path}/samples_vs_evaluations.pdf")
-    plt.clf() """
+    plt.clf()
 
     if len(self.k_hats) > 0:
       plt.plot(self.k_hats, label="$\hat{k}$")
