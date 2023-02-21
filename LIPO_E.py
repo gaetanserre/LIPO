@@ -4,7 +4,7 @@ from collections import deque
 from utils import *
         
 
-def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.0):
+def LIPO_E(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.0):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
@@ -43,7 +43,7 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.0):
     return left_min >= max_val
           
   # Main loop
-  while np.max(values) < target_t(f, 0.99) and t < n:
+  while t < n:
     X_tp1 = Uniform(f.bounds)
     nb_samples += 1
     last_nb_samples[-1] = nb_samples

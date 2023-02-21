@@ -15,7 +15,7 @@ def Bernoulli(p: float):
         return 0
         
 
-def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.0):
+def AdaLIPO_E(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.0):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
@@ -72,7 +72,7 @@ def AdaLIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.
           
   # Main loop
   ratios = []
-  while np.max(values) < target_t(f, 0.99) and t < n:
+  while t < n:
     B_tp1 = Bernoulli(p(t))
     if B_tp1 == 1:
       # Exploration

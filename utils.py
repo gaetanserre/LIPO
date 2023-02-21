@@ -14,15 +14,6 @@ def Uniform(X: np.array):
     theta[i] = np.random.uniform(X[i,0], X[i,1])
   return theta
 
-def target_t(f, t):
-  """
-  Computes the percentage difference between x and y.
-  x: first value (float)
-  y: second value (float)
-  """
-  return f.max - (f.max - f.mean) * (1 - t)
-
-
 def slope_stop_condition(last_nb_samples, size_slope, max_slope):
     """
     Check if the slope of the last `size_slope` points of the the nb_samples vs nb_evaluations curve 
