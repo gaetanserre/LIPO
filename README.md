@@ -1,4 +1,13 @@
-## LIPO implementation and demo
+## LIPO, AdaLIPO, LIPO-E, and AdaLIPO-E implementation
+
+This repository contains an implementation of the following algorithms:
+- [LIPO](https://arxiv.org/abs/2006.04779)
+- [AdaLIPO](https://arxiv.org/abs/2006.04779)
+- [LIPO-E](https://arxiv.org/abs/2102.02248)
+- [AdaLIPO-E](https://arxiv.org/abs/2102.02248)
+
+LIPO-E and AdaLIPO-E are empirical enhancements introduced of LIPO and AdaLIPO, introduced in the paper [TODO]().
+A demo of these algorithms is available on the IPOL website: [TODO]().
 
 ### Usage
 You need to create a class for your function to maximize. This class must be named `Function` and follow the following interface:
