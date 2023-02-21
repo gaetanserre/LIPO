@@ -171,9 +171,10 @@ class LIPO_Statistics:
     plt.style.use("seaborn-v0_8")
     plt.grid(True)
 
-    plt.plot(self.max_vals, label="Max values")
-    plt.plot(self.naive_bounds, label="Naive upper bound")
-    if len(self.LIPO_bounds) > 0 and self.optimizer == "LIPO":
+    """ plt.plot(self.max_vals, label="Max values")
+    plt.plot(self.naive_bounds[:, 0], label="Naive lower bound")
+    plt.plot(self.naive_bounds[:, 1], label="Naive upper bound")
+    if len(self.LIPO_bounds) > 0:
       plt.plot(self.LIPO_bounds[:, 0], label="LIPO lower bound")
       plt.plot(self.LIPO_bounds[:, 1], label="LIPO upper bound")
     elif len(self.LIPO_bounds) > 0 and self.optimizer == "AdaLIPO":
@@ -187,7 +188,7 @@ class LIPO_Statistics:
     plt.xlabel("Number of evaluations")
     plt.ylabel("Number of samples")
     plt.savefig(f"{self.fig_path}/samples_vs_evaluations.pdf")
-    plt.clf()
+    plt.clf() """
 
     if len(self.k_hats) > 0:
       plt.plot(self.k_hats, label="$\hat{k}$")
@@ -197,5 +198,5 @@ class LIPO_Statistics:
       plt.savefig(f"{self.fig_path}/Lipschitz_estimation.pdf")
       plt.clf()
     plt.style.use("default")
-
+    plt.close()
   

@@ -2,16 +2,17 @@ import argparse
 import importlib
 import os
 import sys
+import numpy as np
+import time
 # Add the example functions folder to the path
 sys.path.append("./functions")
 
-import numpy as np
 from fig_generator import FigGenerator
 from random_search import random_search
 from LIPO import LIPO
-from LIPOv2 import LIPOv2
+from LIPO_E import LIPO_E
 from AdaLIPO import AdaLIPO
-from AdaLIPOv2 import AdaLIPOv2
+from AdaLIPO_E import AdaLIPO_E
 
 def cli():
   args = argparse.ArgumentParser()
@@ -20,7 +21,6 @@ def cli():
   args.add_argument("--n_run", "-r", type=int, help="Number of runs", default=100)
   args.add_argument("--delta", "-delta", type=float, help="With proba 1-delta, the bounds are made", default=0.05)
   return args.parse_args()
-
 
 def runs(
   n_run: int,
@@ -43,33 +43,36 @@ def runs(
   fig_path: path to save the statistics figures (str)
   """
   print(f"Method: {method}")
-
+  times = []
   vs = []
   nb_evals = []
-  for i in range(n_run):
+  for _ in range(n_run):
+    start_time = time.time()
     if optimizer == random_search:
       points, values, nb_eval = optimizer(f, n=n_eval)
-    elif optimizer == AdaLIPO or optimizer == AdaLIPOv2:
+    elif optimizer == AdaLIPO or optimizer == AdaLIPO_E:
       points, values, nb_eval = optimizer(
         f,
         n=n_eval,
         delta=delta,
         fig_path=fig_path
       )
-    elif optimizer == LIPO or optimizer == LIPOv2:   
+    elif optimizer == LIPO or optimizer == LIPO_E:   
       points, values, nb_eval = optimizer(
         f,
         n=n_eval,
         delta=delta,
         fig_path=fig_path
       )
+    times.append(time.time() - start_time)
     vs.append(np.max(values))
     nb_evals.append(nb_eval)
 
   print(f"Number of evaluations: {np.mean(nb_evals):.2f} +- {np.std(nb_evals):.2f}")
   print(f"Mean value: {np.mean(vs):.4f}, std: {np.std(vs):.4f}")
   print(f"Best maximizer: {points[np.argmax(values)]}")
-  print(f"Best value: {np.max(values):.4f}\n")
+  print(f"Best value: {np.max(values):.4f}")
+  print(f"Mean time: {np.mean(times):.2f} +- {np.std(times):.2f}\n")
   return points, values
 
 if __name__ == '__main__':
@@ -95,9 +98,9 @@ if __name__ == '__main__':
   if not os.path.exists(f"figures/{args.function}"):
     os.mkdir(f"figures/{args.function}")
     os.mkdir(f"figures/{args.function}/LIPO")
-    os.mkdir(f"figures/{args.function}/LIPOv2")
+    os.mkdir(f"figures/{args.function}/LIPO_E")
     os.mkdir(f"figures/{args.function}/AdaLIPO")
-    os.mkdir(f"figures/{args.function}/AdaLIPOv2")
+    os.mkdir(f"figures/{args.function}/AdaLIPO_E")
 
   # Several runs of random search
   points, values = runs(args.n_run, args.n_eval, f, random_search, "random_search")
@@ -121,14 +124,14 @@ if __name__ == '__main__':
   if gen_fig:
     fig_gen.gen_figure(points, values, path=path)
 
-  # Several runs of LIPO
-  fig_path = f"figures/{args.function}/LIPOv2"
+  # Several runs of LIPOv2
+  fig_path = f"figures/{args.function}/LIPO_E"
   points, values = runs(
     args.n_run,
     args.n_eval,
     f,
-    LIPOv2,
-    "LIPOv2",
+    LIPO_E,
+    "LIPO_E",
     delta=args.delta,
     fig_path=fig_path)
   # Generate the figure using the last run
@@ -152,14 +155,14 @@ if __name__ == '__main__':
   if gen_fig:
     fig_gen.gen_figure(points, values, path=path)
 
-  # Several runs of AdaLIPO
-  fig_path = f"figures/{args.function}/AdaLIPOv2"
+  # Several runs of AdaLIPOv2
+  fig_path = f"figures/{args.function}/AdaLIPO_E"
   points, values = runs(
     args.n_run,
     args.n_eval,
     f,
-    AdaLIPOv2,
-    "AdaLIPOv2",
+    AdaLIPO_E,
+    "AdaLIPO_E",
     delta=args.delta,
     fig_path=fig_path)
   # Generate the figure using the last run

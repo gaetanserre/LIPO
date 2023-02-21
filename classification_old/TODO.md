@@ -1,2 +1,0 @@
-- [x] Faire marcher un classifier (non constant ce serait bien)
-- [x] Trouver un autre dataset sinon 

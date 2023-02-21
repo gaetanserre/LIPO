@@ -7,6 +7,6 @@ class Function:
 
     self.radius = 3
     self.diam = 2 * 3 * np.sqrt(2)
-    
+
   def __call__(self, x: np.ndarray) -> float:
     return -(100 * (x[1] - x[0]**2)**2 + (1 - x[0])**2)
