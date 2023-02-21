@@ -27,7 +27,7 @@ def Bernoulli(p: float):
         return 0
         
 
-def AdaLIPO(f, X, n: int, size_slope=5, max_slope=1000.0):
+def AdaLIPO_E(f, X, n: int, size_slope=5, max_slope=1000.0):
   """
   f: class of the function to maximize (class)
   X: bounds of the parameters (np.ndarray)

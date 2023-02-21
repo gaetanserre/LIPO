@@ -16,7 +16,7 @@ def Uniform(X: np.ndarray):
   return theta
         
 
-def LIPO(f, X: np.ndarray, k: float, n: int, size_slope=5, max_slope=1000.0):
+def LIPO_E(f, X: np.ndarray, k: float, n: int, size_slope=5, max_slope=1000.0):
   """
   f: function to maximize (lambda function)
   X: bounds of the parameters (np.ndarray)

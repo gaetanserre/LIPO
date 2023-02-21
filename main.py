@@ -4,9 +4,9 @@ import subprocess
 
 import numpy as np
 from fig_generator import FigGenerator
-from LIPO import LIPO
+from LIPO_E import LIPO_E
 from random_search import random_search
-from AdaLIPO import AdaLIPO
+from AdaLIPO_E import AdaLIPO_E
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -90,13 +90,13 @@ if __name__ == '__main__':
   fig_gen.gen_figure(points, values, "random_search", path=path)
 
   # Several runs of LIPO
-  points, values = runs(n_runs, args.n_eval, f, X, LIPO, "LIPO", k=args.k)
+  points, values = runs(n_runs, args.n_eval, f, X, LIPO, "LIPO-E", k=args.k)
   # Generate the figure using the last run
-  path = f"figures/{args.name}_LIPO.png"
-  fig_gen.gen_figure(points, values, "LIPO", path=path)
+  path = f"figures/{args.name}_LIPO-E.png"
+  fig_gen.gen_figure(points, values, "LIPO-E", path=path)
   
   # Several runs of AdaLIPO
-  points, values = runs(n_runs, args.n_eval, f, X, AdaLIPO, "AdaLIPO", k=args.k)
+  points, values = runs(n_runs, args.n_eval, f, X, AdaLIPO, "AdaLIPO-E", k=args.k)
   # Generate the figure using the last run
-  path = f"figures/{args.name}_AdaLIPO.png"
-  fig_gen.gen_figure(points, values, "AdaLIPO", path=path)
+  path = f"figures/{args.name}_AdaLIPO-E.png"
+  fig_gen.gen_figure(points, values, "AdaLIPO-E", path=path)
