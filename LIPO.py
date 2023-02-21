@@ -25,7 +25,7 @@ def LIPO(f, n: int, fig_path: str, delta=0.05):
   values = np.array([f(X_1)])
 
   # Statistics
-  stats = LIPO_Statistics(f, fig_path, delta=delta, optimizer="LIPO")
+  stats = LIPO_Statistics(f, fig_path, delta=delta)
 
   def condition(x, values, k, points):
     """
