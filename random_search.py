@@ -1,4 +1,5 @@
 import numpy as np
+from utils import *
 
 def Uniform(X: np.array):
     '''
@@ -22,14 +23,21 @@ def random_search(f, n: int):
     n: number of function evaluations (int)
     '''
     
-    values = np.zeros(n)
-    points = np.zeros((n, f.bounds.shape[0]))
+    values = []
+    points = []
 
-    for i in range(n):
+    # Initialization
+    x = Uniform(f.bounds)
+    val = f(x)
+    values.append(val)
+    points.append(x)
+
+    t = 1
+    while np.max(values) < target_t(f, 0.99) and t < n:
       x = Uniform(f.bounds)
       val = f(x)
-      values[i] = val
-      points[i] = x
+      values.append(val)
+      points.append(x)
+      t += 1
 
-
-    return points, values, len(values)
+    return np.array(points), np.array(values), t

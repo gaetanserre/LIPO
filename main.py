@@ -2,10 +2,11 @@ import argparse
 import importlib
 import os
 import sys
+import numpy as np
+import time
 # Add the example functions folder to the path
 sys.path.append("./functions")
 
-import numpy as np
 from fig_generator import FigGenerator
 from random_search import random_search
 from LIPO import LIPO
@@ -20,7 +21,6 @@ def cli():
   args.add_argument("--n_run", "-r", type=int, help="Number of runs", default=100)
   args.add_argument("--delta", "-delta", type=float, help="With proba 1-delta, the bounds are made", default=0.05)
   return args.parse_args()
-
 
 def runs(
   n_run: int,
@@ -43,10 +43,11 @@ def runs(
   fig_path: path to save the statistics figures (str)
   """
   print(f"Method: {method}")
-
+  times = []
   vs = []
   nb_evals = []
-  for i in range(n_run):
+  for _ in range(n_run):
+    start_time = time.time()
     if optimizer == random_search:
       points, values, nb_eval = optimizer(f, n=n_eval)
     elif optimizer == AdaLIPO or optimizer == AdaLIPOv2:
@@ -63,13 +64,15 @@ def runs(
         delta=delta,
         fig_path=fig_path
       )
+    times.append(time.time() - start_time)
     vs.append(np.max(values))
     nb_evals.append(nb_eval)
 
   print(f"Number of evaluations: {np.mean(nb_evals):.2f} +- {np.std(nb_evals):.2f}")
   print(f"Mean value: {np.mean(vs):.4f}, std: {np.std(vs):.4f}")
   print(f"Best maximizer: {points[np.argmax(values)]}")
-  print(f"Best value: {np.max(values):.4f}\n")
+  print(f"Best value: {np.max(values):.4f}")
+  print(f"Mean time: {np.mean(times):.2f} +- {np.std(times):.2f}\n")
   return points, values
 
 if __name__ == '__main__':
@@ -121,7 +124,7 @@ if __name__ == '__main__':
   if gen_fig:
     fig_gen.gen_figure(points, values, path=path)
 
-  # Several runs of LIPO
+  # Several runs of LIPOv2
   fig_path = f"figures/{args.function}/LIPOv2"
   points, values = runs(
     args.n_run,
@@ -152,7 +155,7 @@ if __name__ == '__main__':
   if gen_fig:
     fig_gen.gen_figure(points, values, path=path)
 
-  # Several runs of AdaLIPO
+  # Several runs of AdaLIPOv2
   fig_path = f"figures/{args.function}/AdaLIPOv2"
   points, values = runs(
     args.n_run,

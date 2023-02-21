@@ -9,6 +9,9 @@ class Function:
 
     self.radius = 5.12
     self.diam = 2 * 5.12 * np.sqrt(2)
+
+    self.max = 0
+    self.mean = -37.057272967004195
     
   def __call__(self, x: np.ndarray) -> float:
     return -(10 * 2 + (x[0]**2 - 10 * np.cos(2*np.pi*x[0])) + (x[1]**2 - 10 * np.cos(2*np.pi*x[1])))

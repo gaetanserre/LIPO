@@ -31,6 +31,7 @@ class FigGenerator:
     else:
       plt.show()
     plt.clf()
+    plt.close()
   
   def gen_1D(self, eval_points, eval_values):
     """

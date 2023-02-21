@@ -1,23 +1,10 @@
 import numpy as np
 from statistical_analysis import LIPO_Statistics
 from collections import deque
-
-def Uniform(X: np.array):
-  """
-  This function generates a random point in the feasible region X. We assume that X is a subset of R^n 
-  described by the inequalities X = {x in R^n | a_i <= x_i <= b_i, i = 0, ..., m-1} where a_i, b_i are given
-  such that X[i,j] = [a_i, b_i] for i = 0, ..., m-1 and j = 0, 1.
-  For simplicity, we assume that X C Rectangle given by an infinite norm (i.e. X = {x in R^n | -M <= x_i <= M, i = 1, ..., n}).
-  X: feasible region (numpy array)
-  """
-
-  theta = np.zeros(X.shape[0])
-  for i in range(X.shape[0]):
-    theta[i] = np.random.uniform(X[i,0], X[i,1])
-  return theta
+from utils import *
         
 
-def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0):
+def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.0):
   """
   f: class of the function to maximize (class)
   n: number of function evaluations (int)
@@ -41,17 +28,6 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0)
   # Statistics
   stats = LIPO_Statistics(f, fig_path, delta=delta)
 
-  def slope_stop_condition():
-    """
-    Check if the slope of the last `size_slope` points of the the nb_samples vs nb_evaluations curve 
-    is greater than max_slope.
-    """
-    if len(last_nb_samples) == size_slope:
-      slope = (last_nb_samples[-1] - last_nb_samples[0]) / (len(last_nb_samples) - 1)
-      return slope > max_slope
-    else:
-      return False
-
   def condition(x, values, k, points):
     """
     Subfunction to check the condition in the loop, depending on the set of values we already have.
@@ -67,7 +43,7 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0)
     return left_min >= max_val
           
   # Main loop
-  while t < n:
+  while np.max(values) < target_t(f, 0.99) and t < n:
     X_tp1 = Uniform(f.bounds)
     nb_samples += 1
     last_nb_samples[-1] = nb_samples
@@ -82,9 +58,10 @@ def LIPOv2(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=1000.0)
       t += 1
       last_nb_samples.append(0)
     
-    elif slope_stop_condition():
+    elif slope_stop_condition(last_nb_samples, size_slope, max_slope):
       print(f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}.")
-      break
+      stats.plot()
+      return points, values, t
 
     if nb_samples >= 500*n:
       ValueError("LIPO has likely explored every possible \
