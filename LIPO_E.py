@@ -63,13 +63,6 @@ def LIPO_E(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.0):
       stats.plot()
       return points, values, t
 
-    if nb_samples >= 500*n:
-      ValueError("LIPO has likely explored every possible \
-        region in which the maximum can be, but did not \
-        finish the main loop. Please reduce the number \
-        of function evaluations.")
-
-
   stats.plot()
           
   # Output

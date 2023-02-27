@@ -108,11 +108,6 @@ def AdaLIPO_E(f, n: int, fig_path: str, delta=0.05, size_slope=5, max_slope=600.
 
     t += 1
     last_nb_samples.append(0)
-
-    if nb_samples >= 500*n:
-      ValueError("AdaLIPO has likely explored every possible \
-        region in which the maximum can be, but did not finish \
-        the main loop. Please reduce the number of function evaluations.")
   
     if t % 200 == 0:
       print(f"Iteration: {t} Lipschitz constant: {k_hat:.4f} Number of samples: {nb_samples}")
