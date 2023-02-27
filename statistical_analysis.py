@@ -92,7 +92,6 @@ class LIPO_Statistics:
     plt.grid(True)
 
     plt.plot(self.max_vals, label="Max values")
-    plt.plot(self.naive_bounds[:, 0], label="Naive lower bound")
     plt.plot(self.naive_bounds[:, 1], label="Naive upper bound")
     if len(self.LIPO_bounds) > 0:
       plt.plot(self.LIPO_bounds[:, 0], label="LIPO lower bound")
