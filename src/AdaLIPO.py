@@ -15,7 +15,7 @@ from utils import *
 
 """
 This function implements the AdaLIPO algorithm
-(in the paper, Algorithm 4 with a constant Bernoulli parameter).
+(in the paper, Algorithm 4 with a constant Bernoulli parameter and without the stopping criterion).
 """
 def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
   """
