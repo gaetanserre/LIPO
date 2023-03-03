@@ -7,7 +7,7 @@ This repository contains an implementation of the following algorithms:
 - [AdaLIPO-E](https://arxiv.org/abs/2102.02248)
 
 LIPO-E and AdaLIPO-E are empirical enhancements introduced of LIPO and AdaLIPO, introduced in the paper [TODO]().
-A demo of these algorithms is available on the IPOL website: [TODO]().
+A demo of these algorithms is available on the [IPOL website](https://ipolcore.ipol.im/demo/clientApp/demo.html?id=77777000391).
 
 ### Usage
 You need to create a class for your function to maximize. This class must be named `Function` and follow the following interface:
