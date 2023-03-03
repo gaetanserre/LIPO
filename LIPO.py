@@ -1,9 +1,22 @@
+"""
+Copyright (c) 2023 Perceval Beja-Battais, Gaëtan Serré and Sophia Chirrane
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program. If not, see <http://www.gnu.org/licenses/>. 
+"""
+
 import numpy as np
 from statistical_analysis import LIPO_Statistics
 from collections import deque
 from utils import *
         
-
+"""
+This function implements the LIPO algorithm
+(in the paper, Algorithm 3 without the stopping criterion).
+"""
 def LIPO(f, n: int, fig_path: str, delta=0.05):
   """
   f: class of the function to maximize (class)

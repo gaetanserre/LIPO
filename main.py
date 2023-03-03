@@ -1,3 +1,13 @@
+"""
+Copyright (c) 2023 Perceval Beja-Battais, Gaëtan Serré and Sophia Chirrane
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program. If not, see <http://www.gnu.org/licenses/>. 
+"""
+
 import argparse
 import importlib
 import os
@@ -8,7 +18,7 @@ import time
 sys.path.append("./functions")
 
 from fig_generator import FigGenerator
-from random_search import random_search
+from pure_random_search import pure_random_search
 from LIPO import LIPO
 from LIPO_E import LIPO_E
 from AdaLIPO import AdaLIPO
@@ -48,7 +58,7 @@ def runs(
   nb_evals = []
   for _ in range(n_run):
     start_time = time.time()
-    if optimizer == random_search:
+    if optimizer == pure_random_search:
       points, values, nb_eval = optimizer(f, n=n_eval)
     elif optimizer == AdaLIPO or optimizer == AdaLIPO_E:
       points, values, nb_eval = optimizer(
@@ -103,9 +113,9 @@ if __name__ == '__main__':
     os.mkdir(f"figures/{args.function}/AdaLIPO_E")
 
   # Several runs of random search
-  points, values = runs(args.n_run, args.n_eval, f, random_search, "random_search")
+  points, values = runs(args.n_run, args.n_eval, f, pure_random_search, "pure_random_search")
   # Generate the figure using the last run
-  path = f"figures/{args.function}/random_search.pdf"
+  path = f"figures/{args.function}/pure_random_search.pdf"
   if gen_fig:
     fig_gen.gen_figure(points, values, path=path)
 

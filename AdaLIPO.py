@@ -1,20 +1,22 @@
+"""
+Copyright (c) 2023 Perceval Beja-Battais, Gaëtan Serré and Sophia Chirrane
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program. If not, see <http://www.gnu.org/licenses/>. 
+"""
+
 import numpy as np
 from statistical_analysis import LIPO_Statistics
 from collections import deque
 from utils import *
 
-def Bernoulli(p: float):
-    '''
-    This function generates a random variable following a Bernoulli distribution.
-    p: probability of success (float)
-    '''
-    a = np.random.uniform(0, 1)
-    if a <= p:
-        return 1
-    else:
-        return 0
-        
-
+"""
+This function implements the AdaLIPO algorithm
+(in the paper, Algorithm 4 with a constant Bernoulli parameter).
+"""
 def AdaLIPO(f, n: int, fig_path: str, delta=0.05, p=0.5):
   """
   f: class of the function to maximize (class)
