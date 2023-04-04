@@ -10,17 +10,19 @@ You should have received a copy of the GNU Affero General Public License along w
 
 
 import numpy as np
-from utils import *    
+from utils import *
 
 """
 This function implements the Pure Random Search algorithm.
 """
+
+
 def pure_random_search(f, n: int):
-    '''
+    """
     f: class of the function to maximize (class)
     n: number of function evaluations (int)
-    '''
-    
+    """
+
     values = []
     points = []
 
@@ -32,10 +34,10 @@ def pure_random_search(f, n: int):
 
     t = 1
     while t < n:
-      x = Uniform(f.bounds)
-      val = f(x)
-      values.append(val)
-      points.append(x)
-      t += 1
+        x = Uniform(f.bounds)
+        val = f(x)
+        values.append(val)
+        points.append(x)
+        t += 1
 
     return np.array(points), np.array(values), t
