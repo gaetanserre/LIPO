@@ -99,7 +99,7 @@ def AdaLIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=60
                 if condition(X_tp1, values, k_hat, points):
                     points = np.concatenate((points, X_tp1.reshape(1, -1)))
                     break
-                elif slope_stop_condition(last_nb_samples, window_slope, max_slope):
+                elif slope_stop_condition(last_nb_samples, max_slope):
                     print(
                         f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}."
                     )

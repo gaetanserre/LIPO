@@ -20,12 +20,12 @@ This function implements the LIPO-E algorithm
 """
 
 
-def LIPO_E(f, n: int, fig_path: str, delta=0.05, win_slope=5, max_slope=600.0):
+def LIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=600.0):
     """
     f: class of the function to maximize (class)
     n: number of function evaluations (int)
     fig_path: path to save the statistics figures (str)
-    win_slope: size of the window to compute the slope of the nb_samples vs nb_evaluations curve (int)
+    window_slope: size of the window to compute the slope of the nb_samples vs nb_evaluations curve (int)
     max_slope: maximum slope for the nb_samples vs nb_evaluations curve (float)
     """
 
@@ -35,8 +35,8 @@ def LIPO_E(f, n: int, fig_path: str, delta=0.05, win_slope=5, max_slope=600.0):
     X_1 = Uniform(f.bounds)
     nb_samples = 1
 
-    # We keep track of the last `win_slope` values of nb_samples to compute the slope
-    last_nb_samples = deque([1], maxlen=win_slope)
+    # We keep track of the last `window_slope` values of nb_samples to compute the slope
+    last_nb_samples = deque([1], maxlen=window_slope)
 
     points = X_1.reshape(1, -1)
     values = np.array([f(X_1)])
@@ -76,7 +76,7 @@ def LIPO_E(f, n: int, fig_path: str, delta=0.05, win_slope=5, max_slope=600.0):
             t += 1
             last_nb_samples.append(0)
 
-        elif slope_stop_condition(last_nb_samples, win_slope, max_slope):
+        elif slope_stop_condition(last_nb_samples, max_slope):
             print(
                 f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}."
             )
