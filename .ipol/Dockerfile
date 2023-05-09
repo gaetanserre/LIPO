@@ -7,7 +7,7 @@ RUN pip install --no-cache-dir pip==22.0.4
 COPY .ipol/packages.txt packages.txt
 RUN apt-get update && apt-get install -y $(cat packages.txt) && rm -rf /var/lib/apt/lists/*
 
-RUN opam init --disable-sandboxing && eval $(opam env) && opam install dune menhir -y
+RUN opam init --disable-sandboxing && eval $(opam env) && opam install ocamlbuild menhir -y
 
 ENV bin /workdir/bin/
 RUN mkdir -p $bin
@@ -17,4 +17,4 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 WORKDIR $bin/numpy_parser
-RUN eval $(opam env) && make
+RUN eval $(opam env) && make && mv numpy_parser $bin

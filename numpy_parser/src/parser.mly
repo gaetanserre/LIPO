@@ -4,6 +4,8 @@
 %token NUMPY_FUNC
 %token EOF
 
+%left BINOP MINUS
+
 %start function_expr
 %type <unit> function_expr
 
@@ -11,7 +13,7 @@
 
 function_expr: expr EOF { () }
 
-binop:
+%inline binop:
   | BINOP { () }
   | MINUS { () }
 
@@ -20,10 +22,10 @@ args:
   | PARAM EQUAL expr { () }
 
 expr:
+  | MINUS expr { () }
   | VAR { () }
   | CST { () }
   | LPAR expr RPAR { () }
-  | MINUS expr { () }
   | expr binop expr { () }
   | VAR LBRACE CST RBRACE { () }
   | NUMPY_FUNC LPAR separated_list(COMMA, args) RPAR { () }

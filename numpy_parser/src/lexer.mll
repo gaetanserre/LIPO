@@ -4,31 +4,26 @@
   let check_numpy_func =
     let numpy_hash = Hashtbl.create 10 in
 
-    List.iter (fun (math_fun) -> Hashtbl.add numpy_hash math_fun true)
-    [
-      "np.sin";
-      "np.cos";
-      "np.tan";
-      "np.arcsin";
-      "np.arccos";
-      "np.arctan";
-      "np.sinh";
-      "np.cosh";
-      "np.tanh";
-      "np.arcsinh";
-      "np.arccosh";
-      "np.arctanh";
-      "np.exp";
-      "np.log";
-      "np.log2";
-      "np.log10";
-      "np.sqrt";
-      "np.power";
-      "np.abs"
-    ];
+    let in_channel = open_in Sys.argv.(1) in
+    let numpy_primitives = ref [] in
 
-    fun func_name -> Hashtbl.mem numpy_hash func_name
-
+    try
+      while true do
+        numpy_primitives := input_line in_channel :: !numpy_primitives
+      done;
+      assert false 
+    with e ->
+      match e with
+      | End_of_file -> (
+        close_in in_channel;
+        List.iter (fun (math_fun) -> Hashtbl.add numpy_hash math_fun true) !numpy_primitives;
+        fun func_name -> Hashtbl.mem numpy_hash func_name
+      )
+      | _ -> (
+        close_in_noerr in_channel;
+        raise e
+      )
+     
   let fail s =
     failwith (Printf.sprintf "Unexpected token: %s" s)
 

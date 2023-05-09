@@ -3,8 +3,9 @@ default: all
 MAIN := numpy_parser
 
 all:
-	dune build $(MAIN) \
-	&& cp -f _build/default/$(MAIN)/$(MAIN).exe ../$(MAIN).exe \
-	&& dune clean
+	cd src \
+	&& ocamlbuild $(MAIN).native \
+	&& mv _build/$(MAIN).native ../$(MAIN) \
+	&& rm -rf _build $(MAIN).native
 clean:
-	rm -rf $(MAIN) && cd ../ && dune clean
+	rm -rf $(MAIN) && cd src/ && rm -rf _build $(MAIN).native
