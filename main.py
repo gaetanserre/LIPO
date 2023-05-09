@@ -78,7 +78,7 @@ if __name__ == "__main__":
         ).returncode
         != 0
     ):
-        return_error("Function expression is not valid.")
+        return_error(f"Function expression '{args.function}' is not valid.")
     f = lambda x: eval(args.function)
 
     # Parse the bounds and verify that they are in 1D or 2D
