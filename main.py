@@ -68,7 +68,15 @@ if __name__ == "__main__":
     n_runs = 2
 
     # Parse the function expression and create a lambda function from it
-    if subprocess.run([f"{current_dir}/numpy_parser", args.function]).returncode != 0:
+    if (
+        subprocess.run(
+            [
+                f"{current_dir}/numpy_parser numpy_parser/numpy_primitives.txt",
+                args.function,
+            ]
+        ).returncode
+        != 0
+    ):
         return_error("Function expression is not valid.")
     f = lambda x: eval(args.function)
 
