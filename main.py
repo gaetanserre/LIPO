@@ -71,7 +71,7 @@ if __name__ == "__main__":
     if (
         subprocess.run(
             [
-                f"{current_dir}/numpy_parser numpy_parser/numpy_primitives.txt",
+                f"{current_dir}/numpy_parser.exe numpy_parser/numpy_primitives.txt",
                 args.function,
             ]
         ).returncode

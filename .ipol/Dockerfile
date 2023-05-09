@@ -17,4 +17,4 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 WORKDIR $bin/numpy_parser
-RUN eval $(opam env) && make && mv numpy_parser $bin
+RUN eval $(opam env) && make && mv numpy_parser $bin/numpy_parser.exe
