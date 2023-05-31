@@ -17,3 +17,4 @@ np.log10
 np.sqrt
 np.power
 np.abs
+np.sum
