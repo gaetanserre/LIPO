@@ -71,16 +71,19 @@ class FigGenerator:
         Generates a figure for 2D functions
         """
 
-        x = np.linspace(self.X[0][0], self.X[0][1], 1000)
-        y = np.linspace(self.X[1][0], self.X[1][1], 1000)
+        x = np.linspace(self.X[0][0], self.X[0][1], 100)
+        y = np.linspace(self.X[1][0], self.X[1][1], 100)
         x, y = np.meshgrid(x, y)
-        z = self.f([x, y])
+        z = np.array(
+            [self.f(np.array([xi, yi])) for xi, yi in zip(np.ravel(x), np.ravel(y))]
+        )
+        Z = z.reshape(x.shape)
 
         _ = plt.figure(figsize=(8, 8))
         ax = plt.axes(projection="3d", computed_zorder=False)
 
         ax.plot_surface(
-            x, y, z, cmap="coolwarm", linewidth=0, antialiased=True, zorder=4.4
+            x, y, Z, cmap="coolwarm", linewidth=0, antialiased=True, zorder=4.4
         )
 
         cb = ax.scatter(
