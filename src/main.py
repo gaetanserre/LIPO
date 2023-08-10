@@ -125,7 +125,7 @@ if __name__ == "__main__":
         args.n_run, args.n_eval, f, pure_random_search, "pure_random_search"
     )
     # Generate the figure using the last run
-    path = f"figures/{args.function}/pure_random_search.pdf"
+    path = f"figures/{args.function}/pure_random_search.svg"
     if gen_fig:
         fig_gen.gen_figure(points, values, path=path)
 
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         args.n_run, args.n_eval, f, LIPO, "LIPO", delta=args.delta, fig_path=fig_path
     )
     # Generate the figure using the last run
-    path = f"{fig_path}/plot.pdf"
+    path = f"{fig_path}/plot.svg"
     if gen_fig:
         fig_gen.gen_figure(points, values, path=path)
 
@@ -151,7 +151,7 @@ if __name__ == "__main__":
         fig_path=fig_path,
     )
     # Generate the figure using the last run
-    path = f"{fig_path}/plot.pdf"
+    path = f"{fig_path}/plot.svg"
     if gen_fig:
         fig_gen.gen_figure(points, values, path=path)
 
@@ -167,7 +167,7 @@ if __name__ == "__main__":
         fig_path=fig_path,
     )
     # Generate the figure using the last run
-    path = f"{fig_path}/plot.pdf"
+    path = f"{fig_path}/plot.svg"
     if gen_fig:
         fig_gen.gen_figure(points, values, path=path)
 
@@ -183,6 +183,6 @@ if __name__ == "__main__":
         fig_path=fig_path,
     )
     # Generate the figure using the last run
-    path = f"{fig_path}/plot.pdf"
+    path = f"{fig_path}/plot.svg"
     if gen_fig:
         fig_gen.gen_figure(points, values, path=path)
