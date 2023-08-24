@@ -57,7 +57,7 @@ class LIPO_Statistics:
     It can plot the results at the end of the execution.
     """
 
-    def __init__(self, f, fig_path: str, delta=0.05):
+    def __init__(self, f, fig_path: str, stats, delta=0.05, k_hat=False):
         self.f = f
         self.delta = delta
         self.fig_path = fig_path
@@ -70,8 +70,14 @@ class LIPO_Statistics:
 
         self.t = 1
 
-    def update(self, max_val, nb_samples, k_hat=None):
+        if not k_hat:
+            for max_val, nb_samples in stats:
+                self.update(max_val, nb_samples)
+        else:
+            for max_val, nb_samples, k_hat in stats:
+                self.update(max_val, nb_samples, k_hat=k_hat)
 
+    def update(self, max_val, nb_samples, k_hat=None):
         if k_hat is not None:
             self.k_hats.append(k_hat)
 
@@ -109,7 +115,6 @@ class LIPO_Statistics:
         self.t += 1
 
     def plot(self):
-
         self.naive_bounds = np.array(self.naive_bounds)
         self.LIPO_bounds = np.array(self.LIPO_bounds)
 

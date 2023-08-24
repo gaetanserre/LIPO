@@ -9,7 +9,6 @@ You should have received a copy of the GNU Affero General Public License along w
 """
 
 import numpy as np
-from statistical_analysis import LIPO_Statistics
 from collections import deque
 from utils import *
 
@@ -20,7 +19,7 @@ This function implements the AdaLIPO algorithm
 """
 
 
-def AdaLIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=600.0):
+def AdaLIPO_E(f, n: int, window_slope=5, max_slope=600.0):
     """
     f: class of the function to maximize (class)
     n: number of function evaluations (int)
@@ -52,7 +51,7 @@ def AdaLIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=60
         return (1 + alpha) ** i
 
     # Statistics
-    stats = LIPO_Statistics(f, fig_path, delta=delta)
+    stats = []
 
     def p(t):
         """
@@ -62,22 +61,6 @@ def AdaLIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=60
             return 1
         else:
             return 1 / np.log(t)
-
-    def condition(x, values, k, points):
-        """
-        Subfunction to check the condition in the loop, depending on the set of values we already have.
-        values: set of values of the function we explored (numpy array)
-        x: point to check (numpy array)
-        k: Lipschitz constant (float)
-        points: set of points we have explored (numpy array)
-        """
-        max_val = np.max(values)
-
-        left_min = np.min(
-            values.reshape(-1) + k * np.linalg.norm(x - points, ord=2, axis=1)
-        )
-
-        return left_min >= max_val
 
     # Main loop
     ratios = []
@@ -96,15 +79,16 @@ def AdaLIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=60
                 X_tp1 = Uniform(f.bounds)
                 nb_samples += 1
                 last_nb_samples[-1] = nb_samples
-                if condition(X_tp1, values, k_hat, points):
+                if LIPO_condition(X_tp1, values, k_hat, points):
                     points = np.concatenate((points, X_tp1.reshape(1, -1)))
                     break
                 elif slope_stop_condition(last_nb_samples, max_slope):
                     print(
                         f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}."
                     )
-                    stats.plot()
-                    return points, values, t
+                    stats = (points, values, t, stats)
+                    # Output
+                    return np.max(values), stats
             value = f(X_tp1)
 
         values = np.concatenate((values, np.array([value])))
@@ -117,7 +101,7 @@ def AdaLIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=60
         k_hat = k(i_hat)
 
         # Statistical analysis
-        stats.update(np.max(values), nb_samples, k_hat=k_hat)
+        stats.append((np.max(values), nb_samples, k_hat))
 
         t += 1
         last_nb_samples.append(0)
@@ -127,7 +111,6 @@ def AdaLIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=60
                 f"Iteration: {t} Lipschitz constant: {k_hat:.4f} Number of samples: {nb_samples}"
             )
 
-    stats.plot()
-
+    stats = (points, values, t, stats)
     # Output
-    return points, values, t
+    return np.max(values), stats

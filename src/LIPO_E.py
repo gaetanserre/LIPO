@@ -9,7 +9,6 @@ You should have received a copy of the GNU Affero General Public License along w
 """
 
 import numpy as np
-from statistical_analysis import LIPO_Statistics
 from collections import deque
 from utils import *
 
@@ -20,7 +19,7 @@ This function implements the LIPO-E algorithm
 """
 
 
-def LIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=600.0):
+def LIPO_E(f, n: int, window_slope=5, max_slope=600.0):
     """
     f: class of the function to maximize (class)
     n: number of function evaluations (int)
@@ -42,36 +41,20 @@ def LIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=600.0
     values = np.array([f(X_1)])
 
     # Statistics
-    stats = LIPO_Statistics(f, fig_path, delta=delta)
-
-    def condition(x, values, k, points):
-        """
-        Subfunction to check the condition in the loop, depending on the set of values we already have.
-        values: set of values of the function we explored (numpy array)
-        x: point to check (numpy array)
-        k: Lipschitz constant (float)
-        points: set of points we have explored (numpy array)
-        """
-        max_val = np.max(values)
-
-        left_min = np.min(
-            values.reshape(-1) + k * np.linalg.norm(x - points, ord=2, axis=1)
-        )
-
-        return left_min >= max_val
+    stats = []
 
     # Main loop
     while t < n:
         X_tp1 = Uniform(f.bounds)
         nb_samples += 1
         last_nb_samples[-1] = nb_samples
-        if condition(X_tp1, values, f.k, points):
+        if LIPO_condition(X_tp1, values, f.k, points):
             points = np.concatenate((points, X_tp1.reshape(1, -1)))
 
             values = np.concatenate((values, np.array([f(X_tp1)])))
 
             # Statistical analysis
-            stats.update(np.max(values), nb_samples)
+            stats.append((np.max(values), nb_samples))
 
             t += 1
             last_nb_samples.append(0)
@@ -80,10 +63,8 @@ def LIPO_E(f, n: int, fig_path: str, delta=0.05, window_slope=5, max_slope=600.0
             print(
                 f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}."
             )
-            stats.plot()
             return points, values, t
 
-    stats.plot()
-
+    stats = (points, values, t, stats)
     # Output
-    return points, values, t
+    return np.max(values), stats
