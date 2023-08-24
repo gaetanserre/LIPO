@@ -63,7 +63,9 @@ def LIPO_E(f, n: int, window_slope=5, max_slope=600.0):
             print(
                 f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}."
             )
-            return points, values, t
+            stats = (points, values, t, stats)
+            # Output
+            return np.max(values), stats
 
     stats = (points, values, t, stats)
     # Output

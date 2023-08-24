@@ -9,7 +9,6 @@ You should have received a copy of the GNU Affero General Public License along w
 """
 
 import numpy as np
-from collections import deque
 from utils import *
 
 """
@@ -36,9 +35,6 @@ def AdaLIPO(f, n: int, p=0.5):
     X_1 = Uniform(f.bounds)
     nb_samples = 1
 
-    # We keep track of the last 3 values of nb_samples to compute the slope
-    last_nb_samples = deque([1], maxlen=3)
-
     points = X_1.reshape(1, -1)
     values = np.array([f(X_1)])
 
@@ -59,7 +55,6 @@ def AdaLIPO(f, n: int, p=0.5):
             # Exploration
             X_tp1 = Uniform(f.bounds)
             nb_samples += 1
-            last_nb_samples[-1] = nb_samples
             points = np.concatenate((points, X_tp1.reshape(1, -1)))
             value = f(X_tp1)
         else:
@@ -67,7 +62,6 @@ def AdaLIPO(f, n: int, p=0.5):
             while True:
                 X_tp1 = Uniform(f.bounds)
                 nb_samples += 1
-                last_nb_samples[-1] = nb_samples
                 if LIPO_condition(X_tp1, values, k_hat, points):
                     points = np.concatenate((points, X_tp1.reshape(1, -1)))
                     break
@@ -86,7 +80,6 @@ def AdaLIPO(f, n: int, p=0.5):
         stats.append((np.max(values), nb_samples, k_hat))
 
         t += 1
-        last_nb_samples.append(0)
 
         if t % 200 == 0:
             print(

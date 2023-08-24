@@ -19,7 +19,7 @@ This function implements the AdaLIPO algorithm
 """
 
 
-def AdaLIPO_E(f, n: int, window_slope=5, max_slope=600.0):
+def AdaLIPO_E(f, n: int, window_slope=5, max_slope=800.0):
     """
     f: class of the function to maximize (class)
     n: number of function evaluations (int)
@@ -104,6 +104,8 @@ def AdaLIPO_E(f, n: int, window_slope=5, max_slope=600.0):
         stats.append((np.max(values), nb_samples, k_hat))
 
         t += 1
+
+        # As `last_nb_samples` is a deque, we insert a 0 at the end of the list and increment this value by 1 for each point sampled instead of making a case distinction for the first sample and the others.
         last_nb_samples.append(0)
 
         if t % 200 == 0:
