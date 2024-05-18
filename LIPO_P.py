@@ -17,22 +17,11 @@ def Uniform(X: np.ndarray):
     return theta
 
 
-def Bernoulli(p: float):
+def LIPO_P(f, X: np.ndarray, k: float, n: int, size_slope=5, max_slope=1000.0):
     """
-    This function generates a random variable following a Bernoulli distribution.
-    p: probability of success (float)
-    """
-    a = np.random.uniform(0, 1)
-    if a <= p:
-        return 1
-    else:
-        return 0
-
-
-def AdaLIPO_E(f, X, n: int, size_slope=5, max_slope=1000.0):
-    """
-    f: class of the function to maximize (class)
+    f: function to maximize (lambda function)
     X: bounds of the parameters (np.ndarray)
+    k: Lipschitz constant (float)
     n: number of function evaluations (int)
     size_slope: size of the window to compute the slope of the nb_samples vs nb_evaluations curve (int)
     max_slope: maximum slope for the nb_samples vs nb_evaluations curve (float)
@@ -40,8 +29,6 @@ def AdaLIPO_E(f, X, n: int, size_slope=5, max_slope=1000.0):
 
     # Initialization
     t = 1
-    alpha = 10e-2
-    k_hat = 0
 
     X_1 = Uniform(X)
     nb_samples = 1
@@ -51,21 +38,6 @@ def AdaLIPO_E(f, X, n: int, size_slope=5, max_slope=1000.0):
 
     points = X_1.reshape(1, -1)
     values = np.array([f(X_1)])
-
-    def k(i):
-        """
-        Series of potential Lipschitz constants.
-        """
-        return (1 + alpha) ** i
-
-    def p(t):
-        """
-        Probability of success for exploration/exploitation.
-        """
-        if t == 1:
-            return 1
-        else:
-            return 1 / np.log(t)
 
     def slope_stop_condition():
         """
@@ -97,46 +69,23 @@ def AdaLIPO_E(f, X, n: int, size_slope=5, max_slope=1000.0):
         return left_min >= max_val
 
     # Main loop
-    ratios = []
     while t < n:
-        B_tp1 = Bernoulli(p(t))
-        if B_tp1 == 1:
-            # Exploration
-            X_tp1 = Uniform(X)
-            nb_samples += 1
-            last_nb_samples[-1] = nb_samples
+        X_tp1 = Uniform(X)
+        nb_samples += 1
+        last_nb_samples[-1] = nb_samples
+        if condition(X_tp1, values, k, points):
             points = np.concatenate((points, X_tp1.reshape(1, -1)))
-            value = f(X_tp1)
-        else:
-            # Exploitation
-            while True:
-                X_tp1 = Uniform(X)
-                nb_samples += 1
-                last_nb_samples[-1] = nb_samples
-                if condition(X_tp1, values, k_hat, points):
-                    points = np.concatenate((points, X_tp1.reshape(1, -1)))
 
-                    break
-                elif slope_stop_condition():
-                    print(
-                        f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}."
-                    )
-                    return points, values, t
-            value = f(X_tp1)
+            values = np.concatenate((values, np.array([f(X_tp1)])))
 
-        values = np.concatenate((values, np.array([value])))
-        # Compute the estimated Lipschitz constant
-        for i in range(points.shape[0] - 1):
-            ratios.append(
-                np.abs(value - values[i]) / np.linalg.norm(X_tp1 - points[i], ord=2)
+            t += 1
+            last_nb_samples.append(0)
+
+        elif slope_stop_condition():
+            print(
+                f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}."
             )
-
-        i_hat = int(np.ceil(np.log(max(ratios)) / np.log(1 + alpha)))
-        k_hat = k(i_hat)
-
-        t += 1
-        last_nb_samples.append(0)
+            break
 
     # Output
-    print(f"Estimated Lipschitz constant: {k_hat:.4f}")
     return points, values, t
