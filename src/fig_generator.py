@@ -94,7 +94,6 @@ class FigGenerator:
             eval_points[:, 1],
             eval_values,
             c=eval_values,
-            label="evaluations",
             cmap="viridis",
             zorder=4.5,
         )
@@ -103,4 +102,3 @@ class FigGenerator:
 
         ax.set_xlabel("$X$", fontsize=22)
         ax.set_ylabel("$Y$", fontsize=22)
-        ax.legend(fontsize=22)
