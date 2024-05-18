@@ -10,6 +10,7 @@ You should have received a copy of the GNU Affero General Public License along w
 
 import numpy as np
 import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size': 18})
 
 # Those convergence rates are supposed to be for LIPO. We can try to adapt them for AdaLIPO, but they won't make sense before
 # the Lipscitz constant is properly approximated.
@@ -119,8 +120,7 @@ class LIPO_Statistics:
         self.LIPO_bounds = np.array(self.LIPO_bounds)
 
         plt.figure(figsize=(10, 8))
-        plt.style.use("seaborn-v0_8")
-        plt.grid(True)
+        plt.grid(True, linestyle="--")
 
         plt.plot(self.max_vals, label="Max values")
         plt.plot(self.naive_bounds[:, 1], label="Naive upper bound")
@@ -128,13 +128,14 @@ class LIPO_Statistics:
             plt.plot(self.LIPO_bounds[:, 0], label="LIPO lower bound")
             plt.plot(self.LIPO_bounds[:, 1], label="LIPO upper bound")
         plt.legend()
-        plt.savefig(f"{self.fig_path}/convergence.svg")
+        plt.savefig(f"{self.fig_path}/convergence.pdf", bbox_inches="tight")
         plt.clf()
 
+        plt.grid(True, linestyle="--")
         plt.plot(self.nb_samples_vs_t)
-        plt.xlabel("Number of evaluations")
-        plt.ylabel("Number of draws")
-        plt.savefig(f"{self.fig_path}/draws_vs_evaluations.svg", bbox_inches="tight")
+        plt.xlabel("Number of function evaluations")
+        plt.ylabel("Number of sampled candidates")
+        plt.savefig(f"{self.fig_path}/draws_vs_evaluations.pdf", bbox_inches="tight")
         plt.clf()
 
         if len(self.k_hats) > 0:
@@ -149,7 +150,7 @@ class LIPO_Statistics:
                     linestyles="dashed",
                 )
             plt.legend()
-            plt.savefig(f"{self.fig_path}/Lipschitz_estimation.svg")
+            plt.savefig(f"{self.fig_path}/Lipschitz_estimation.pdf", bbox_inches="tight")
             plt.clf()
         plt.style.use("default")
         plt.close()

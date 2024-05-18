@@ -19,7 +19,7 @@ This function implements the LIPO-E algorithm
 """
 
 
-def LIPO_E(f, n: int, window_slope=5, max_slope=600.0):
+def LIPO_P(f, n: int, window_slope=5, max_slope=600.0):
     """
     f: class of the function to maximize (class)
     n: number of function evaluations (int)

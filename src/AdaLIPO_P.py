@@ -19,7 +19,7 @@ This function implements the AdaLIPO algorithm
 """
 
 
-def AdaLIPO_E(f, n: int, window_slope=5, max_slope=800.0):
+def AdaLIPO_P(f, n: int, window_slope=5, max_slope=800.0):
     """
     f: class of the function to maximize (class)
     n: number of function evaluations (int)

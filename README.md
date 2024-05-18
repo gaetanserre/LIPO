@@ -29,6 +29,6 @@ Several examples are available in the `functions` folder.
 
 Then, you can run the algorithm with the following command:
 ```bash
-python main.py --function <path_to_your_function_class> -n <number_of_function_eval>
+python src/main.py --function <path_to_your_function_class> -n <number_of_function_eval>
 ```
 Some optional arguments are available, you can see them with the `--help` flag.

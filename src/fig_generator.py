@@ -9,6 +9,7 @@ You should have received a copy of the GNU Affero General Public License along w
 """
 
 import matplotlib.pyplot as plt
+
 import numpy as np
 
 
@@ -42,7 +43,7 @@ class FigGenerator:
             )
 
         if path is not None:
-            plt.savefig(path)
+            plt.savefig(path, bbox_inches="tight")
         else:
             plt.show()
         plt.clf()
@@ -98,8 +99,8 @@ class FigGenerator:
             zorder=4.5,
         )
 
-        plt.colorbar(cb, fraction=0.046, pad=0.04)
+        # plt.colorbar(cb, fraction=0.046, pad=0.04)
 
-        ax.set_xlabel("$X$", fontsize=15)
-        ax.set_ylabel("$Y$", fontsize=15)
-        ax.legend(fontsize=15)
+        ax.set_xlabel("$X$", fontsize=22)
+        ax.set_ylabel("$Y$", fontsize=22)
+        ax.legend(fontsize=22)

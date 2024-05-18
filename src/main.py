@@ -21,9 +21,9 @@ sys.path.append("./functions")
 from fig_generator import FigGenerator
 from pure_random_search import pure_random_search
 from LIPO import LIPO
-from LIPO_E import LIPO_E
+from LIPO_P import LIPO_P
 from AdaLIPO import AdaLIPO
-from AdaLIPO_E import AdaLIPO_E
+from AdaLIPO_P import AdaLIPO_P
 from statistical_analysis import LIPO_Statistics
 
 
@@ -74,13 +74,13 @@ def runs(
         start_time = time.time()
         if optimizer == pure_random_search:
             points, values, nb_eval = optimizer(f, n=n_eval)
-        elif optimizer == AdaLIPO or optimizer == AdaLIPO_E:
+        elif optimizer == AdaLIPO or optimizer == AdaLIPO_P:
             _, stats = optimizer(f, n=n_eval)
             points, values, nb_eval, stats = stats
             LIPO_stats = LIPO_Statistics(f, fig_path, stats, delta=delta, k_hat=True)
             LIPO_stats.plot()
 
-        elif optimizer == LIPO or optimizer == LIPO_E:
+        elif optimizer == LIPO or optimizer == LIPO_P:
             _, stats = optimizer(f, n=n_eval)
             points, values, nb_eval, stats = stats
             LIPO_stats = LIPO_Statistics(f, fig_path, stats, delta=delta)
@@ -121,44 +121,44 @@ if __name__ == "__main__":
     if not os.path.exists(f"figures/{args.function}"):
         os.mkdir(f"figures/{args.function}")
         os.mkdir(f"figures/{args.function}/LIPO")
-        os.mkdir(f"figures/{args.function}/LIPO_E")
+        os.mkdir(f"figures/{args.function}/LIPO_P")
         os.mkdir(f"figures/{args.function}/AdaLIPO")
-        os.mkdir(f"figures/{args.function}/AdaLIPO_E")
+        os.mkdir(f"figures/{args.function}/AdaLIPO_P")
 
     # Several runs of random search
     points, values = runs(
         args.n_run, args.n_eval, f, pure_random_search, "pure_random_search"
     )
     # Generate the figure using the last run
-    path = f"figures/{args.function}/pure_random_search.svg"
+    path = f"figures/{args.function}/pure_random_search.pdf"
     if gen_fig:
         fig_gen.gen_figure(points, values, path=path)
 
-    # Several runs of LIPO
+    """ # Several runs of LIPO
     fig_path = f"figures/{args.function}/LIPO"
     points, values = runs(
         args.n_run, args.n_eval, f, LIPO, "LIPO", delta=args.delta, fig_path=fig_path
     )
     # Generate the figure using the last run
-    path = f"{fig_path}/plot.svg"
+    path = f"{fig_path}/plot.pdf"
     if gen_fig:
         fig_gen.gen_figure(points, values, path=path)
 
-    # Several runs of LIPO-E
-    fig_path = f"figures/{args.function}/LIPO_E"
+    # Several runs of LIPO+
+    fig_path = f"figures/{args.function}/LIPO_P"
     points, values = runs(
         args.n_run,
         args.n_eval,
         f,
-        LIPO_E,
-        "LIPO_E",
+        LIPO_P,
+        "LIPO_P",
         delta=args.delta,
         fig_path=fig_path,
     )
     # Generate the figure using the last run
-    path = f"{fig_path}/plot.svg"
+    path = f"{fig_path}/plot.pdf"
     if gen_fig:
-        fig_gen.gen_figure(points, values, path=path)
+        fig_gen.gen_figure(points, values, path=path) """
 
     # Several runs of AdaLIPO
     fig_path = f"figures/{args.function}/AdaLIPO"
@@ -172,22 +172,22 @@ if __name__ == "__main__":
         fig_path=fig_path,
     )
     # Generate the figure using the last run
-    path = f"{fig_path}/plot.svg"
+    path = f"{fig_path}/plot.pdf"
     if gen_fig:
         fig_gen.gen_figure(points, values, path=path)
 
-    # Several runs of AdaLIPO-E
-    fig_path = f"figures/{args.function}/AdaLIPO_E"
+    # Several runs of AdaLIPO+
+    fig_path = f"figures/{args.function}/AdaLIPO_P"
     points, values = runs(
         args.n_run,
         args.n_eval,
         f,
-        AdaLIPO_E,
-        "AdaLIPO_E",
+        AdaLIPO_P,
+        "AdaLIPO_P",
         delta=args.delta,
         fig_path=fig_path,
     )
     # Generate the figure using the last run
-    path = f"{fig_path}/plot.svg"
+    path = f"{fig_path}/plot.pdf"
     if gen_fig:
         fig_gen.gen_figure(points, values, path=path)
