@@ -1,12 +1,12 @@
-## LIPO, AdaLIPO, LIPO-E, and AdaLIPO-E implementation
+## LIPO, AdaLIPO, LIPO+, and AdaLIPO+ implementation
 
 This repository contains an implementation of the following algorithms:
 - [LIPO](https://arxiv.org/abs/2006.04779)
 - [AdaLIPO](https://arxiv.org/abs/2006.04779)
-- [LIPO-E](https://www.ipol.im/pub/pre/469/)
-- [AdaLIPO-E](https://www.ipol.im/pub/pre/469/)
+- [LIPO+](https://www.ipol.im/pub/pre/469/)
+- [AdaLIPO+](https://www.ipol.im/pub/pre/469/)
 
-LIPO-E and AdaLIPO-E are empirical enhancements introduced of LIPO and AdaLIPO, introduced in the paper [Experimental Improvements of Global Optimization Algorithms for Lipschitz Functions](https://www.ipol.im/pub/pre/469/).
+LIPO+ and AdaLIPO+ are empirical enhancements introduced of LIPO and AdaLIPO, introduced in the paper [Experimental Improvements of Global Optimization Algorithms for Lipschitz Functions](https://www.ipol.im/pub/pre/469/).
 A demo of these algorithms is available on the [IPOL website](https://ipolcore.ipol.im/demo/clientApp/demo.html?id=469).
 
 ### Usage
