@@ -24,6 +24,7 @@ class Function:
     # Closed form of the function to maximize
     pass
 ```
+The file containing the class must be in the `functions` folder.
 
 Several examples are available in the `functions` folder.
 

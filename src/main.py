@@ -73,22 +73,22 @@ def runs(
     for _ in range(n_run):
         start_time = time.time()
         if optimizer == pure_random_search:
-            points, values, nb_eval = optimizer(f, n=n_eval)
+            points, values = optimizer(f, n=n_eval)
         elif optimizer == AdaLIPO or optimizer == AdaLIPO_P:
             _, stats = optimizer(f, n=n_eval)
-            points, values, nb_eval, stats = stats
+            points, values, stats = stats
             LIPO_stats = LIPO_Statistics(f, fig_path, stats, delta=delta, k_hat=True)
             LIPO_stats.plot()
 
         elif optimizer == LIPO or optimizer == LIPO_P:
             _, stats = optimizer(f, n=n_eval)
-            points, values, nb_eval, stats = stats
+            points, values, stats = stats
             LIPO_stats = LIPO_Statistics(f, fig_path, stats, delta=delta)
             LIPO_stats.plot()
 
         times.append(time.time() - start_time)
         vs.append(np.max(values))
-        nb_evals.append(nb_eval)
+        nb_evals.append(len(values))
 
     print(f"Number of evaluations: {np.mean(nb_evals):.2f} +- {np.std(nb_evals):.2f}")
     print(f"Mean value: {np.mean(vs):.4f}, std: {np.std(vs):.4f}")
@@ -134,7 +134,7 @@ if __name__ == "__main__":
     if gen_fig:
         fig_gen.gen_figure(points, values, path=path)
 
-    """ # Several runs of LIPO
+    # Several runs of LIPO
     fig_path = f"figures/{args.function}/LIPO"
     points, values = runs(
         args.n_run, args.n_eval, f, LIPO, "LIPO", delta=args.delta, fig_path=fig_path
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     # Generate the figure using the last run
     path = f"{fig_path}/plot.pdf"
     if gen_fig:
-        fig_gen.gen_figure(points, values, path=path) """
+        fig_gen.gen_figure(points, values, path=path)
 
     # Several runs of AdaLIPO
     fig_path = f"figures/{args.function}/AdaLIPO"

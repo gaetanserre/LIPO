@@ -113,6 +113,6 @@ def AdaLIPO_P(f, n: int, window_slope=5, max_slope=800.0):
                 f"Iteration: {t} Lipschitz constant: {k_hat:.4f} Number of samples: {nb_samples}"
             )
 
-    stats = (points, values, t, stats)
+    stats = (points, values, stats)
     # Output
     return np.max(values), stats

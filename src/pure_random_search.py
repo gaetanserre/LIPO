@@ -8,7 +8,6 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program. If not, see <http://www.gnu.org/licenses/>. 
 """
 
-
 import numpy as np
 from utils import *
 
@@ -40,4 +39,4 @@ def pure_random_search(f, n: int):
         points.append(x)
         t += 1
 
-    return np.array(points), np.array(values), t
+    return np.array(points), np.array(values)
