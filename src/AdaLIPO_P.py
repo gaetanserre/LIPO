@@ -86,9 +86,8 @@ def AdaLIPO_P(f, n: int, window_slope=5, max_slope=800.0):
                     print(
                         f"Exponential growth of the number of samples. Stopping the algorithm at iteration {t}."
                     )
-                    stats = (points, values, t, stats)
                     # Output
-                    return np.max(values), stats
+                    return (points, values)
             value = f(X_tp1)
 
         values = np.concatenate((values, np.array([value])))
@@ -113,6 +112,4 @@ def AdaLIPO_P(f, n: int, window_slope=5, max_slope=800.0):
                 f"Iteration: {t} Lipschitz constant: {k_hat:.4f} Number of samples: {nb_samples}"
             )
 
-    stats = (points, values, stats)
-    # Output
-    return np.max(values), stats
+    return (points, values)

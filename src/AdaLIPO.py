@@ -86,6 +86,5 @@ def AdaLIPO(f, n: int, p=0.5):
                 f"Iteration: {t} Lipschitz constant: {k_hat:.4f} Number of samples: {nb_samples}"
             )
 
-    stats = (points, values, stats)
     # Output
-    return np.max(values), stats
+    return (points, values)

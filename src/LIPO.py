@@ -57,6 +57,5 @@ def LIPO(f, n: int):
             t += 1
             last_nb_samples.append(0)
 
-    stats = (points, values, stats)
     # Output
-    return np.max(values), stats
+    return (points, values)

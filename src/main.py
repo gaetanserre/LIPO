@@ -24,7 +24,6 @@ from LIPO import LIPO
 from LIPO_P import LIPO_P
 from AdaLIPO import AdaLIPO
 from AdaLIPO_P import AdaLIPO_P
-from statistical_analysis import LIPO_Statistics
 
 
 def cli():
@@ -72,20 +71,7 @@ def runs(
     nb_evals = []
     for _ in range(n_run):
         start_time = time.time()
-        if optimizer == pure_random_search:
-            points, values = optimizer(f, n=n_eval)
-        elif optimizer == AdaLIPO or optimizer == AdaLIPO_P:
-            _, stats = optimizer(f, n=n_eval)
-            points, values, stats = stats
-            LIPO_stats = LIPO_Statistics(f, fig_path, stats, delta=delta, k_hat=True)
-            LIPO_stats.plot()
-
-        elif optimizer == LIPO or optimizer == LIPO_P:
-            _, stats = optimizer(f, n=n_eval)
-            points, values, stats = stats
-            LIPO_stats = LIPO_Statistics(f, fig_path, stats, delta=delta)
-            LIPO_stats.plot()
-
+        points, values = optimizer(f, n=n_eval)
         times.append(time.time() - start_time)
         vs.append(np.max(values))
         nb_evals.append(len(values))
