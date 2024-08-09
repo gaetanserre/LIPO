@@ -137,7 +137,7 @@ if __name__ == "__main__":
         args.n_eval,
         f,
         LIPO_P,
-        "LIPO_P",
+        "LIPO+",
         delta=args.delta,
         fig_path=fig_path,
     )
@@ -169,7 +169,7 @@ if __name__ == "__main__":
         args.n_eval,
         f,
         AdaLIPO_P,
-        "AdaLIPO_P",
+        "AdaLIPO+",
         delta=args.delta,
         fig_path=fig_path,
     )
