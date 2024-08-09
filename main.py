@@ -110,11 +110,11 @@ if __name__ == "__main__":
     if args.k > 0:
         points, values = runs(n_runs, args.n_eval, f, X, LIPO_P, "LIPO+", k=args.k)
         # Generate the figure using the last run
-        path = f"figures/{args.name}_LIPO-E.png"
+        path = f"figures/{args.name}_LIPO+.png"
         fig_gen.gen_figure(points, values, "LIPO+", path=path)
 
     # Several runs of AdaLIPO+
     points, values = runs(n_runs, args.n_eval, f, X, AdaLIPO_P, "AdaLIPO+", k=args.k)
     # Generate the figure using the last run
-    path = f"figures/{args.name}_AdaLIPO-E.png"
+    path = f"figures/{args.name}_AdaLIPO+.png"
     fig_gen.gen_figure(points, values, "AdaLIPO+", path=path)
