@@ -1,6 +1,6 @@
 ## LIPO, AdaLIPO, LIPO+, and AdaLIPO+ implementations
 
-This repository contains an implementation of the following algorithms:
+This repository contains implementations of the following algorithms:
 - [LIPO](https://arxiv.org/abs/2006.04779)
 - [AdaLIPO](https://arxiv.org/abs/2006.04779)
 - [LIPO+](https://www.ipol.im/pub/pre/469/)
